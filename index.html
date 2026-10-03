@@ -165,7 +165,6 @@ button:disabled { background: #999; cursor: wait; }
   content: " *";
   color: #d32f2f;
 }
-/* RTL Support */
 body.rtl {
   direction: rtl;
 }
@@ -222,7 +221,7 @@ body.rtl .info-box {
       <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr1-hint">Scan to save contact</p>
       <img class="qr-image" id="qr-main" alt="Main QR" />
       <div class="info-box" id="info-main"></div>
-      <button class="btn-download" onclick="downloadQR('qr-main', 'Main')" id="btn-download1"> Download</button>
+      <button class="btn-download" onclick="downloadQR('qr-main', 'Main')" id="btn-download1">📥 Download</button>
     </div>
 
     <div class="separator"></div>
@@ -243,24 +242,23 @@ body.rtl .info-box {
 </div>
 
 <script>
-// ===== Language Support =====
 let currentLang = 'en';
 
 const translations = {
   en: {
-    title: '🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
+    title: ' Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
     labelName: 'Business / Person Name',
     labelPhone: 'Phone Number',
     labelTitle: 'Job Title / Position',
     labelAddress: 'Full Address',
     btnLocation: 'Use My Current Location',
-    hintLocation: ' Click button to auto-detect from GPS',
+    hintLocation: '💡 Click button to auto-detect from GPS',
     locationSuccess: '✅ Address detected!',
     btnGenerate: '⚡ Generate QR Codes',
     resultTitle: '✅ QR Cards Ready!',
     qr1Title: '📱 QR 1: Your Business',
     qr1Hint: 'Scan to save contact',
-    qr2Title: '🛠️ QR 2: Artemin Land',
+    qr2Title: '️ QR 2: Artemin Land',
     qr2Hint: 'Optional: Save creator contact',
     btnDownload: '📥 Download',
     creatorText: '<strong>Creator:</strong> Artemin Land<br>📞 09153136173 | 09150086173 | 09103136173',
@@ -285,25 +283,25 @@ const translations = {
     detectingAddress: '🗺️ Detecting address...',
     ipLocation: '🌐 Using IP location...',
     locationError: '⚠️ Could not detect location. Enter manually.',
-    locationNotSupported: '❌ Location not supported. Enter manually.'
+    locationNotSupported: ' Location not supported. Enter manually.'
   },
   fa: {
-    title: '🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
+    title: ' آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
     labelName: 'نام کسب‌وکار یا شخص',
     labelPhone: 'شماره تماس',
     labelTitle: 'عنوان شغلی',
     labelAddress: 'آدرس کامل',
     btnLocation: 'استفاده از موقعیت فعلی من',
-    hintLocation: ' برای تشخیص خودکار آدرس از GPS کلیک کنید',
+    hintLocation: '💡 برای تشخیص خودکار آدرس از GPS کلیک کنید',
     locationSuccess: '✅ آدرس تشخیص داده شد!',
     btnGenerate: '⚡ ساخت کیو آر کد',
     resultTitle: '✅ کیو آر کد آماده است!',
-    qr1Title: '📱 کیو آر ۱: کسب‌وکار شما',
+    qr1Title: '📱 کیو آر : کسب‌وکار شما',
     qr1Hint: 'برای ذخیره مخاطب اسکن کنید',
-    qr2Title: '🛠️ کیو آر : آرتمین لند',
+    qr2Title: '️ کیو آر ۲: آرتمین لند',
     qr2Hint: 'اختیاری: ذخیره اطلاعات سازنده',
     btnDownload: '📥 دانلود',
-    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۱۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳ | ۰۹۱۰۳۱۳۶۱۷۳',
+    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۹۱۵۳۱۶۱۷۳ | ۹۱۵۰۰۶۱۷۳ | ۹۱۰۳۱۶۱۷۳',
     namePlaceholder: 'مثال: فروشگاه آرتمین',
     phonePlaceholder: 'مثال: 09153136173',
     titlePlaceholder: 'مثال: مدیر عامل',
@@ -317,13 +315,13 @@ const translations = {
     mainContact: 'مخاطب اصلی کسب‌وکار',
     creatorName: 'آرتمین لند',
     creatorTitle: 'تولید محتوا و ساخت کیو آر کد برای کسب و کار شما',
-    creatorPhones: '۰۹۱۵۳۳۶۱۷۳',
+    creatorPhones: '۰۹۱۵۳۱۳۶۱۷۳',
     creatorAddress: 'مشهد، ایران',
     creatorType: 'ارائه‌دهنده خدمات (اختیاری)',
     noQR: 'کیو آر کدی وجود ندارد!',
     detecting: '⏳ در حال تشخیص موقعیت...',
     detectingAddress: '🗺️ در حال تشخیص آدرس...',
-    ipLocation: ' استفاده از موقعیت IP...',
+    ipLocation: '🌐 استفاده از موقعیت IP...',
     locationError: '⚠️ تشخیص موقعیت ممکن نبود. دستی وارد کنید.',
     locationNotSupported: '❌ موقعیت پشتیبانی نمی‌شود. دستی وارد کنید.'
   }
@@ -370,12 +368,10 @@ function setLang(lang) {
   }
 }
 
-// ===== Service Worker =====
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(err => console.log('SW failed:', err));
 }
 
-// ===== Location Detection =====
 async function getLocation() {
   const btn = document.getElementById('locationBtn');
   const successMsg = document.getElementById('locationSuccess');
@@ -383,7 +379,7 @@ async function getLocation() {
   const t = translations[currentLang];
   
   btn.disabled = true;
-  btn.innerHTML = '📍 ' + t.detecting;
+  btn.innerHTML = ' ' + t.detecting;
   successMsg.style.display = 'none';
   
   if (!navigator.geolocation) {
@@ -446,7 +442,6 @@ async function getLocation() {
   }
 }
 
-// ===== QR Generation =====
 document.getElementById('form').addEventListener('submit', function(e) {
   e.preventDefault();
   
@@ -461,7 +456,6 @@ document.getElementById('form').addEventListener('submit', function(e) {
     return;
   }
   
-  // QR 1: Main Contact
   let vcard1 = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
   vcard1 += 'FN:' + name + '\r\n';
   vcard1 += 'ORG:' + name + '\r\n';
@@ -479,7 +473,6 @@ document.getElementById('form').addEventListener('submit', function(e) {
   if (address) info1 += '<p><strong>' + t.address + ':</strong> ' + address + '</p>';
   document.getElementById('info-main').innerHTML = info1;
   
-  // QR 2: Artemin Land
   let vcard2 = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
   vcard2 += 'FN:Artemin Land\r\n';
   vcard2 += 'ORG:Artemin Land\r\n';
