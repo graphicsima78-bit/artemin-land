@@ -9,7 +9,8 @@
 <meta name="apple-mobile-web-app-title" content="Artemin Land">
 <title>Artemin Land - QR Card Generator</title>
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { 
@@ -32,6 +33,23 @@ h1 {
   text-align: center; 
   margin-bottom: 20px;
   font-size: 22px;
+}
+.lang-switch {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.lang-btn {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 4px;
+}
+.lang-btn.active {
+  background: #2e7d32;
 }
 .form-group { margin-bottom: 14px; }
 label { 
@@ -147,119 +165,214 @@ button:disabled { background: #999; cursor: wait; }
   content: " *";
   color: #d32f2f;
 }
-.install-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #1b5e20;
-  color: white;
-  padding: 12px;
-  text-align: center;
-  font-size: 14px;
-  display: none;
-  z-index: 1000;
+/* RTL Support */
+body.rtl {
+  direction: rtl;
 }
-.install-banner button {
-  background: white;
-  color: #1b5e20;
-  margin-top: 8px;
-  padding: 8px 20px;
-  font-size: 14px;
+body.rtl .info-box {
+  text-align: right;
+  border-right: none;
+  border-left: 4px solid #2e7d32;
 }
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small></h1>
+  <div class="lang-switch">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">English</button>
+    <button class="lang-btn" id="btn-fa" onclick="setLang('fa')">فارسی</button>
+  </div>
+  
+  <h1 id="title">🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small></h1>
   
   <form id="form">
     <div class="form-group">
-      <label class="required">Business / Person Name</label>
+      <label class="required" id="label-name">Business / Person Name</label>
       <input type="text" id="name" required placeholder="e.g. Artemin Store">
     </div>
     
     <div class="form-group">
-      <label class="required">Phone Number</label>
+      <label class="required" id="label-phone">Phone Number</label>
       <input type="tel" id="phone" required placeholder="e.g. 09153136173">
     </div>
 
     <div class="form-group">
-      <label>Job Title / Position</label>
-      <input type="text" id="title" placeholder="e.g. CEO, Manager">
+      <label id="label-title">Job Title / Position</label>
+      <input type="text" id="title-field" placeholder="e.g. CEO, Manager">
     </div>
     
     <div class="form-group">
-      <label>Full Address</label>
+      <label id="label-address">Full Address</label>
       <button type="button" class="btn-location" id="locationBtn" onclick="getLocation()">
-        📍 Use My Current Location
+        📍 <span id="btn-location-text">Use My Current Location</span>
       </button>
       <textarea id="address" rows="2" placeholder="Auto-filled or type manually"></textarea>
       <p class="success-msg" id="locationSuccess">✅ Address detected!</p>
-      <p class="hint"> Click button to auto-detect from GPS</p>
+      <p class="hint" id="hint-location">💡 Click button to auto-detect from GPS</p>
     </div>
     
-    <button type="submit">⚡ Generate QR Codes</button>
+    <button type="submit" id="btn-generate">⚡ Generate QR Codes</button>
   </form>
 
   <div id="result">
-    <h3 style="color:#1b5e20;margin-bottom:10px;">✅ QR Cards Ready!</h3>
+    <h3 style="color:#1b5e20;margin-bottom:10px;" id="result-title">✅ QR Cards Ready!</h3>
     
     <div class="qr-section">
-      <h3>📱 QR 1: Your Business</h3>
-      <p style="font-size:12px;color:#666;margin-bottom:10px;">Scan to save contact</p>
+      <h3 id="qr1-title">📱 QR 1: Your Business</h3>
+      <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr1-hint">Scan to save contact</p>
       <img class="qr-image" id="qr-main" alt="Main QR" />
       <div class="info-box" id="info-main"></div>
-      <button class="btn-download" onclick="downloadQR('qr-main', 'Main')"> Download</button>
+      <button class="btn-download" onclick="downloadQR('qr-main', 'Main')" id="btn-download1"> Download</button>
     </div>
 
     <div class="separator"></div>
 
     <div class="qr-section">
-      <h3>🛠️ QR 2: Artemin Land</h3>
-      <p style="font-size:12px;color:#666;margin-bottom:10px;">Optional: Save creator contact</p>
+      <h3 id="qr2-title">🛠️ QR 2: Artemin Land</h3>
+      <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr2-hint">Optional: Save creator contact</p>
       <img class="qr-image" id="qr-creator" alt="Creator QR" />
       <div class="info-box" id="info-creator"></div>
-      <button class="btn-download" onclick="downloadQR('qr-creator', 'Creator')"> Download</button>
+      <button class="btn-download" onclick="downloadQR('qr-creator', 'Creator')" id="btn-download2">📥 Download</button>
     </div>
   </div>
 
-  <p class="creator">
+  <p class="creator" id="creator-text">
     <strong>Creator:</strong> Artemin Land<br>
     📞 09153136173 | 09150086173 | 09103136173
   </p>
 </div>
 
-<div class="install-banner" id="installBanner">
-  <div> Install Artemin Land App</div>
-  <button onclick="installApp()">Install Now</button>
-</div>
-
 <script>
-// ===== Service Worker Registration =====
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(err => console.log('SW failed:', err));
+// ===== Language Support =====
+let currentLang = 'en';
+
+const translations = {
+  en: {
+    title: '🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
+    labelName: 'Business / Person Name',
+    labelPhone: 'Phone Number',
+    labelTitle: 'Job Title / Position',
+    labelAddress: 'Full Address',
+    btnLocation: 'Use My Current Location',
+    hintLocation: ' Click button to auto-detect from GPS',
+    locationSuccess: '✅ Address detected!',
+    btnGenerate: '⚡ Generate QR Codes',
+    resultTitle: '✅ QR Cards Ready!',
+    qr1Title: '📱 QR 1: Your Business',
+    qr1Hint: 'Scan to save contact',
+    qr2Title: '🛠️ QR 2: Artemin Land',
+    qr2Hint: 'Optional: Save creator contact',
+    btnDownload: '📥 Download',
+    creatorText: '<strong>Creator:</strong> Artemin Land<br>📞 09153136173 | 09150086173 | 09103136173',
+    namePlaceholder: 'e.g. Artemin Store',
+    phonePlaceholder: 'e.g. 09153136173',
+    titlePlaceholder: 'e.g. CEO, Manager',
+    addressPlaceholder: 'Auto-filled or type manually',
+    alertFill: 'Please fill Name and Phone!',
+    name: 'Name',
+    phone: 'Phone',
+    title: 'Title',
+    address: 'Address',
+    type: 'Type',
+    mainContact: 'Main Business Contact',
+    creatorName: 'Artemin Land',
+    creatorTitle: 'QR Code & Content Creation',
+    creatorPhones: '09153136173',
+    creatorAddress: 'Mashhad, Iran',
+    creatorType: 'Service Provider (Optional)',
+    noQR: 'No QR!',
+    detecting: '⏳ Detecting location...',
+    detectingAddress: '🗺️ Detecting address...',
+    ipLocation: '🌐 Using IP location...',
+    locationError: '⚠️ Could not detect location. Enter manually.',
+    locationNotSupported: '❌ Location not supported. Enter manually.'
+  },
+  fa: {
+    title: '🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
+    labelName: 'نام کسب‌وکار یا شخص',
+    labelPhone: 'شماره تماس',
+    labelTitle: 'عنوان شغلی',
+    labelAddress: 'آدرس کامل',
+    btnLocation: 'استفاده از موقعیت فعلی من',
+    hintLocation: ' برای تشخیص خودکار آدرس از GPS کلیک کنید',
+    locationSuccess: '✅ آدرس تشخیص داده شد!',
+    btnGenerate: '⚡ ساخت کیو آر کد',
+    resultTitle: '✅ کیو آر کد آماده است!',
+    qr1Title: '📱 کیو آر ۱: کسب‌وکار شما',
+    qr1Hint: 'برای ذخیره مخاطب اسکن کنید',
+    qr2Title: '🛠️ کیو آر : آرتمین لند',
+    qr2Hint: 'اختیاری: ذخیره اطلاعات سازنده',
+    btnDownload: '📥 دانلود',
+    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۱۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳ | ۰۹۱۰۳۱۳۶۱۷۳',
+    namePlaceholder: 'مثال: فروشگاه آرتمین',
+    phonePlaceholder: 'مثال: 09153136173',
+    titlePlaceholder: 'مثال: مدیر عامل',
+    addressPlaceholder: 'خودکار پر می‌شود یا دستی وارد کنید',
+    alertFill: 'لطفاً نام و تلفن را وارد کنید!',
+    name: 'نام',
+    phone: 'تلفن',
+    title: 'عنوان',
+    address: 'آدرس',
+    type: 'نوع',
+    mainContact: 'مخاطب اصلی کسب‌وکار',
+    creatorName: 'آرتمین لند',
+    creatorTitle: 'تولید محتوا و ساخت کیو آر کد برای کسب و کار شما',
+    creatorPhones: '۰۹۱۵۳۳۶۱۷۳',
+    creatorAddress: 'مشهد، ایران',
+    creatorType: 'ارائه‌دهنده خدمات (اختیاری)',
+    noQR: 'کیو آر کدی وجود ندارد!',
+    detecting: '⏳ در حال تشخیص موقعیت...',
+    detectingAddress: '🗺️ در حال تشخیص آدرس...',
+    ipLocation: ' استفاده از موقعیت IP...',
+    locationError: '⚠️ تشخیص موقعیت ممکن نبود. دستی وارد کنید.',
+    locationNotSupported: '❌ موقعیت پشتیبانی نمی‌شود. دستی وارد کنید.'
+  }
+};
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+  
+  document.getElementById('title').innerHTML = t.title;
+  document.getElementById('label-name').textContent = t.labelName;
+  document.getElementById('label-phone').textContent = t.labelPhone;
+  document.getElementById('label-title').textContent = t.labelTitle;
+  document.getElementById('label-address').textContent = t.labelAddress;
+  document.getElementById('btn-location-text').textContent = t.btnLocation;
+  document.getElementById('hint-location').textContent = t.hintLocation;
+  document.getElementById('locationSuccess').textContent = t.locationSuccess;
+  document.getElementById('btn-generate').textContent = t.btnGenerate;
+  document.getElementById('result-title').textContent = t.resultTitle;
+  document.getElementById('qr1-title').textContent = t.qr1Title;
+  document.getElementById('qr1-hint').textContent = t.qr1Hint;
+  document.getElementById('qr2-title').textContent = t.qr2Title;
+  document.getElementById('qr2-hint').textContent = t.qr2Hint;
+  document.getElementById('btn-download1').textContent = t.btnDownload;
+  document.getElementById('btn-download2').textContent = t.btnDownload;
+  document.getElementById('creator-text').innerHTML = t.creatorText;
+  
+  document.getElementById('name').placeholder = t.namePlaceholder;
+  document.getElementById('phone').placeholder = t.phonePlaceholder;
+  document.getElementById('title-field').placeholder = t.titlePlaceholder;
+  document.getElementById('address').placeholder = t.addressPlaceholder;
+  
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-fa').classList.toggle('active', lang === 'fa');
+  
+  if (lang === 'fa') {
+    document.body.classList.add('rtl');
+    document.documentElement.lang = 'fa';
+    document.documentElement.dir = 'rtl';
+  } else {
+    document.body.classList.remove('rtl');
+    document.documentElement.lang = 'en';
+    document.documentElement.dir = 'ltr';
+  }
 }
 
-// ===== Install Prompt =====
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('installBanner').style.display = 'block';
-});
-
-function installApp() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User installed the app');
-      }
-      deferredPrompt = null;
-      document.getElementById('installBanner').style.display = 'none';
-    });
-  }
+// ===== Service Worker =====
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(err => console.log('SW failed:', err));
 }
 
 // ===== Location Detection =====
@@ -267,13 +380,14 @@ async function getLocation() {
   const btn = document.getElementById('locationBtn');
   const successMsg = document.getElementById('locationSuccess');
   const addressField = document.getElementById('address');
+  const t = translations[currentLang];
   
   btn.disabled = true;
-  btn.textContent = '⏳ Detecting location...';
+  btn.innerHTML = '📍 ' + t.detecting;
   successMsg.style.display = 'none';
   
   if (!navigator.geolocation) {
-    alert('❌ Location not supported. Enter manually.');
+    alert(t.locationNotSupported);
     resetBtn();
     return;
   }
@@ -290,7 +404,7 @@ async function getLocation() {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
     
-    btn.textContent = '🗺️ Detecting address...';
+    btn.innerHTML = '📍 ' + t.detectingAddress;
     
     const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&accept-language=fa,en`);
     const data = await response.json();
@@ -305,7 +419,7 @@ async function getLocation() {
     
   } catch (error) {
     try {
-      btn.textContent = '🌐 Using IP location...';
+      btn.innerHTML = '📍 ' + t.ipLocation;
       const ipResponse = await fetch('http://ip-api.com/json/?fields=city,regionName,country');
       const ipData = await ipResponse.json();
       
@@ -315,13 +429,12 @@ async function getLocation() {
         successMsg.style.display = 'block';
         setTimeout(() => {
           successMsg.style.display = 'none';
-          successMsg.textContent = '✅ Address detected!';
         }, 4000);
       } else {
         throw new Error('IP location failed');
       }
     } catch (ipError) {
-      alert('⚠️ Could not detect location. Enter manually.');
+      alert(t.locationError);
     }
   }
   
@@ -329,7 +442,7 @@ async function getLocation() {
   
   function resetBtn() {
     btn.disabled = false;
-    btn.textContent = ' Use My Current Location';
+    btn.innerHTML = '📍 ' + t.btnLocation;
   }
 }
 
@@ -339,11 +452,12 @@ document.getElementById('form').addEventListener('submit', function(e) {
   
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
-  const title = document.getElementById('title').value.trim();
+  const title = document.getElementById('title-field').value.trim();
   const address = document.getElementById('address').value.trim();
+  const t = translations[currentLang];
   
   if (!name || !phone) {
-    alert('Please fill Name and Phone!');
+    alert(t.alertFill);
     return;
   }
   
@@ -359,10 +473,10 @@ document.getElementById('form').addEventListener('submit', function(e) {
   const qr1Url = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&charset=UTF-8&data=' + encodeURIComponent(vcard1);
   document.getElementById('qr-main').src = qr1Url;
   
-  let info1 = '<p><strong>Name:</strong> ' + name + '</p>';
-  info1 += '<p><strong>Phone:</strong> ' + phone + '</p>';
-  if (title) info1 += '<p><strong>Title:</strong> ' + title + '</p>';
-  if (address) info1 += '<p><strong>Address:</strong> ' + address + '</p>';
+  let info1 = '<p><strong>' + t.name + ':</strong> ' + name + '</p>';
+  info1 += '<p><strong>' + t.phone + ':</strong> ' + phone + '</p>';
+  if (title) info1 += '<p><strong>' + t.title + ':</strong> ' + title + '</p>';
+  if (address) info1 += '<p><strong>' + t.address + ':</strong> ' + address + '</p>';
   document.getElementById('info-main').innerHTML = info1;
   
   // QR 2: Artemin Land
@@ -381,10 +495,10 @@ document.getElementById('form').addEventListener('submit', function(e) {
   document.getElementById('qr-creator').src = qr2Url;
   
   document.getElementById('info-creator').innerHTML = `
-    <p><strong>Name:</strong> Artemin Land</p>
-    <p><strong>Title:</strong> تولید محتوا و ساخت کیو آر کد</p>
-    <p><strong>Phones:</strong> 09153136173</p>
-    <p><strong>Address:</strong> مشهد، ایران</p>
+    <p><strong>${t.name}:</strong> ${t.creatorName}</p>
+    <p><strong>${t.title}:</strong> ${t.creatorTitle}</p>
+    <p><strong>${t.phone}:</strong> ${t.creatorPhones}</p>
+    <p><strong>${t.address}:</strong> ${t.creatorAddress}</p>
   `;
   
   document.getElementById('result').style.display = 'block';
@@ -393,7 +507,8 @@ document.getElementById('form').addEventListener('submit', function(e) {
 
 function downloadQR(elementId, filename) {
   const img = document.getElementById(elementId);
-  if (!img.src) { alert('No QR!'); return; }
+  const t = translations[currentLang];
+  if (!img.src) { alert(t.noQR); return; }
   
   fetch(img.src)
     .then(response => response.blob())
