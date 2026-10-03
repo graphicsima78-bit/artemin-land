@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -7,14 +7,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Artemin Land">
-<title>Artemin Land - QR Card Generator</title>
+<title>آرتمین لند - ساخت کارت ویزیت دیجیتال</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="icon" href="icon.png">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Arial, sans-serif; 
   background: #f0f2f5; 
   padding: 16px; 
   min-height: 100vh;
@@ -59,7 +59,7 @@ label {
   font-size: 14px;
   color: #333;
 }
-input, textarea { 
+input, select, textarea { 
   width: 100%; 
   padding: 12px; 
   border: 2px solid #ddd; 
@@ -67,7 +67,7 @@ input, textarea {
   font-size: 16px;
   font-family: inherit;
 }
-input:focus, textarea:focus {
+input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: #2e7d32;
 }
@@ -126,7 +126,7 @@ button:disabled { background: #999; cursor: wait; }
   padding: 10px;
   border-radius: 8px;
   margin: 10px 0;
-  text-align: left;
+  text-align: right;
   border-right: 4px solid #2e7d32;
   font-size: 13px;
 }
@@ -165,90 +165,149 @@ button:disabled { background: #999; cursor: wait; }
   content: " *";
   color: #d32f2f;
 }
-body.rtl {
-  direction: rtl;
-}
-body.rtl .info-box {
-  text-align: right;
-  border-right: none;
-  border-left: 4px solid #2e7d32;
-}
+body.rtl { direction: rtl; }
+body.ltr { direction: ltr; }
+body.ltr .info-box { text-align: left; border-right: none; border-left: 4px solid #2e7d32; }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="lang-switch">
-    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">English</button>
-    <button class="lang-btn" id="btn-fa" onclick="setLang('fa')">فارسی</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">English</button>
+    <button class="lang-btn active" id="btn-fa" onclick="setLang('fa')">فارسی</button>
   </div>
   
-  <h1 id="title">🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small></h1>
+  <h1 id="title">🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small></h1>
   
   <form id="form">
     <div class="form-group">
-      <label class="required" id="label-name">Business / Person Name</label>
-      <input type="text" id="name" required placeholder="e.g. Artemin Store">
+      <label class="required" id="label-name">نام کسب‌وکار یا شخص</label>
+      <input type="text" id="name" required placeholder="مثال: فروشگاه آرتمین">
     </div>
     
     <div class="form-group">
-      <label class="required" id="label-phone">Phone Number</label>
-      <input type="tel" id="phone" required placeholder="e.g. 09153136173">
+      <label class="required" id="label-phone">شماره تماس</label>
+      <input type="tel" id="phone" required placeholder="مثال: 09153136173">
     </div>
 
     <div class="form-group">
-      <label id="label-title">Job Title / Position</label>
-      <input type="text" id="title-field" placeholder="e.g. CEO, Manager">
+      <label id="label-category">دسته‌بندی شغل</label>
+      <select id="category">
+        <option value="نامشخص">انتخاب کنید...</option>
+        <option value="فروشگاه">فروشگاه</option>
+        <option value="رستوران و کافه">رستوران و کافه</option>
+        <option value="پزشکی و سلامت">پزشکی و سلامت</option>
+        <option value="خدمات فنی">خدمات فنی</option>
+        <option value="آموزش">آموزش</option>
+        <option value="سایر">سایر</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label id="label-title">عنوان شغلی</label>
+      <input type="text" id="title-field" placeholder="مثال: مدیر عامل">
     </div>
     
     <div class="form-group">
-      <label id="label-address">Full Address</label>
+      <label id="label-address">آدرس کامل</label>
       <button type="button" class="btn-location" id="locationBtn" onclick="getLocation()">
-        📍 <span id="btn-location-text">Use My Current Location</span>
+        📍 <span id="btn-location-text">استفاده از موقعیت فعلی من</span>
       </button>
-      <textarea id="address" rows="2" placeholder="Auto-filled or type manually"></textarea>
-      <p class="success-msg" id="locationSuccess">✅ Address detected!</p>
-      <p class="hint" id="hint-location">💡 Click button to auto-detect from GPS</p>
+      <textarea id="address" rows="2" placeholder="خودکار پر می‌شود یا دستی وارد کنید"></textarea>
+      <p class="success-msg" id="locationSuccess">✅ آدرس تشخیص داده شد!</p>
+      <p class="hint" id="hint-location">💡 برای تشخیص خودکار آدرس از GPS کلیک کنید</p>
     </div>
     
-    <button type="submit" id="btn-generate">⚡ Generate QR Codes</button>
+    <button type="submit" id="btn-generate">⚡ ساخت کیو آر کد</button>
   </form>
 
   <div id="result">
-    <h3 style="color:#1b5e20;margin-bottom:10px;" id="result-title">✅ QR Cards Ready!</h3>
+    <h3 style="color:#1b5e20;margin-bottom:10px;" id="result-title">✅ کیو آر کد آماده است!</h3>
     
     <div class="qr-section">
-      <h3 id="qr1-title">📱 QR 1: Your Business</h3>
-      <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr1-hint">Scan to save contact</p>
+      <h3 id="qr1-title">📱 کیو آر ۱: کسب‌وکار شما</h3>
+      <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr1-hint">برای ذخیره مخاطب اسکن کنید</p>
       <img class="qr-image" id="qr-main" alt="Main QR" />
       <div class="info-box" id="info-main"></div>
-      <button class="btn-download" onclick="downloadQR('qr-main', 'Main')" id="btn-download1">📥 Download</button>
+      <button class="btn-download" onclick="downloadQR('qr-main', 'Main')" id="btn-download1">📥 دانلود</button>
     </div>
 
     <div class="separator"></div>
 
     <div class="qr-section">
-      <h3 id="qr2-title">🛠️ QR 2: Artemin Land</h3>
-      <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr2-hint">Optional: Save creator contact</p>
+      <h3 id="qr2-title">🛠️ کیو آر ۲: آرتمین لند</h3>
+      <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr2-hint">اختیاری: ذخیره اطلاعات سازنده</p>
       <img class="qr-image" id="qr-creator" alt="Creator QR" />
       <div class="info-box" id="info-creator"></div>
-      <button class="btn-download" onclick="downloadQR('qr-creator', 'Creator')" id="btn-download2">📥 Download</button>
+      <button class="btn-download" onclick="downloadQR('qr-creator', 'Creator')" id="btn-download2">📥 دانلود</button>
     </div>
   </div>
 
   <p class="creator" id="creator-text">
-    <strong>Creator:</strong> Artemin Land<br>
-    📞 09153136173 | 09150086173 | 09103136173
+    <strong>سازنده:</strong> آرتمین لند<br>
+    📞 ۰۹۱۵۳۱۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳ | ۰۹۱۰۳۱۳۶۱۷۳
   </p>
 </div>
 
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+  // ==========================================
+  // ⚠️ مهم: کد firebaseConfig خود را اینجا جایگزین کن
+  // ==========================================
+  // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBUNhCBLHR10Q5J7lrigRpL4CuPk-y6toY",
+  authDomain: "artemin-land.firebaseapp.com",
+  projectId: "artemin-land",
+  storageBucket: "artemin-land.firebasestorage.app",
+  messagingSenderId: "858600383992",
+  appId: "1:858600383992:web:ac3066c19173397572220d",
+  measurementId: "G-TD7QWNY8ME"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.saveToFirestore = async function(name, phone, title, address, category) {
+    try {
+      await addDoc(collection(db, "customers"), {
+        name: name,
+        phone: phone,
+        title: title,
+        address: address,
+        category: category,
+        createdAt: new Date().toISOString()
+      });
+      console.log("Document written successfully");
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      alert("خطا در ذخیره اطلاعات: " + e.message);
+    }
+  };
+</script>
+
 <script>
-let currentLang = 'en';
+let currentLang = 'fa';
 
 const translations = {
   en: {
-    title: ' Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
+    title: '🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
     labelName: 'Business / Person Name',
     labelPhone: 'Phone Number',
+    labelCategory: 'Job Category',
     labelTitle: 'Job Title / Position',
     labelAddress: 'Full Address',
     btnLocation: 'Use My Current Location',
@@ -258,7 +317,7 @@ const translations = {
     resultTitle: '✅ QR Cards Ready!',
     qr1Title: '📱 QR 1: Your Business',
     qr1Hint: 'Scan to save contact',
-    qr2Title: '️ QR 2: Artemin Land',
+    qr2Title: '🛠️ QR 2: Artemin Land',
     qr2Hint: 'Optional: Save creator contact',
     btnDownload: '📥 Download',
     creatorText: '<strong>Creator:</strong> Artemin Land<br>📞 09153136173 | 09150086173 | 09103136173',
@@ -271,24 +330,23 @@ const translations = {
     phone: 'Phone',
     title: 'Title',
     address: 'Address',
-    type: 'Type',
-    mainContact: 'Main Business Contact',
+    category: 'Category',
     creatorName: 'Artemin Land',
     creatorTitle: 'QR Code & Content Creation',
     creatorPhones: '09153136173',
     creatorAddress: 'Mashhad, Iran',
-    creatorType: 'Service Provider (Optional)',
     noQR: 'No QR!',
     detecting: '⏳ Detecting location...',
     detectingAddress: '🗺️ Detecting address...',
     ipLocation: '🌐 Using IP location...',
     locationError: '⚠️ Could not detect location. Enter manually.',
-    locationNotSupported: ' Location not supported. Enter manually.'
+    locationNotSupported: '❌ Location not supported. Enter manually.'
   },
   fa: {
-    title: ' آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
+    title: '🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
     labelName: 'نام کسب‌وکار یا شخص',
     labelPhone: 'شماره تماس',
+    labelCategory: 'دسته‌بندی شغل',
     labelTitle: 'عنوان شغلی',
     labelAddress: 'آدرس کامل',
     btnLocation: 'استفاده از موقعیت فعلی من',
@@ -296,12 +354,12 @@ const translations = {
     locationSuccess: '✅ آدرس تشخیص داده شد!',
     btnGenerate: '⚡ ساخت کیو آر کد',
     resultTitle: '✅ کیو آر کد آماده است!',
-    qr1Title: '📱 کیو آر : کسب‌وکار شما',
+    qr1Title: '📱 کیو آر ۱: کسب‌وکار شما',
     qr1Hint: 'برای ذخیره مخاطب اسکن کنید',
-    qr2Title: '️ کیو آر ۲: آرتمین لند',
+    qr2Title: '🛠️ کیو آر ۲: آرتمین لند',
     qr2Hint: 'اختیاری: ذخیره اطلاعات سازنده',
     btnDownload: '📥 دانلود',
-    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۹۱۵۳۱۶۱۷۳ | ۹۱۵۰۰۶۱۷۳ | ۹۱۰۳۱۶۱۷۳',
+    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۱۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳ | ۰۹۱۰۳۱۳۶۱۷۳',
     namePlaceholder: 'مثال: فروشگاه آرتمین',
     phonePlaceholder: 'مثال: 09153136173',
     titlePlaceholder: 'مثال: مدیر عامل',
@@ -311,13 +369,11 @@ const translations = {
     phone: 'تلفن',
     title: 'عنوان',
     address: 'آدرس',
-    type: 'نوع',
-    mainContact: 'مخاطب اصلی کسب‌وکار',
+    category: 'دسته‌بندی',
     creatorName: 'آرتمین لند',
     creatorTitle: 'تولید محتوا و ساخت کیو آر کد برای کسب و کار شما',
     creatorPhones: '۰۹۱۵۳۱۳۶۱۷۳',
     creatorAddress: 'مشهد، ایران',
-    creatorType: 'ارائه‌دهنده خدمات (اختیاری)',
     noQR: 'کیو آر کدی وجود ندارد!',
     detecting: '⏳ در حال تشخیص موقعیت...',
     detectingAddress: '🗺️ در حال تشخیص آدرس...',
@@ -334,6 +390,7 @@ function setLang(lang) {
   document.getElementById('title').innerHTML = t.title;
   document.getElementById('label-name').textContent = t.labelName;
   document.getElementById('label-phone').textContent = t.labelPhone;
+  document.getElementById('label-category').textContent = t.labelCategory;
   document.getElementById('label-title').textContent = t.labelTitle;
   document.getElementById('label-address').textContent = t.labelAddress;
   document.getElementById('btn-location-text').textContent = t.btnLocation;
@@ -358,11 +415,13 @@ function setLang(lang) {
   document.getElementById('btn-fa').classList.toggle('active', lang === 'fa');
   
   if (lang === 'fa') {
+    document.body.classList.remove('ltr');
     document.body.classList.add('rtl');
     document.documentElement.lang = 'fa';
     document.documentElement.dir = 'rtl';
   } else {
     document.body.classList.remove('rtl');
+    document.body.classList.add('ltr');
     document.documentElement.lang = 'en';
     document.documentElement.dir = 'ltr';
   }
@@ -379,7 +438,7 @@ async function getLocation() {
   const t = translations[currentLang];
   
   btn.disabled = true;
-  btn.innerHTML = ' ' + t.detecting;
+  btn.innerHTML = '📍 ' + t.detecting;
   successMsg.style.display = 'none';
   
   if (!navigator.geolocation) {
@@ -423,9 +482,7 @@ async function getLocation() {
         addressField.value = `${ipData.city}, ${ipData.regionName}, ${ipData.country}`;
         successMsg.textContent = '✅ Approximate address from IP';
         successMsg.style.display = 'block';
-        setTimeout(() => {
-          successMsg.style.display = 'none';
-        }, 4000);
+        setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
       } else {
         throw new Error('IP location failed');
       }
@@ -442,11 +499,12 @@ async function getLocation() {
   }
 }
 
-document.getElementById('form').addEventListener('submit', function(e) {
+document.getElementById('form').addEventListener('submit', async function(e) {
   e.preventDefault();
   
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
+  const category = document.getElementById('category').value;
   const title = document.getElementById('title-field').value.trim();
   const address = document.getElementById('address').value.trim();
   const t = translations[currentLang];
@@ -456,6 +514,20 @@ document.getElementById('form').addEventListener('submit', function(e) {
     return;
   }
   
+  // Save to Firestore
+  if (typeof window.saveToFirestore === 'function') {
+    const btn = document.getElementById('btn-generate');
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '⏳ در حال ذخیره...';
+    
+    await window.saveToFirestore(name, phone, title, address, category);
+    
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+  
+  // QR 1: Main Contact
   let vcard1 = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
   vcard1 += 'FN:' + name + '\r\n';
   vcard1 += 'ORG:' + name + '\r\n';
@@ -469,10 +541,12 @@ document.getElementById('form').addEventListener('submit', function(e) {
   
   let info1 = '<p><strong>' + t.name + ':</strong> ' + name + '</p>';
   info1 += '<p><strong>' + t.phone + ':</strong> ' + phone + '</p>';
+  if (category && category !== 'نامشخص') info1 += '<p><strong>' + t.category + ':</strong> ' + category + '</p>';
   if (title) info1 += '<p><strong>' + t.title + ':</strong> ' + title + '</p>';
   if (address) info1 += '<p><strong>' + t.address + ':</strong> ' + address + '</p>';
   document.getElementById('info-main').innerHTML = info1;
   
+  // QR 2: Artemin Land
   let vcard2 = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
   vcard2 += 'FN:Artemin Land\r\n';
   vcard2 += 'ORG:Artemin Land\r\n';
