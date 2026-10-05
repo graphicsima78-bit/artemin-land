@@ -698,21 +698,56 @@ async function getLocation() {
 function openGoogleMaps() {
   const name = lastFormData.name || '';
   const address = lastFormData.address || '';
-  const query = encodeURIComponent(name + ' ' + address);
-  // این لینک مستقیماً صفحه جستجو را باز می‌کند. اگر مکان وجود نداشته باشد، گوگل گزینه "Add a missing place" را نشان می‌دهد.
-  const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
-  window.open(url, '_blank');
+  const phone = lastFormData.phone || '';
+  const category = lastFormData.category || '';
+  const title = lastFormData.title || '';
+  const description = lastFormData.description || '';
+  
+  // ساخت متن کامل برای کپی
+  const infoText = `نام: ${name}\nعنوان شغلی: ${title}\nدسته‌بندی: ${category}\nتلفن: ${phone}\nآدرس: ${address}\nتوضیحات: ${description}`;
+  
+  // کپی در کلیپ‌بورد
+  navigator.clipboard.writeText(infoText).then(() => {
+    alert('✅ اطلاعات کپی شد!\n\nحالا گوگل مپ باز می‌شود.\n\nمراحل ثبت:\n1. در صفحه گوگل مپ، روی منوی سمت چپ () کلیک کن\n2. گزینه "Add a missing place" را انتخاب کن\n3. در فیلدها، اطلاعات را Paste کن (Ctrl+V)\n4. عکس و ساعات کاری را اضافه کن\n5. دکمه Submit را بزن');
+    
+    // باز کردن گوگل مپ
+    const query = encodeURIComponent(name + ' ' + address);
+    const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
+    window.open(url, '_blank');
+  }).catch(() => {
+    // اگر کپی کار نکرد، فقط لینک را باز کن
+    const query = encodeURIComponent(name + ' ' + address);
+    const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
+    window.open(url, '_blank');
+  });
 }
 
 function openNeshan() {
   const name = lastFormData.name || '';
   const address = lastFormData.address || '';
-  const query = encodeURIComponent(name + ' ' + address);
-  // این لینک صفحه جستجوی نشان را باز می‌کند.
-  const url = `https://neshan.org/maps/search?q=${query}`;
-  window.open(url, '_blank');
+  const phone = lastFormData.phone || '';
+  const category = lastFormData.category || '';
+  const title = lastFormData.title || '';
+  const description = lastFormData.description || '';
+  
+  // ساخت متن کامل برای کپی
+  const infoText = `نام: ${name}\nعنوان شغلی: ${title}\nدسته‌بندی: ${category}\nتلفن: ${phone}\nآدرس: ${address}\nتوضیحات: ${description}`;
+  
+  // کپی در کلیپ‌بورد
+  navigator.clipboard.writeText(infoText).then(() => {
+    alert('✅ اطلاعات کپی شد!\n\nحالا نشان باز می‌شود.\n\nمراحل ثبت:\n1. در صفحه نشان، روی دکمه "+" در پایین صفحه کلیک کن\n2. گزینه "افزودن مکان جدید" را انتخاب کن\n3. در فیلدها، اطلاعات را Paste کن\n4. موقعیت را روی نقشه تنظیم کن\n5. دکمه ثبت را بزن');
+    
+    // باز کردن نشان
+    const query = encodeURIComponent(name + ' ' + address);
+    const url = `https://neshan.org/maps/search?q=${query}`;
+    window.open(url, '_blank');
+  }).catch(() => {
+    // اگر کپی کار نکرد، فقط لینک را باز کن
+    const query = encodeURIComponent(name + ' ' + address);
+    const url = `https://neshan.org/maps/search?q=${query}`;
+    window.open(url, '_blank');
+  });
 }
-
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(err => console.log('SW failed:', err));
 }
