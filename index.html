@@ -95,14 +95,12 @@ button:disabled { background: #999; cursor: wait; }
 .btn-google:hover { background: #3367d6; }
 .btn-neshan { background: #ff6b35; margin-top: 8px; }
 .btn-neshan:hover { background: #e55a2b; }
-.btn-add-new { background: #ff9800; margin-top: 8px; }
-.btn-add-new:hover { background: #f57c00; }
-.btn-save-selected { background: #2e7d32; margin-top: 8px; }
-.btn-save-selected:hover { background: #1b5e20; }
-.btn-export { background: #6a1b9a; margin-top: 8px; }
-.btn-export:hover { background: #4a148c; }
 .btn-clear { background: #757575; margin-top: 8px; }
 .btn-clear:hover { background: #616161; }
+.btn-save { background: #2e7d32; margin-top: 8px; }
+.btn-save:hover { background: #1b5e20; }
+.btn-export { background: #6a1b9a; margin-top: 8px; }
+.btn-export:hover { background: #4a148c; }
 .btn-contact { background: #00897b; margin-top: 8px; }
 .btn-contact:hover { background: #00695c; }
 #result { 
@@ -211,7 +209,7 @@ body.ltr .checkbox-group input[type="checkbox"] { margin-left: 0; margin-right: 
 .status-msg.error { background: #ffebee; color: #c62828; border-right: 4px solid #c62828; }
 body.ltr .status-msg.success, body.ltr .status-msg.error { border-right: none; border-left: 4px solid; }
 
-/* لیست موارد ذخیره شده */
+/* لیست موارد */
 .saved-entries-section {
   background: #e3f2fd;
   padding: 14px;
@@ -342,43 +340,65 @@ body.ltr .entry-item { border-right: none; border-left: 3px solid #1976d2; }
   overflow-y: auto;
 }
 .modal-content h3 { color: #1b5e20; margin-bottom: 16px; text-align: center; }
+
+/* فیلدهای Modal - کاملاً افقی */
 .modal-field-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   background: #f5f5f5;
-  padding: 12px 16px;
+  padding: 10px 12px;
   border-radius: 8px;
   margin: 8px 0;
   border-right: 4px solid #2e7d32;
-  gap: 12px;
+  gap: 10px;
 }
 body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; }
-.modal-field-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.modal-field-label { font-size: 11px; color: #666; font-weight: normal; }
+
+.modal-field-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.modal-field-label {
+  font-size: 11px;
+  color: #666;
+  font-weight: normal;
+}
+
 .modal-field-value {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: bold;
   color: #1b5e20;
-  line-height: 1.5;
-  white-space: normal;
-  word-break: normal;
-  overflow-wrap: normal;
+  line-height: 1.4;
   display: block;
   width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.modal-field-value.rtl-text { direction: rtl; text-align: right; }
-.modal-field-value.ltr-text { direction: ltr; text-align: left; }
+
+.modal-field-value.rtl-text {
+  direction: rtl;
+  text-align: right;
+}
+
+.modal-field-value.ltr-text {
+  direction: ltr;
+  text-align: left;
+}
+
 .btn-copy-field {
   background: #1976d2;
   color: white;
   border: none;
-  padding: 8px 14px;
+  padding: 8px 12px;
   border-radius: 6px;
   font-size: 12px;
   cursor: pointer;
   white-space: nowrap;
-  min-width: 75px;
+  min-width: 70px;
   margin: 0;
   font-family: inherit;
   flex-shrink: 0;
@@ -405,13 +425,13 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
     <button class="lang-btn active" id="btn-fa" onclick="setLang('fa')">فارسی</button>
   </div>
   
-  <h1 id="title">🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small></h1>
+  <h1 id="title"> آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small></h1>
   
   <form id="form">
     <div class="form-group">
       <label class="required" id="label-type">نوع کارت</label>
       <div class="type-selector">
-        <div class="type-btn active" id="type-business" onclick="setType('business')">🏪 کسب‌وکار</div>
+        <div class="type-btn active" id="type-business" onclick="setType('business')"> کسب‌وکار</div>
         <div class="type-btn" id="type-personal" onclick="setType('personal')">👤 شخصی</div>
       </div>
     </div>
@@ -431,14 +451,14 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
       <select id="category">
         <option value="">انتخاب کنید...</option>
         <option value="فروشگاه">🏪 فروشگاه</option>
-        <option value="رستوران و کافه">️ رستوران و کافه</option>
+        <option value="رستوران و کافه">🍽️ رستوران و کافه</option>
         <option value="پزشکی و سلامت">⚕️ پزشکی و سلامت</option>
         <option value="مهندسی">🔧 مهندسی</option>
-        <option value="حقوقی">⚖️ حقوقی</option>
-        <option value="آموزش"> آموزش</option>
+        <option value="حقوقی">️ حقوقی</option>
+        <option value="آموزش">📚 آموزش</option>
         <option value="هنری">🎨 هنری</option>
         <option value="خدمات فنی">🛠️ خدمات فنی</option>
-        <option value="سایر">📌 سایر</option>
+        <option value="سایر"> سایر</option>
       </select>
     </div>
 
@@ -466,7 +486,7 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
       <label id="label-photo">عکس پروفایل (اختیاری)</label>
       <div class="image-upload" onclick="document.getElementById('photo-input').click()">
         <input type="file" id="photo-input" accept="image/*" onchange="handlePhotoUpload(event)">
-        <p id="photo-hint"> برای آپلود عکس کلیک کنید</p>
+        <p id="photo-hint">📷 برای آپلود عکس کلیک کنید</p>
         <img id="photo-preview" class="image-preview" alt="Preview">
       </div>
     </div>
@@ -482,15 +502,14 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
     </div>
     
     <button type="submit" id="btn-generate">⚡ ساخت کیو آر کد</button>
-    <button type="button" class="btn-add-new" id="btn-add-new" onclick="addToPendingList()" style="display:none;">➕ افزودن به لیست</button>
-    <button type="button" class="btn-clear" id="btn-clear" onclick="clearForm()" style="display:none;">🗑️ پاک کردن فرم</button>
+    <button type="button" class="btn-clear" id="btn-clear" onclick="clearForm()" style="display:none;">🗑️ پاک کردن فرم برای نفر بعدی</button>
     <div id="status-msg" class="status-msg"></div>
   </form>
 
-  <!-- بخش لیست موارد در انتظار -->
+  <!-- بخش لیست موارد -->
   <div id="pending-section" class="saved-entries-section" style="display:none;">
     <h3>
-      <span id="pending-title">📋 موارد در انتظار ذخیره</span>
+      <span id="pending-title">📋 لیست موارد</span>
       <span class="counter-badge" id="pending-count">0</span>
     </h3>
     <div class="select-all-row">
@@ -499,9 +518,9 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
     </div>
     <div id="entries-list"></div>
     <div class="action-buttons">
-      <button class="btn-save-selected" onclick="saveSelectedToFirebase()" id="btn-save-selected">💾 ذخیره در فضای ابری</button>
+      <button class="btn-save" onclick="saveSelectedToFirebase()" id="btn-save-selected">💾 ذخیره در فضای ابری</button>
       <button class="btn-export" onclick="exportSelectedToExcel()" id="btn-export">📊 خروجی اکسل</button>
-      <button class="btn-contact" onclick="addToContacts()" id="btn-contact"> افزودن به مخاطبین</button>
+      <button class="btn-contact" onclick="addToContacts()" id="btn-contact">📱 افزودن به مخاطبین</button>
       <button class="btn-clear" onclick="clearPendingList()" id="btn-clear-list">🗑️ حذف لیست</button>
     </div>
   </div>
@@ -537,14 +556,14 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
 
   <p class="creator" id="creator-text">
     <strong>سازنده:</strong> آرتمین لند<br>
-    📞 ۰۹۱۵۳۱۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳
+    📞 ۹۱۵۳۱۶۱۷۳ | ۹۱۵۰۰۶۱۷۳
   </p>
 </div>
 
 <!-- Modal برای ثبت در نقشه -->
 <div class="modal-overlay" id="mapModal">
   <div class="modal-content">
-    <h3 id="modal-title">📍 ثبت در نقشه</h3>
+    <h3 id="modal-title"> ثبت در نقشه</h3>
     <div id="modal-fields"></div>
     <button class="btn-copy-all" onclick="copyAllInfo()" id="btn-copy-all">📋 کپی همه اطلاعات</button>
     <button class="btn-map btn-google" onclick="openGoogleMaps()" id="btn-open-google">📍 باز کردن گوگل مپ</button>
@@ -583,19 +602,18 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
 
   window.saveToFirestore = async function(data) {
     if (!firebaseReady || !db) {
-      console.warn("Firebase not ready, skipping save");
-      return false;
+      throw new Error("Firebase not ready");
     }
     try {
-      await addDoc(collection(db, "customers"), {
+      const docRef = await addDoc(collection(db, "customers"), {
         ...data,
         createdAt: new Date().toISOString()
       });
-      console.log("Document written successfully");
+      console.log("Document written with ID: ", docRef.id);
       return true;
     } catch (e) {
       console.error("Error adding document: ", e);
-      return false;
+      throw e;
     }
   };
 
@@ -613,14 +631,14 @@ let pendingEntries = [];
 
 const translations = {
   en: {
-    title: '🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
-    labelType: 'Card Type', typeBusiness: ' Business', typePersonal: '👤 Personal',
+    title: ' Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
+    labelType: 'Card Type', typeBusiness: '🏪 Business', typePersonal: '👤 Personal',
     labelName: 'Name', labelPhone: 'Phone Number', labelCategory: 'Job Category',
     labelTitle: 'Job Title', labelDescription: 'Additional Description', labelAddress: 'Full Address',
-    btnLocation: 'Use My Current Location (GPS)', hintLocation: '💡 Click button to auto-detect address from GPS',
-    locationSuccess: '✅ Address detected!', labelPhoto: 'Profile Photo (Optional)', photoHint: '📷 Click to upload photo',
+    btnLocation: 'Use My Current Location (GPS)', hintLocation: ' Click button to auto-detect address from GPS',
+    locationSuccess: '✅ Address detected!', labelPhoto: 'Profile Photo (Optional)', photoHint: ' Click to upload photo',
     labelGoogle: 'Register on Google Maps', labelNeshan: 'Register on Neshan',
-    btnGenerate: '⚡ Generate QR Codes', btnAddNew: '➕ Add to List', btnClear: '🗑️ Clear Form',
+    btnGenerate: ' Generate QR Codes', btnClear: '️ Clear Form for Next',
     resultTitle: '✅ QR Cards Ready!', mapTitle: '🌐 Map Registration', mapHint: 'Copy info and paste in map app',
     btnGoogleMaps: '📍 Register on Google Maps', btnNeshan: '🗺️ Register on Neshan',
     qr1Title: '📱 QR 1: Your Card', qr1Hint: 'Scan to save contact',
@@ -634,22 +652,22 @@ const translations = {
     creatorTitle: 'QR Code Creation for All Businesses | Content Creation (Instagram, YouTube & All Social Media) | Graphic Design | Interior Decoration',
     creatorPhones: '09153136173', creatorAddress: 'Mashhad, Iran',
     noQR: 'No QR!', business: 'Business', personal: 'Personal',
-    detecting: ' Detecting location...', detectingAddress: '️ Detecting address...',
+    detecting: '⏳ Detecting location...', detectingAddress: '🗺️ Detecting address...',
     ipLocation: '🌐 Using IP location...', locationError: '⚠️ Could not detect location. Enter manually.',
     locationNotSupported: '❌ Location not supported. Enter manually.',
     saving: '⏳ Saving...', saved: '✅ Saved successfully!', saveFailed: '⚠️ QR created but save failed',
-    modalTitleGoogle: '📍 Google Maps Registration', modalTitleNeshan: '️ Neshan Registration',
-    btnCopyAll: '📋 Copy All Info', btnOpenGoogle: '📍 Open Google Maps App', btnOpenNeshan: '🗺️ Open Neshan App',
-    infoCopied: 'Copied!', allInfoCopied: '✅ All info copied!', closeModal: 'Close', copyBtn: ' Copy',
-    pendingTitle: ' Pending Items', selectAll: 'Select All',
+    modalTitleGoogle: '📍 Google Maps Registration', modalTitleNeshan: '🗺️ Neshan Registration',
+    btnCopyAll: ' Copy All Info', btnOpenGoogle: ' Open Google Maps App', btnOpenNeshan: '🗺️ Open Neshan App',
+    infoCopied: 'Copied!', allInfoCopied: '✅ All info copied!', closeModal: 'Close', copyBtn: '📋 Copy',
+    pendingTitle: '📋 Items List', selectAll: 'Select All',
     btnSaveSelected: '💾 Save to Cloud', btnExport: '📊 Export Excel',
     btnContact: '📱 Add to Contacts', btnClearList: '🗑️ Clear List',
-    noPending: 'No pending items', addedToList: 'Added to list',
+    noPending: 'No items in list', addedToList: 'Added to list automatically',
     savedCount: 'Saved', exportSuccess: 'Excel file downloaded',
     contactAdded: 'Contact file downloaded. Open it to add to contacts.',
-    confirmClear: 'Clear all pending items?', selectOne: 'Please select at least one item',
-    savingToCloud: '⏳ Saving to cloud...', savedToCloud: '✅ Saved to cloud',
-    saveToCloudFailed: '⚠️ Save failed'
+    confirmClear: 'Clear all items?', selectOne: 'Please select at least one item',
+    savingToCloud: ' Saving to cloud...', savedToCloud: '✅ Saved to cloud',
+    saveToCloudFailed: '⚠️ Save failed', autoAdded: 'Auto-added to list'
   },
   fa: {
     title: ' آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
@@ -659,28 +677,28 @@ const translations = {
     btnLocation: 'استفاده از موقعیت فعلی من (GPS)', hintLocation: '💡 برای تشخیص خودکار آدرس از GPS کلیک کنید',
     locationSuccess: '✅ آدرس تشخیص داده شد!', labelPhoto: 'عکس پروفایل (اختیاری)', photoHint: '📷 برای آپلود عکس کلیک کنید',
     labelGoogle: 'ثبت در گوگل مپ', labelNeshan: 'ثبت در نشان',
-    btnGenerate: '⚡ ساخت کیو آر کد', btnAddNew: '➕ افزودن به لیست', btnClear: '🗑️ پاک کردن فرم',
+    btnGenerate: '⚡ ساخت کیو آر کد', btnClear: '️ پاک کردن فرم برای نفر بعدی',
     resultTitle: '✅ کیو آر کد آماده است!', mapTitle: '🌐 ثبت در نقشه', mapHint: 'اطلاعات را کپی کن و در اپلیکیشن نقشه وارد کن',
     btnGoogleMaps: '📍 ثبت در گوگل مپ', btnNeshan: '🗺️ ثبت در نشان',
     qr1Title: '📱 کیو آر ۱: کارت شما', qr1Hint: 'برای ذخیره مخاطب اسکن کنید',
-    qr2Title: '️ کیو آر ۲: آرتمین لند', qr2Hint: 'سازنده این کارت',
-    btnDownload: '📥 دانلود', creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۳۶۱۷۳ | ۰۹۱۵۰۸۶۱۷۳',
+    qr2Title: '🛠️ کیو آر ۲: آرتمین لند', qr2Hint: 'سازنده این کارت',
+    btnDownload: '📥 دانلود', creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۱۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳',
     namePlaceholder: 'نام کسب‌وکار یا شخص', phonePlaceholder: '09153136173',
     titlePlaceholder: 'مثال: مدیر عامل، مهندس عمران', descriptionPlaceholder: 'مثال: فروشگاه لوازم خانگی',
     addressPlaceholder: 'آدرس را وارد کنید یا از GPS استفاده کنید', alertFill: 'لطفاً نام و تلفن را وارد کنید!',
     name: 'نام', phone: 'تلفن', title: 'عنوان', address: 'آدرس', category: 'دسته‌بندی', description: 'توضیحات', type: 'نوع',
     creatorName: 'آرتمین لند',
     creatorTitle: 'ساخت کیو آر کد برای شما در هر صنفی | تولید محتوا (اینستاگرام، یوتیوب و همه شبکه‌های اجتماعی) | طراحی گرافیک | دکوراسیون داخلی',
-    creatorPhones: '۰۹۱۵۳۳۶۱۷۳', creatorAddress: 'مشهد، ایران',
+    creatorPhones: '۰۹۱۳۱۳۶۱۳', creatorAddress: 'مشهد، ایران',
     noQR: 'کیو آر کدی وجود ندارد!', business: 'کسب‌وکار', personal: 'شخصی',
-    detecting: '⏳ در حال تشخیص موقعیت...', detectingAddress: '️ در حال تشخیص آدرس...',
+    detecting: '⏳ در حال تشخیص موقعیت...', detectingAddress: '🗺️ در حال تشخیص آدرس...',
     ipLocation: '🌐 استفاده از موقعیت IP...', locationError: '⚠️ تشخیص موقعیت ممکن نبود. دستی وارد کنید.',
     locationNotSupported: '❌ موقعیت پشتیبانی نمی‌شود. دستی وارد کنید.',
-    saving: '⏳ در حال ذخیره...', saved: '✅ با موفقیت ذخیره شد!', saveFailed: '⚠️ QR ساخته شد ولی ذخیره ناموفق بود',
-    modalTitleGoogle: '📍 ثبت در گوگل مپ', modalTitleNeshan: '️ ثبت در نشان',
-    btnCopyAll: '📋 کپی همه اطلاعات', btnOpenGoogle: '📍 باز کردن گوگل مپ', btnOpenNeshan: '🗺️ باز کردن نشان',
+    saving: '⏳ در حال ذخیره...', saved: '✅ با موفقیت ذخیره شد!', saveFailed: '️ QR ساخته شد ولی ذخیره ناموفق بود',
+    modalTitleGoogle: '📍 ثبت در گوگل مپ', modalTitleNeshan: '🗺️ ثبت در نشان',
+    btnCopyAll: '📋 کپی همه اطلاعات', btnOpenGoogle: '📍 باز کردن گوگل مپ', btnOpenNeshan: '️ باز کردن نشان',
     infoCopied: 'کپی شد!', allInfoCopied: '✅ همه اطلاعات کپی شد!', closeModal: 'بستن', copyBtn: '📋 کپی',
-    pendingTitle: '📋 موارد در انتظار ذخیره', selectAll: 'انتخاب همه',
+    pendingTitle: '📋 لیست موارد', selectAll: 'انتخاب همه',
     btnSaveSelected: '💾 ذخیره در فضای ابری', btnExport: '📊 خروجی اکسل',
     btnContact: '📱 افزودن به مخاطبین', btnClearList: '🗑️ حذف لیست',
     noPending: 'موردی در لیست نیست', addedToList: 'به لیست اضافه شد',
@@ -688,7 +706,7 @@ const translations = {
     contactAdded: 'فایل مخاطب دانلود شد. آن را باز کنید تا به مخاطبین اضافه شود.',
     confirmClear: 'همه موارد لیست حذف شوند؟', selectOne: 'لطفاً حداقل یک مورد انتخاب کنید',
     savingToCloud: '⏳ در حال ذخیره در فضای ابری...', savedToCloud: '✅ در فضای ابری ذخیره شد',
-    saveToCloudFailed: '⚠️ ذخیره ناموفق بود'
+    saveToCloudFailed: '⚠️ ذخیره ناموفق بود', autoAdded: 'خودکار به لیست اضافه شد'
   }
 };
 
@@ -867,7 +885,6 @@ function setLang(lang) {
   document.getElementById('label-google').textContent = t.labelGoogle;
   document.getElementById('label-neshan').textContent = t.labelNeshan;
   document.getElementById('btn-generate').textContent = t.btnGenerate;
-  document.getElementById('btn-add-new').textContent = t.btnAddNew;
   document.getElementById('btn-clear').textContent = t.btnClear;
   document.getElementById('result-title').textContent = t.resultTitle;
   document.getElementById('map-title').textContent = t.mapTitle;
@@ -923,7 +940,7 @@ async function getLocation() {
   const t = translations[currentLang];
   
   btn.disabled = true;
-  btn.innerHTML = '📍 ' + t.detecting;
+  btn.innerHTML = ' ' + t.detecting;
   successMsg.style.display = 'none';
   
   if (!navigator.geolocation) { alert(t.locationNotSupported); resetBtn(); return; }
@@ -984,21 +1001,27 @@ function openMapModal(mapType) {
       const direction = detectTextDirection(field.value);
       const row = document.createElement('div');
       row.className = 'modal-field-row';
-      const infoDiv = document.createElement('div');
-      infoDiv.className = 'modal-field-info';
+      
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'modal-field-content';
+      
       const labelDiv = document.createElement('div');
       labelDiv.className = 'modal-field-label';
       labelDiv.textContent = field.label;
+      
       const valueDiv = document.createElement('div');
       valueDiv.className = `modal-field-value ${direction}-text`;
       valueDiv.textContent = field.value;
-      infoDiv.appendChild(labelDiv);
-      infoDiv.appendChild(valueDiv);
+      
+      contentDiv.appendChild(labelDiv);
+      contentDiv.appendChild(valueDiv);
+      
       const copyBtn = document.createElement('button');
       copyBtn.className = 'btn-copy-field';
       copyBtn.textContent = t.copyBtn;
       copyBtn.onclick = function() { copyField(this, field.value); };
-      row.appendChild(infoDiv);
+      
+      row.appendChild(contentDiv);
       row.appendChild(copyBtn);
       fieldsContainer.appendChild(row);
     }
@@ -1064,31 +1087,6 @@ function openNeshan() {
   closeModal();
 }
 
-// افزودن به لیست در انتظار
-function addToPendingList() {
-  const t = translations[currentLang];
-  if (!lastFormData.name || !lastFormData.phone) {
-    alert(t.alertFill);
-    return;
-  }
-  
-  const entry = {
-    ...lastFormData,
-    selected: true,
-    addedAt: new Date().toISOString(),
-    photoBase64: photoBase64
-  };
-  
-  pendingEntries.push(entry);
-  savePendingList();
-  renderPendingList();
-  
-  showStatus(`✅ ${t.addedToList}: ${entry.name} (${pendingEntries.length} مورد)`, 'success');
-  
-  // اسکرول به لیست
-  document.getElementById('pending-section').scrollIntoView({ behavior: 'smooth' });
-}
-
 // ذخیره موارد انتخابی در Firebase
 async function saveSelectedToFirebase() {
   const t = translations[currentLang];
@@ -1103,10 +1101,11 @@ async function saveSelectedToFirebase() {
   
   let successCount = 0;
   let failCount = 0;
+  let errorMsg = '';
   
   for (const entry of selected) {
     try {
-      const savePromise = window.saveToFirestore({
+      const result = await window.saveToFirestore({
         name: entry.name,
         phone: entry.phone,
         title: entry.title,
@@ -1118,11 +1117,11 @@ async function saveSelectedToFirebase() {
         registerNeshan: true,
         hasPhoto: entry.photoBase64 ? true : false
       });
-      const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 8000));
-      const result = await Promise.race([savePromise, timeoutPromise]);
       if (result) successCount++; else failCount++;
     } catch (e) {
       failCount++;
+      errorMsg = e.message;
+      console.error('Save error:', e);
     }
   }
   
@@ -1130,7 +1129,9 @@ async function saveSelectedToFirebase() {
     showStatus(`✅ ${t.savedToCloud}: ${successCount} ${t.savedCount}`, 'success');
   }
   if (failCount > 0) {
-    setTimeout(() => { showStatus(`️ ${failCount} ${t.saveToCloudFailed}`, 'error'); }, 3000);
+    setTimeout(() => { 
+      showStatus(`⚠️ ${failCount} ${t.saveToCloudFailed}: ${errorMsg}`, 'error'); 
+    }, 3000);
   }
 }
 
@@ -1187,7 +1188,6 @@ function addToContacts() {
     return;
   }
   
-  // ساخت فایل vCard برای همه موارد انتخابی
   let vcardContent = '';
   selected.forEach((entry, index) => {
     vcardContent += 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
@@ -1251,21 +1251,33 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   
   lastFormData = { name, phone, title, description, address, category, type: currentType };
   
+  // اضافه کردن خودکار به لیست
+  const entry = {
+    ...lastFormData,
+    selected: true,
+    addedAt: new Date().toISOString(),
+    photoBase64: photoBase64
+  };
+  pendingEntries.push(entry);
+  savePendingList();
+  renderPendingList();
+  
   showStatus(t.saving, 'success');
   
   let saveSuccess = false;
   if (typeof window.saveToFirestore === 'function') {
     try {
-      const savePromise = window.saveToFirestore({
+      saveSuccess = await window.saveToFirestore({
         name, phone, title, description, address, category,
         type: currentType,
         registerGoogle: checkGoogle,
         registerNeshan: checkNeshan,
         hasPhoto: photoBase64 ? true : false
       });
-      const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 8000));
-      saveSuccess = await Promise.race([savePromise, timeoutPromise]);
-    } catch (e) { saveSuccess = false; }
+    } catch (e) { 
+      saveSuccess = false;
+      console.error('Firebase save error:', e);
+    }
   }
   
   let vcard1 = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
@@ -1315,14 +1327,13 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   document.getElementById('map-section').style.display = (checkGoogle || checkNeshan) ? 'block' : 'none';
   
   document.getElementById('result').style.display = 'block';
-  document.getElementById('btn-add-new').style.display = 'block';
   document.getElementById('btn-clear').style.display = 'block';
   document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
   
   if (saveSuccess) {
-    showStatus(t.saved, 'success');
+    showStatus(`✅ ${t.saved} + ${t.autoAdded}`, 'success');
   } else {
-    showStatus(t.saveFailed, 'error');
+    showStatus(`️ ${t.saveFailed} + ${t.autoAdded}`, 'error');
   }
 });
 
