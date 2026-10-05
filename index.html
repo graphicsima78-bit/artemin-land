@@ -267,6 +267,28 @@ body.ltr .checkbox-group input[type="checkbox"] {
   color: #1b5e20;
   font-weight: bold;
 }
+.status-msg {
+  padding: 10px;
+  border-radius: 8px;
+  margin: 10px 0;
+  font-size: 13px;
+  display: none;
+}
+.status-msg.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-right: 4px solid #2e7d32;
+}
+.status-msg.error {
+  background: #ffebee;
+  color: #c62828;
+  border-right: 4px solid #c62828;
+}
+body.ltr .status-msg.success,
+body.ltr .status-msg.error {
+  border-right: none;
+  border-left: 4px solid;
+}
 </style>
 </head>
 <body>
@@ -276,14 +298,14 @@ body.ltr .checkbox-group input[type="checkbox"] {
     <button class="lang-btn active" id="btn-fa" onclick="setLang('fa')">فارسی</button>
   </div>
   
-  <h1 id="title">🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small></h1>
+  <h1 id="title"> آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small></h1>
   
   <form id="form">
     <div class="form-group">
       <label class="required" id="label-type">نوع کارت</label>
       <div class="type-selector">
-        <div class="type-btn active" id="type-business" onclick="setType('business')">🏪 کسب‌وکار</div>
-        <div class="type-btn" id="type-personal" onclick="setType('personal')"> شخصی</div>
+        <div class="type-btn active" id="type-business" onclick="setType('business')"> کسب‌وکار</div>
+        <div class="type-btn" id="type-personal" onclick="setType('personal')">👤 شخصی</div>
       </div>
     </div>
 
@@ -303,13 +325,13 @@ body.ltr .checkbox-group input[type="checkbox"] {
         <option value="">انتخاب کنید...</option>
         <option value="فروشگاه">🏪 فروشگاه</option>
         <option value="رستوران و کافه">🍽️ رستوران و کافه</option>
-        <option value="پزشکی و سلامت">️ پزشکی و سلامت</option>
+        <option value="پزشکی و سلامت">⚕️ پزشکی و سلامت</option>
         <option value="مهندسی">🔧 مهندسی</option>
-        <option value="حقوقی">⚖️ حقوقی</option>
+        <option value="حقوقی">️ حقوقی</option>
         <option value="آموزش">📚 آموزش</option>
         <option value="هنری">🎨 هنری</option>
         <option value="خدمات فنی">🛠️ خدمات فنی</option>
-        <option value="سایر">📌 سایر</option>
+        <option value="سایر"> سایر</option>
       </select>
     </div>
 
@@ -352,7 +374,8 @@ body.ltr .checkbox-group input[type="checkbox"] {
       <label for="check-neshan" id="label-neshan">ثبت در نشان</label>
     </div>
     
-    <button type="submit" id="btn-generate">⚡ ساخت کیو آر کد</button>
+    <button type="submit" id="btn-generate"> ساخت کیو آر کد</button>
+    <div id="status-msg" class="status-msg"></div>
   </form>
 
   <div id="result">
@@ -376,7 +399,7 @@ body.ltr .checkbox-group input[type="checkbox"] {
     <div class="separator"></div>
 
     <div class="qr-section">
-      <h3 id="qr2-title">🛠️ کیو آر ۲: آرتمین لند</h3>
+      <h3 id="qr2-title">🛠️ کیو آر : آرتمین لند</h3>
       <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr2-hint">سازنده این کارت</p>
       <img class="qr-image" id="qr-creator" alt="Creator QR" />
       <div class="info-box" id="info-creator"></div>
@@ -386,7 +409,7 @@ body.ltr .checkbox-group input[type="checkbox"] {
 
   <p class="creator" id="creator-text">
     <strong>سازنده:</strong> آرتمین لند<br>
-    📞 ۰۹۵۳۱۳۶۷۳ | ۰۹۵۰۰۸۶۷۳ | ۰۹۰۳۱۳۶۷۳
+    📞 ۰۹۱۵۳۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳ | ۰۹۱۰۳۱۳۶۱۷۳
   </p>
 </div>
 
@@ -405,19 +428,40 @@ body.ltr .checkbox-group input[type="checkbox"] {
     measurementId: "G-TD7QWNY8ME"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  let db = null;
+  let firebaseReady = false;
+
+  try {
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    firebaseReady = true;
+    console.log("Firebase initialized successfully");
+  } catch (e) {
+    console.error("Firebase init error:", e);
+    firebaseReady = false;
+  }
 
   window.saveToFirestore = async function(data) {
+    if (!firebaseReady || !db) {
+      console.warn("Firebase not ready, skipping save");
+      return false;
+    }
+    
     try {
       await addDoc(collection(db, "customers"), {
         ...data,
         createdAt: new Date().toISOString()
       });
       console.log("Document written successfully");
+      return true;
     } catch (e) {
       console.error("Error adding document: ", e);
+      return false;
     }
+  };
+
+  window.isFirebaseReady = function() {
+    return firebaseReady;
   };
 </script>
 
@@ -429,7 +473,7 @@ let photoBase64 = '';
 
 const translations = {
   en: {
-    title: '🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
+    title: ' Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
     labelType: 'Card Type',
     typeBusiness: '🏪 Business',
     typePersonal: '👤 Personal',
@@ -457,7 +501,7 @@ const translations = {
     qr2Title: '🛠️ QR 2: Artemin Land',
     qr2Hint: 'Creator of this card',
     btnDownload: '📥 Download',
-    creatorText: '<strong>Creator:</strong> Artemin Land<br>📞 09153136173 | 09150086173 | 09103136173',
+    creatorText: '<strong>Creator:</strong> Artemin Land<br> 09153136173 | 09150086173 | 09103136173',
     namePlaceholder: 'Business or person name',
     phonePlaceholder: '09153136173',
     titlePlaceholder: 'e.g. CEO, Engineer',
@@ -480,14 +524,18 @@ const translations = {
     personal: 'Personal',
     detecting: '⏳ Detecting location...',
     detectingAddress: '🗺️ Detecting address...',
-    ipLocation: '🌐 Using IP location...',
+    ipLocation: ' Using IP location...',
     locationError: '⚠️ Could not detect location. Enter manually.',
-    locationNotSupported: ' Location not supported. Enter manually.'
+    locationNotSupported: '❌ Location not supported. Enter manually.',
+    saving: '⏳ Saving...',
+    saved: '✅ Saved successfully!',
+    saveFailed: '️ QR created but save failed (check connection)',
+    qrReady: '✅ QR Code ready!'
   },
   fa: {
-    title: ' آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
+    title: '🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
     labelType: 'نوع کارت',
-    typeBusiness: '🏪 کسب‌وکار',
+    typeBusiness: ' کسب‌وکار',
     typePersonal: '👤 شخصی',
     labelName: 'نام',
     labelPhone: 'شماره تماس',
@@ -499,21 +547,21 @@ const translations = {
     hintLocation: '💡 برای تشخیص خودکار آدرس از GPS کلیک کنید',
     locationSuccess: '✅ آدرس تشخیص داده شد!',
     labelPhoto: 'عکس پروفایل (اختیاری)',
-    photoHint: ' برای آپلود عکس کلیک کنید',
+    photoHint: '📷 برای آپلود عکس کلیک کنید',
     labelGoogle: 'ثبت در گوگل مپ',
     labelNeshan: 'ثبت در نشان',
     btnGenerate: '⚡ ساخت کیو آر کد',
     resultTitle: '✅ کیو آر کد آماده است!',
     mapTitle: '🌐 ثبت سریع در نقشه',
     mapHint: 'با یک کلیک، صفحه افزودن مکان را باز کنید',
-    btnGoogleMaps: ' ثبت سریع در گوگل مپ',
+    btnGoogleMaps: '📍 ثبت سریع در گوگل مپ',
     btnNeshan: '🗺️ ثبت سریع در نشان',
     qr1Title: '📱 کیو آر ۱: کارت شما',
     qr1Hint: 'برای ذخیره مخاطب اسکن کنید',
-    qr2Title: '️ کیو آر ۲: آرتمین لند',
+    qr2Title: '🛠️ کیو آر ۲: آرتمین لند',
     qr2Hint: 'سازنده این کارت',
-    btnDownload: ' دانلود',
-    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۳۱۳۶۱۳ | ۰۹۱۰۰۸۶۱۳ | ۰۹۱۳۱۳۶۱۳',
+    btnDownload: '📥 دانلود',
+    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۳۶۱۷۳ | ۰۹۱۵۰۸۶۱۷۳ | ۰۹۱۰۳۳۶۱۷۳',
     namePlaceholder: 'نام کسب‌وکار یا شخص',
     phonePlaceholder: '09153136173',
     titlePlaceholder: 'مثال: مدیر عامل، مهندس عمران',
@@ -529,18 +577,32 @@ const translations = {
     type: 'نوع',
     creatorName: 'آرتمین لند',
     creatorTitle: 'ساخت کیو آر کد برای شما در هر صنفی | تولید محتوا (اینستاگرام، یوتیوب و همه شبکه‌های اجتماعی) | طراحی گرافیک | دکوراسیون داخلی',
-    creatorPhones: '۰۹۱۳۱۳۶۱۳',
+    creatorPhones: '۰۹۱۵۳۳۶۱۷۳',
     creatorAddress: 'مشهد، ایران',
     noQR: 'کیو آر کدی وجود ندارد!',
     business: 'کسب‌وکار',
     personal: 'شخصی',
     detecting: '⏳ در حال تشخیص موقعیت...',
-    detectingAddress: '️ در حال تشخیص آدرس...',
-    ipLocation: '🌐 استفاده از موقعیت IP...',
+    detectingAddress: '🗺️ در حال تشخیص آدرس...',
+    ipLocation: ' استفاده از موقعیت IP...',
     locationError: '⚠️ تشخیص موقعیت ممکن نبود. دستی وارد کنید.',
-    locationNotSupported: '❌ موقعیت پشتیبانی نمی‌شود. دستی وارد کنید.'
+    locationNotSupported: '❌ موقعیت پشتیبانی نمی‌شود. دستی وارد کنید.',
+    saving: '⏳ در حال ذخیره...',
+    saved: '✅ با موفقیت ذخیره شد!',
+    saveFailed: '️ QR ساخته شد ولی ذخیره ناموفق بود (اتصال را بررسی کنید)',
+    qrReady: '✅ کیو آر کد آماده است!'
   }
 };
+
+function showStatus(message, type) {
+  const statusEl = document.getElementById('status-msg');
+  statusEl.textContent = message;
+  statusEl.className = 'status-msg ' + type;
+  statusEl.style.display = 'block';
+  setTimeout(() => {
+    statusEl.style.display = 'none';
+  }, 5000);
+}
 
 function setType(type) {
   currentType = type;
@@ -670,7 +732,7 @@ async function getLocation() {
     
   } catch (error) {
     try {
-      btn.innerHTML = ' ' + t.ipLocation;
+      btn.innerHTML = '📍 ' + t.ipLocation;
       const ipResponse = await fetch('http://ip-api.com/json/?fields=city,regionName,country');
       const ipData = await ipResponse.json();
       
@@ -691,7 +753,7 @@ async function getLocation() {
   
   function resetBtn() {
     btn.disabled = false;
-    btn.innerHTML = '📍 ' + t.btnLocation;
+    btn.innerHTML = ' ' + t.btnLocation;
   }
 }
 
@@ -703,19 +765,15 @@ function openGoogleMaps() {
   const title = lastFormData.title || '';
   const description = lastFormData.description || '';
   
-  // ساخت متن کامل برای کپی
   const infoText = `نام: ${name}\nعنوان شغلی: ${title}\nدسته‌بندی: ${category}\nتلفن: ${phone}\nآدرس: ${address}\nتوضیحات: ${description}`;
   
-  // کپی در کلیپ‌بورد
   navigator.clipboard.writeText(infoText).then(() => {
-    alert('✅ اطلاعات کپی شد!\n\nحالا گوگل مپ باز می‌شود.\n\nمراحل ثبت:\n1. در صفحه گوگل مپ، روی منوی سمت چپ () کلیک کن\n2. گزینه "Add a missing place" را انتخاب کن\n3. در فیلدها، اطلاعات را Paste کن (Ctrl+V)\n4. عکس و ساعات کاری را اضافه کن\n5. دکمه Submit را بزن');
+    alert('✅ اطلاعات کپی شد!\n\nحالا گوگل مپ باز می‌شود.\n\nمراحل ثبت:\n1. در صفحه گوگل مپ، روی منوی سمت چپ (☰) کلیک کن\n2. گزینه "Add a missing place" را انتخاب کن\n3. در فیلدها، اطلاعات را Paste کن (Ctrl+V)\n4. عکس و ساعات کاری را اضافه کن\n5. دکمه Submit را بزن');
     
-    // باز کردن گوگل مپ
     const query = encodeURIComponent(name + ' ' + address);
     const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
     window.open(url, '_blank');
   }).catch(() => {
-    // اگر کپی کار نکرد، فقط لینک را باز کن
     const query = encodeURIComponent(name + ' ' + address);
     const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
     window.open(url, '_blank');
@@ -730,24 +788,21 @@ function openNeshan() {
   const title = lastFormData.title || '';
   const description = lastFormData.description || '';
   
-  // ساخت متن کامل برای کپی
   const infoText = `نام: ${name}\nعنوان شغلی: ${title}\nدسته‌بندی: ${category}\nتلفن: ${phone}\nآدرس: ${address}\nتوضیحات: ${description}`;
   
-  // کپی در کلیپ‌بورد
   navigator.clipboard.writeText(infoText).then(() => {
     alert('✅ اطلاعات کپی شد!\n\nحالا نشان باز می‌شود.\n\nمراحل ثبت:\n1. در صفحه نشان، روی دکمه "+" در پایین صفحه کلیک کن\n2. گزینه "افزودن مکان جدید" را انتخاب کن\n3. در فیلدها، اطلاعات را Paste کن\n4. موقعیت را روی نقشه تنظیم کن\n5. دکمه ثبت را بزن');
     
-    // باز کردن نشان
     const query = encodeURIComponent(name + ' ' + address);
     const url = `https://neshan.org/maps/search?q=${query}`;
     window.open(url, '_blank');
   }).catch(() => {
-    // اگر کپی کار نکرد، فقط لینک را باز کن
     const query = encodeURIComponent(name + ' ' + address);
     const url = `https://neshan.org/maps/search?q=${query}`;
     window.open(url, '_blank');
   });
 }
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(err => console.log('SW failed:', err));
 }
@@ -780,22 +835,26 @@ document.getElementById('form').addEventListener('submit', async function(e) {
     hasPhoto: photoBase64 ? true : false
   };
   
+  // نمایش پیام ذخیره
+  showStatus(t.saving, 'success');
+  
+  // ذخیره در Firebase (بدون block کردن)
+  let saveSuccess = false;
   if (typeof window.saveToFirestore === 'function') {
-    const btn = document.getElementById('btn-generate');
-    const originalText = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = '⏳ در حال ذخیره...';
-    
-    await window.saveToFirestore(firebaseData);
-    
-    btn.disabled = false;
-    btn.textContent = originalText;
+    try {
+      // با timeout برای جلوگیری از گیر کردن
+      const savePromise = window.saveToFirestore(firebaseData);
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout')), 5000)
+      );
+      saveSuccess = await Promise.race([savePromise, timeoutPromise]);
+    } catch (e) {
+      console.warn('Save failed or timeout:', e);
+      saveSuccess = false;
+    }
   }
   
-  document.getElementById('btn-google-maps').style.display = checkGoogle ? 'block' : 'none';
-  document.getElementById('btn-neshan-map').style.display = checkNeshan ? 'block' : 'none';
-  document.getElementById('map-section').style.display = (checkGoogle || checkNeshan) ? 'block' : 'none';
-  
+  // ساخت QR Code (همیشه انجام می‌شود)
   let vcard1 = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
   vcard1 += 'FN:' + name + '\r\n';
   if (currentType === 'business') {
@@ -841,8 +900,19 @@ document.getElementById('form').addEventListener('submit', async function(e) {
     <p><strong>${t.address}:</strong> ${t.creatorAddress}</p>
   `;
   
+  document.getElementById('btn-google-maps').style.display = checkGoogle ? 'block' : 'none';
+  document.getElementById('btn-neshan-map').style.display = checkNeshan ? 'block' : 'none';
+  document.getElementById('map-section').style.display = (checkGoogle || checkNeshan) ? 'block' : 'none';
+  
   document.getElementById('result').style.display = 'block';
   document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+  
+  // نمایش نتیجه ذخیره
+  if (saveSuccess) {
+    showStatus(t.saved, 'success');
+  } else {
+    showStatus(t.saveFailed, 'error');
+  }
 });
 
 function downloadQR(elementId, filename) {
