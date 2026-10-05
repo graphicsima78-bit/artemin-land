@@ -283,7 +283,7 @@ body.ltr .checkbox-group input[type="checkbox"] {
       <label class="required" id="label-type">نوع کارت</label>
       <div class="type-selector">
         <div class="type-btn active" id="type-business" onclick="setType('business')">🏪 کسب‌وکار</div>
-        <div class="type-btn" id="type-personal" onclick="setType('personal')"> شخصی</div>
+        <div class="type-btn" id="type-personal" onclick="setType('personal')">👤 شخصی</div>
       </div>
     </div>
 
@@ -301,9 +301,9 @@ body.ltr .checkbox-group input[type="checkbox"] {
       <label id="label-category">دسته‌بندی شغل</label>
       <select id="category">
         <option value="">انتخاب کنید...</option>
-        <option value="فروشگاه"> فروشگاه</option>
+        <option value="فروشگاه">🏪 فروشگاه</option>
         <option value="رستوران و کافه">🍽️ رستوران و کافه</option>
-        <option value="پزشکی و سلامت">️ پزشکی و سلامت</option>
+        <option value="پزشکی و سلامت">⚕️ پزشکی و سلامت</option>
         <option value="مهندسی">🔧 مهندسی</option>
         <option value="حقوقی">⚖️ حقوقی</option>
         <option value="آموزش">📚 آموزش</option>
@@ -325,7 +325,12 @@ body.ltr .checkbox-group input[type="checkbox"] {
     
     <div class="form-group">
       <label id="label-address">آدرس کامل</label>
-      <textarea id="address" rows="2" placeholder="آدرس را وارد کنید"></textarea>
+      <button type="button" class="btn-location" id="locationBtn" onclick="getLocation()">
+        📍 <span id="btn-location-text">استفاده از موقعیت فعلی من (GPS)</span>
+      </button>
+      <textarea id="address" rows="2" placeholder="آدرس را وارد کنید یا از GPS استفاده کنید"></textarea>
+      <p class="success-msg" id="locationSuccess">✅ آدرس تشخیص داده شد!</p>
+      <p class="hint" id="hint-location">💡 برای تشخیص خودکار آدرس از GPS کلیک کنید</p>
     </div>
 
     <div class="form-group">
@@ -347,7 +352,7 @@ body.ltr .checkbox-group input[type="checkbox"] {
       <label for="check-neshan" id="label-neshan">ثبت در نشان</label>
     </div>
     
-    <button type="submit" id="btn-generate">⚡ ساخت کیو آر کد</button>
+    <button type="submit" id="btn-generate"> ساخت کیو آر کد</button>
   </form>
 
   <div id="result">
@@ -356,12 +361,12 @@ body.ltr .checkbox-group input[type="checkbox"] {
     <div class="google-section" id="map-section">
       <h3 id="map-title">🌐 ثبت در نقشه</h3>
       <p id="map-hint">کسب‌وکار خود را در نقشه‌ها ثبت کنید</p>
-      <button class="btn-google" onclick="openGoogleMaps()" id="btn-google-maps" style="display:none;">📍 ثبت در گوگل مپ</button>
-      <button class="btn-neshan" onclick="openNeshan()" id="btn-neshan-map" style="display:none;">️ ثبت در نشان</button>
+      <button class="btn-google" onclick="openGoogleMaps()" id="btn-google-maps" style="display:none;"> ثبت در گوگل مپ</button>
+      <button class="btn-neshan" onclick="openNeshan()" id="btn-neshan-map" style="display:none;">🗺️ ثبت در نشان</button>
     </div>
 
     <div class="qr-section">
-      <h3 id="qr1-title"> کیو آر ۱: کارت شما</h3>
+      <h3 id="qr1-title">📱 کیو آر : کارت شما</h3>
       <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr1-hint">برای ذخیره مخاطب اسکن کنید</p>
       <img class="qr-image" id="qr-main" alt="Main QR" />
       <div class="info-box" id="info-main"></div>
@@ -371,7 +376,7 @@ body.ltr .checkbox-group input[type="checkbox"] {
     <div class="separator"></div>
 
     <div class="qr-section">
-      <h3 id="qr2-title">🛠️ کیو آر ۲: آرتمین لند</h3>
+      <h3 id="qr2-title">️ کیو آر ۲: آرتمین لند</h3>
       <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr2-hint">سازنده این کارت</p>
       <img class="qr-image" id="qr-creator" alt="Creator QR" />
       <div class="info-box" id="info-creator"></div>
@@ -390,15 +395,15 @@ body.ltr .checkbox-group input[type="checkbox"] {
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
   import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBUNhCBLHR10Q5J7lrigRpL4CuPk-y6toY",
-  authDomain: "artemin-land.firebaseapp.com",
-  projectId: "artemin-land",
-  storageBucket: "artemin-land.firebasestorage.app",
-  messagingSenderId: "858600383992",
-  appId: "1:858600383992:web:ac3066c19173397572220d",
-  measurementId: "G-TD7QWNY8ME"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyBUNhCBLHR10Q5J7lrigRpL4CuPk-y6toY",
+    authDomain: "artemin-land.firebaseapp.com",
+    projectId: "artemin-land",
+    storageBucket: "artemin-land.firebasestorage.app",
+    messagingSenderId: "858600383992",
+    appId: "1:858600383992:web:ac3066c19173397572220d",
+    measurementId: "G-TD7QWNY8ME"
+  };
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -427,13 +432,16 @@ const translations = {
     title: '🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
     labelType: 'Card Type',
     typeBusiness: '🏪 Business',
-    typePersonal: '👤 Personal',
+    typePersonal: ' Personal',
     labelName: 'Name',
     labelPhone: 'Phone Number',
     labelCategory: 'Job Category',
     labelTitle: 'Job Title',
     labelDescription: 'Additional Description',
     labelAddress: 'Full Address',
+    btnLocation: 'Use My Current Location (GPS)',
+    hintLocation: '💡 Click button to auto-detect address from GPS',
+    locationSuccess: '✅ Address detected!',
     labelPhoto: 'Profile Photo (Optional)',
     photoHint: ' Click to upload photo',
     labelGoogle: 'Register on Google Maps',
@@ -454,7 +462,7 @@ const translations = {
     phonePlaceholder: '09153136173',
     titlePlaceholder: 'e.g. CEO, Engineer',
     descriptionPlaceholder: 'e.g. Home appliances store',
-    addressPlaceholder: 'Enter your address',
+    addressPlaceholder: 'Enter address or use GPS',
     alertFill: 'Please fill Name and Phone!',
     name: 'Name',
     phone: 'Phone',
@@ -469,12 +477,17 @@ const translations = {
     creatorAddress: 'Mashhad, Iran',
     noQR: 'No QR!',
     business: 'Business',
-    personal: 'Personal'
+    personal: 'Personal',
+    detecting: '⏳ Detecting location...',
+    detectingAddress: '🗺️ Detecting address...',
+    ipLocation: ' Using IP location...',
+    locationError: '⚠️ Could not detect location. Enter manually.',
+    locationNotSupported: '❌ Location not supported. Enter manually.'
   },
   fa: {
     title: '🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
     labelType: 'نوع کارت',
-    typeBusiness: '🏪 کسب‌وکار',
+    typeBusiness: ' کسب‌وکار',
     typePersonal: '👤 شخصی',
     labelName: 'نام',
     labelPhone: 'شماره تماس',
@@ -482,6 +495,9 @@ const translations = {
     labelTitle: 'عنوان شغلی',
     labelDescription: 'توضیحات تکمیلی',
     labelAddress: 'آدرس کامل',
+    btnLocation: 'استفاده از موقعیت فعلی من (GPS)',
+    hintLocation: '💡 برای تشخیص خودکار آدرس از GPS کلیک کنید',
+    locationSuccess: '✅ آدرس تشخیص داده شد!',
     labelPhoto: 'عکس پروفایل (اختیاری)',
     photoHint: '📷 برای آپلود عکس کلیک کنید',
     labelGoogle: 'ثبت در گوگل مپ',
@@ -490,11 +506,11 @@ const translations = {
     resultTitle: '✅ کیو آر کد آماده است!',
     mapTitle: '🌐 ثبت در نقشه',
     mapHint: 'کسب‌وکار خود را در نقشه‌ها ثبت کنید',
-    btnGoogleMaps: '📍 ثبت در گوگل مپ',
-    btnNeshan: '️ ثبت در نشان',
+    btnGoogleMaps: ' ثبت در گوگل مپ',
+    btnNeshan: '🗺️ ثبت در نشان',
     qr1Title: '📱 کیو آر ۱: کارت شما',
     qr1Hint: 'برای ذخیره مخاطب اسکن کنید',
-    qr2Title: '🛠️ کیو آر : آرتمین لند',
+    qr2Title: '🛠️ کیو آر ۲: آرتمین لند',
     qr2Hint: 'سازنده این کارت',
     btnDownload: '📥 دانلود',
     creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۱۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳ | ۰۹۱۰۳۱۳۶۱۷۳',
@@ -502,7 +518,7 @@ const translations = {
     phonePlaceholder: '09153136173',
     titlePlaceholder: 'مثال: مدیر عامل، مهندس عمران',
     descriptionPlaceholder: 'مثال: فروشگاه لوازم خانگی، فروشنده لوازم یدکی',
-    addressPlaceholder: 'آدرس را وارد کنید',
+    addressPlaceholder: 'آدرس را وارد کنید یا از GPS استفاده کنید',
     alertFill: 'لطفاً نام و تلفن را وارد کنید!',
     name: 'نام',
     phone: 'تلفن',
@@ -513,11 +529,16 @@ const translations = {
     type: 'نوع',
     creatorName: 'آرتمین لند',
     creatorTitle: 'ساخت کیو آر کد برای شما در هر صنفی | تولید محتوا (اینستاگرام، یوتیوب و همه شبکه‌های اجتماعی) | طراحی گرافیک | دکوراسیون داخلی',
-    creatorPhones: '۰۹۱۵۳۱۳۶۱۷۳',
+    creatorPhones: '۰۹۱۵۱۳۶۱۷',
     creatorAddress: 'مشهد، ایران',
     noQR: 'کیو آر کدی وجود ندارد!',
     business: 'کسب‌وکار',
-    personal: 'شخصی'
+    personal: 'شخصی',
+    detecting: '⏳ در حال تشخیص موقعیت...',
+    detectingAddress: '🗺️ در حال تشخیص آدرس...',
+    ipLocation: '🌐 استفاده از موقعیت IP...',
+    locationError: '⚠️ تشخیص موقعیت ممکن نبود. دستی وارد کنید.',
+    locationNotSupported: '❌ موقعیت پشتیبانی نمی‌شود. دستی وارد کنید.'
   }
 };
 
@@ -526,7 +547,6 @@ function setType(type) {
   document.getElementById('type-business').classList.toggle('active', type === 'business');
   document.getElementById('type-personal').classList.toggle('active', type === 'personal');
   
-  const t = translations[currentLang];
   const nameInput = document.getElementById('name');
   if (type === 'business') {
     nameInput.placeholder = currentLang === 'fa' ? 'نام کسب‌وکار' : 'Business name';
@@ -564,6 +584,9 @@ function setLang(lang) {
   document.getElementById('label-title').textContent = t.labelTitle;
   document.getElementById('label-description').textContent = t.labelDescription;
   document.getElementById('label-address').textContent = t.labelAddress;
+  document.getElementById('btn-location-text').textContent = t.btnLocation;
+  document.getElementById('hint-location').textContent = t.hintLocation;
+  document.getElementById('locationSuccess').textContent = t.locationSuccess;
   document.getElementById('label-photo').textContent = t.labelPhoto;
   document.getElementById('photo-hint').textContent = t.photoHint;
   document.getElementById('label-google').textContent = t.labelGoogle;
@@ -601,6 +624,74 @@ function setLang(lang) {
     document.body.classList.add('ltr');
     document.documentElement.lang = 'en';
     document.documentElement.dir = 'ltr';
+  }
+}
+
+async function getLocation() {
+  const btn = document.getElementById('locationBtn');
+  const successMsg = document.getElementById('locationSuccess');
+  const addressField = document.getElementById('address');
+  const t = translations[currentLang];
+  
+  btn.disabled = true;
+  btn.innerHTML = ' ' + t.detecting;
+  successMsg.style.display = 'none';
+  
+  if (!navigator.geolocation) {
+    alert(t.locationNotSupported);
+    resetBtn();
+    return;
+  }
+  
+  try {
+    const position = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0
+      });
+    });
+    
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    
+    btn.innerHTML = '📍 ' + t.detectingAddress;
+    
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&accept-language=fa,en`);
+    const data = await response.json();
+    
+    if (data && data.display_name) {
+      addressField.value = data.display_name;
+      successMsg.style.display = 'block';
+      setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
+    } else {
+      throw new Error('Address not found');
+    }
+    
+  } catch (error) {
+    try {
+      btn.innerHTML = '📍 ' + t.ipLocation;
+      const ipResponse = await fetch('http://ip-api.com/json/?fields=city,regionName,country');
+      const ipData = await ipResponse.json();
+      
+      if (ipData && ipData.city) {
+        addressField.value = `${ipData.city}, ${ipData.regionName}, ${ipData.country}`;
+        successMsg.textContent = '✅ آدرس تقریبی از IP';
+        successMsg.style.display = 'block';
+        setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
+      } else {
+        throw new Error('IP location failed');
+      }
+    } catch (ipError) {
+      alert(t.locationError);
+    }
+  }
+  
+  resetBtn();
+  
+  function resetBtn() {
+    btn.disabled = false;
+    btn.innerHTML = '📍 ' + t.btnLocation;
   }
 }
 
@@ -664,12 +755,10 @@ document.getElementById('form').addEventListener('submit', async function(e) {
     btn.textContent = originalText;
   }
   
-  // Show/hide map buttons
   document.getElementById('btn-google-maps').style.display = checkGoogle ? 'block' : 'none';
   document.getElementById('btn-neshan-map').style.display = checkNeshan ? 'block' : 'none';
   document.getElementById('map-section').style.display = (checkGoogle || checkNeshan) ? 'block' : 'none';
   
-  // QR 1: Main Contact
   let vcard1 = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
   vcard1 += 'FN:' + name + '\r\n';
   if (currentType === 'business') {
@@ -694,7 +783,6 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   if (address) info1 += '<p><strong>' + t.address + ':</strong> ' + address + '</p>';
   document.getElementById('info-main').innerHTML = info1;
   
-  // QR 2: Artemin Land
   let vcard2 = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
   vcard2 += 'FN:Artemin Land\r\n';
   vcard2 += 'ORG:Artemin Land\r\n';
