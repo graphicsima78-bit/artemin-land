@@ -319,31 +319,61 @@ body.ltr .status-msg.error {
   margin-bottom: 16px;
   text-align: center;
 }
-.modal-info-box {
+.modal-field-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: #f5f5f5;
-  padding: 16px;
+  padding: 12px;
   border-radius: 8px;
-  margin: 16px 0;
-  text-align: right;
+  margin: 8px 0;
   border-right: 4px solid #2e7d32;
+  gap: 10px;
 }
-body.ltr .modal-info-box {
-  text-align: left;
+body.ltr .modal-field-row {
   border-right: none;
   border-left: 4px solid #2e7d32;
 }
-.modal-info-box p {
-  margin: 8px 0;
+.modal-field-info {
+  flex: 1;
+  min-width: 0;
+}
+.modal-field-label {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 4px;
+}
+.modal-field-value {
   font-size: 14px;
-}
-.modal-info-box strong {
+  font-weight: bold;
   color: #1b5e20;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
-.btn-copy {
+.btn-copy-field {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  min-width: 70px;
+  margin: 0;
+  font-family: inherit;
+}
+.btn-copy-field:hover {
+  background: #0d47a1;
+}
+.btn-copy-field.copied {
+  background: #2e7d32;
+}
+.btn-copy-all {
   background: #1976d2;
   margin: 16px 0;
 }
-.btn-copy:hover {
+.btn-copy-all:hover {
   background: #0d47a1;
 }
 .btn-map {
@@ -395,8 +425,8 @@ body.ltr .modal-steps ol {
     <div class="form-group">
       <label class="required" id="label-type">نوع کارت</label>
       <div class="type-selector">
-        <div class="type-btn active" id="type-business" onclick="setType('business')">🏪 کسب‌وکار</div>
-        <div class="type-btn" id="type-personal" onclick="setType('personal')"> شخصی</div>
+        <div class="type-btn active" id="type-business" onclick="setType('business')"> کسب‌وکار</div>
+        <div class="type-btn" id="type-personal" onclick="setType('personal')">👤 شخصی</div>
       </div>
     </div>
 
@@ -414,13 +444,13 @@ body.ltr .modal-steps ol {
       <label id="label-category">دسته‌بندی شغل</label>
       <select id="category">
         <option value="">انتخاب کنید...</option>
-        <option value="فروشگاه"> فروشگاه</option>
+        <option value="فروشگاه">🏪 فروشگاه</option>
         <option value="رستوران و کافه">🍽️ رستوران و کافه</option>
-        <option value="پزشکی و سلامت">️ پزشکی و سلامت</option>
+        <option value="پزشکی و سلامت">⚕️ پزشکی و سلامت</option>
         <option value="مهندسی">🔧 مهندسی</option>
-        <option value="حقوقی">⚖️ حقوقی</option>
+        <option value="حقوقی">️ حقوقی</option>
         <option value="آموزش">📚 آموزش</option>
-        <option value="هنری">🎨 هنری</option>
+        <option value="هنری"> هنری</option>
         <option value="خدمات فنی">🛠️ خدمات فنی</option>
         <option value="سایر">📌 سایر</option>
       </select>
@@ -439,7 +469,7 @@ body.ltr .modal-steps ol {
     <div class="form-group">
       <label id="label-address">آدرس کامل</label>
       <button type="button" class="btn-location" id="locationBtn" onclick="getLocation()">
-         <span id="btn-location-text">استفاده از موقعیت فعلی من (GPS)</span>
+        📍 <span id="btn-location-text">استفاده از موقعیت فعلی من (GPS)</span>
       </button>
       <textarea id="address" rows="2" placeholder="آدرس را وارد کنید یا از GPS استفاده کنید"></textarea>
       <p class="success-msg" id="locationSuccess">✅ آدرس تشخیص داده شد!</p>
@@ -465,7 +495,7 @@ body.ltr .modal-steps ol {
       <label for="check-neshan" id="label-neshan">ثبت در نشان</label>
     </div>
     
-    <button type="submit" id="btn-generate">⚡ ساخت کیو آر کد</button>
+    <button type="submit" id="btn-generate"> ساخت کیو آر کد</button>
     <div id="status-msg" class="status-msg"></div>
   </form>
 
@@ -473,14 +503,14 @@ body.ltr .modal-steps ol {
     <h3 style="color:#1b5e20;margin-bottom:10px;" id="result-title">✅ کیو آر کد آماده است!</h3>
     
     <div class="google-section" id="map-section">
-      <h3 id="map-title"> ثبت سریع در نقشه</h3>
+      <h3 id="map-title">🌐 ثبت سریع در نقشه</h3>
       <p id="map-hint">با یک کلیک، صفحه افزودن مکان را باز کنید</p>
       <button class="btn-google" onclick="openMapModal('google')" id="btn-google-maps" style="display:none;">📍 ثبت در گوگل مپ</button>
       <button class="btn-neshan" onclick="openMapModal('neshan')" id="btn-neshan-map" style="display:none;">🗺️ ثبت در نشان</button>
     </div>
 
     <div class="qr-section">
-      <h3 id="qr1-title">📱 کیو آر : کارت شما</h3>
+      <h3 id="qr1-title">📱 کیو آر ۱: کارت شما</h3>
       <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr1-hint">برای ذخیره مخاطب اسکن کنید</p>
       <img class="qr-image" id="qr-main" alt="Main QR" />
       <div class="info-box" id="info-main"></div>
@@ -490,42 +520,42 @@ body.ltr .modal-steps ol {
     <div class="separator"></div>
 
     <div class="qr-section">
-      <h3 id="qr2-title">️ کیو آر ۲: آرتمین لند</h3>
+      <h3 id="qr2-title">🛠️ کیو آر ۲: آرتمین لند</h3>
       <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr2-hint">سازنده این کارت</p>
       <img class="qr-image" id="qr-creator" alt="Creator QR" />
       <div class="info-box" id="info-creator"></div>
-      <button class="btn-download" onclick="downloadQR('qr-creator', 'Creator')" id="btn-download2">📥 دانلود</button>
+      <button class="btn-download" onclick="downloadQR('qr-creator', 'Creator')" id="btn-download2"> دانلود</button>
     </div>
   </div>
 
   <p class="creator" id="creator-text">
     <strong>سازنده:</strong> آرتمین لند<br>
-    📞 ۰۱۵۳۱۳۱۷۳ | ۰۱۵۰۰۸۱۷۳
+    📞 ۰۹۱۵۳۱۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳
   </p>
 </div>
 
 <!-- Modal برای ثبت در نقشه -->
 <div class="modal-overlay" id="mapModal">
   <div class="modal-content">
-    <h3 id="modal-title"> ثبت در نقشه</h3>
+    <h3 id="modal-title">📍 ثبت در نقشه</h3>
     
-    <div class="modal-info-box" id="modal-info">
-      <!-- اطلاعات اینجا نمایش داده می‌شود -->
+    <div id="modal-fields">
+      <!-- فیلدها اینجا نمایش داده می‌شوند -->
     </div>
     
-    <button class="btn-copy" onclick="copyAllInfo()" id="btn-copy">📋 کپی همه اطلاعات</button>
+    <button class="btn-copy-all" onclick="copyAllInfo()" id="btn-copy-all"> کپی همه اطلاعات</button>
     
-    <button class="btn-map btn-google" onclick="openGoogleMaps()" id="btn-open-google">📍 باز کردن گوگل مپ</button>
+    <button class="btn-map btn-google" onclick="openGoogleMaps()" id="btn-open-google"> باز کردن گوگل مپ</button>
     <button class="btn-map btn-neshan" onclick="openNeshan()" id="btn-open-neshan">🗺️ باز کردن نشان</button>
     
     <div class="modal-steps" id="modal-steps">
-      <h4>📝 مراحل ثبت:</h4>
+      <h4 id="steps-title">📝 مراحل ثبت:</h4>
       <ol id="steps-list">
         <!-- مراحل اینجا نمایش داده می‌شود -->
       </ol>
     </div>
     
-    <button class="btn-close-modal" onclick="closeModal()">بستن</button>
+    <button class="btn-close-modal" onclick="closeModal()" id="btn-close-modal">بستن</button>
   </div>
 </div>
 
@@ -591,7 +621,7 @@ let currentMapType = 'google';
 
 const translations = {
   en: {
-    title: '🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
+    title: ' Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
     labelType: 'Card Type',
     typeBusiness: '🏪 Business',
     typePersonal: '👤 Personal',
@@ -614,9 +644,9 @@ const translations = {
     mapHint: 'Open the add place page with one click',
     btnGoogleMaps: '📍 Register on Google Maps',
     btnNeshan: '🗺️ Register on Neshan',
-    qr1Title: '📱 QR 1: Your Card',
+    qr1Title: ' QR 1: Your Card',
     qr1Hint: 'Scan to save contact',
-    qr2Title: '️ QR 2: Artemin Land',
+    qr2Title: '🛠️ QR 2: Artemin Land',
     qr2Hint: 'Creator of this card',
     btnDownload: '📥 Download',
     creatorText: '<strong>Creator:</strong> Artemin Land<br>📞 09153136173 | 09150086173',
@@ -640,21 +670,21 @@ const translations = {
     noQR: 'No QR!',
     business: 'Business',
     personal: 'Personal',
-    detecting: ' Detecting location...',
-    detectingAddress: '️ Detecting address...',
+    detecting: '⏳ Detecting location...',
+    detectingAddress: '🗺️ Detecting address...',
     ipLocation: '🌐 Using IP location...',
     locationError: '⚠️ Could not detect location. Enter manually.',
-    locationNotSupported: '❌ Location not supported. Enter manually.',
-    saving: ' Saving...',
+    locationNotSupported: ' Location not supported. Enter manually.',
+    saving: '⏳ Saving...',
     saved: '✅ Saved successfully!',
     saveFailed: '⚠️ QR created but save failed (check connection)',
     qrReady: '✅ QR Code ready!',
     modalTitleGoogle: '📍 Register on Google Maps',
-    modalTitleNeshan: '🗺️ Register on Neshan',
-    btnCopy: '📋 Copy All Info',
+    modalTitleNeshan: '️ Register on Neshan',
+    btnCopyAll: '📋 Copy All Info',
     btnOpenGoogle: '📍 Open Google Maps',
-    btnOpenNeshan: '🗺️ Open Neshan',
-    stepsTitle: ' Registration Steps:',
+    btnOpenNeshan: '️ Open Neshan',
+    stepsTitle: '📝 Registration Steps:',
     step1Google: 'In Google Maps, click on the menu (☰) on the left',
     step2Google: 'Select "Add a missing place"',
     step3Google: 'Paste the copied information in the fields (Ctrl+V)',
@@ -666,14 +696,16 @@ const translations = {
     step3Neshan: 'Paste the copied information in the fields',
     step4Neshan: 'Set the location on the map',
     step5Neshan: 'Click Register',
-    infoCopied: '✅ Information copied!',
-    closeModal: 'Close'
+    infoCopied: '✅ Copied!',
+    allInfoCopied: '✅ All info copied!',
+    closeModal: 'Close',
+    copyBtn: '📋 Copy'
   },
   fa: {
     title: '🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
     labelType: 'نوع کارت',
     typeBusiness: '🏪 کسب‌وکار',
-    typePersonal: ' شخصی',
+    typePersonal: '👤 شخصی',
     labelName: 'نام',
     labelPhone: 'شماره تماس',
     labelCategory: 'دسته‌بندی شغل',
@@ -689,16 +721,16 @@ const translations = {
     labelNeshan: 'ثبت در نشان',
     btnGenerate: '⚡ ساخت کیو آر کد',
     resultTitle: '✅ کیو آر کد آماده است!',
-    mapTitle: '🌐 ثبت سریع در نقشه',
+    mapTitle: ' ثبت سریع در نقشه',
     mapHint: 'با یک کلیک، صفحه افزودن مکان را باز کنید',
     btnGoogleMaps: '📍 ثبت در گوگل مپ',
     btnNeshan: '🗺️ ثبت در نشان',
-    qr1Title: ' کیو آر ۱: کارت شما',
+    qr1Title: '📱 کیو آر ۱: کارت شما',
     qr1Hint: 'برای ذخیره مخاطب اسکن کنید',
     qr2Title: '🛠️ کیو آر ۲: آرتمین لند',
     qr2Hint: 'سازنده این کارت',
     btnDownload: '📥 دانلود',
-    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۱۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳',
+    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۳۶۱۷۳ | ۰۹۱۵۰۸۶۱۷۳',
     namePlaceholder: 'نام کسب‌وکار یا شخص',
     phonePlaceholder: '09153136173',
     titlePlaceholder: 'مثال: مدیر عامل، مهندس عمران',
@@ -714,14 +746,14 @@ const translations = {
     type: 'نوع',
     creatorName: 'آرتمین لند',
     creatorTitle: 'ساخت کیو آر کد برای شما در هر صنفی | تولید محتوا (اینستاگرام، یوتیوب و همه شبکه‌های اجتماعی) | طراحی گرافیک | دکوراسیون داخلی',
-    creatorPhones: '۰۹۵۳۱۳۶۷۳',
+    creatorPhones: '۰۹۱۵۳۳۶۱۷۳',
     creatorAddress: 'مشهد، ایران',
     noQR: 'کیو آر کدی وجود ندارد!',
     business: 'کسب‌وکار',
     personal: 'شخصی',
     detecting: '⏳ در حال تشخیص موقعیت...',
     detectingAddress: '🗺️ در حال تشخیص آدرس...',
-    ipLocation: '🌐 استفاده از موقعیت IP...',
+    ipLocation: ' استفاده از موقعیت IP...',
     locationError: '⚠️ تشخیص موقعیت ممکن نبود. دستی وارد کنید.',
     locationNotSupported: '❌ موقعیت پشتیبانی نمی‌شود. دستی وارد کنید.',
     saving: '⏳ در حال ذخیره...',
@@ -729,12 +761,12 @@ const translations = {
     saveFailed: '⚠️ QR ساخته شد ولی ذخیره ناموفق بود (اتصال را بررسی کنید)',
     qrReady: '✅ کیو آر کد آماده است!',
     modalTitleGoogle: '📍 ثبت در گوگل مپ',
-    modalTitleNeshan: '🗺️ ثبت در نشان',
-    btnCopy: '📋 کپی همه اطلاعات',
+    modalTitleNeshan: '️ ثبت در نشان',
+    btnCopyAll: '📋 کپی همه اطلاعات',
     btnOpenGoogle: '📍 باز کردن گوگل مپ',
-    btnOpenNeshan: '🗺️ باز کردن نشان',
+    btnOpenNeshan: '️ باز کردن نشان',
     stepsTitle: '📝 مراحل ثبت:',
-    step1Google: 'در گوگل مپ، روی منوی سمت چپ () کلیک کن',
+    step1Google: 'در گوگل مپ، روی منوی سمت چپ (☰) کلیک کن',
     step2Google: 'گزینه "Add a missing place" را انتخاب کن',
     step3Google: 'اطلاعات کپی شده را در فیلدها Paste کن (Ctrl+V)',
     step4Google: 'موقعیت را روی نقشه تنظیم کن',
@@ -745,8 +777,10 @@ const translations = {
     step3Neshan: 'اطلاعات کپی شده را در فیلدها Paste کن',
     step4Neshan: 'موقعیت را روی نقشه تنظیم کن',
     step5Neshan: 'دکمه ثبت را بزن',
-    infoCopied: '✅ اطلاعات کپی شد!',
-    closeModal: 'بستن'
+    infoCopied: '✅ کپی شد!',
+    allInfoCopied: '✅ همه اطلاعات کپی شد!',
+    closeModal: 'بستن',
+    copyBtn: '📋 کپی'
   }
 };
 
@@ -822,11 +856,11 @@ function setLang(lang) {
   document.getElementById('btn-download1').textContent = t.btnDownload;
   document.getElementById('btn-download2').textContent = t.btnDownload;
   document.getElementById('creator-text').innerHTML = t.creatorText;
-  document.getElementById('btn-copy').textContent = t.btnCopy;
+  document.getElementById('btn-copy-all').textContent = t.btnCopyAll;
   document.getElementById('btn-open-google').textContent = t.btnOpenGoogle;
   document.getElementById('btn-open-neshan').textContent = t.btnOpenNeshan;
-  document.getElementById('modal-steps').querySelector('h4').textContent = t.stepsTitle;
-  document.querySelector('.btn-close-modal').textContent = t.closeModal;
+  document.getElementById('steps-title').textContent = t.stepsTitle;
+  document.getElementById('btn-close-modal').textContent = t.closeModal;
   
   document.getElementById('name').placeholder = t.namePlaceholder;
   document.getElementById('phone').placeholder = t.phonePlaceholder;
@@ -894,7 +928,7 @@ async function getLocation() {
     
   } catch (error) {
     try {
-      btn.innerHTML = '📍 ' + t.ipLocation;
+      btn.innerHTML = ' ' + t.ipLocation;
       const ipResponse = await fetch('http://ip-api.com/json/?fields=city,regionName,country');
       const ipData = await ipResponse.json();
       
@@ -927,16 +961,32 @@ function openMapModal(mapType) {
   // تنظیم عنوان
   document.getElementById('modal-title').textContent = mapType === 'google' ? t.modalTitleGoogle : t.modalTitleNeshan;
   
-  // نمایش اطلاعات
-  const infoHtml = `
-    <p><strong>${t.name}:</strong> ${lastFormData.name || '-'}</p>
-    <p><strong>${t.title}:</strong> ${lastFormData.title || '-'}</p>
-    <p><strong>${t.category}:</strong> ${lastFormData.category || '-'}</p>
-    <p><strong>${t.phone}:</strong> ${lastFormData.phone || '-'}</p>
-    <p><strong>${t.address}:</strong> ${lastFormData.address || '-'}</p>
-    <p><strong>${t.description}:</strong> ${lastFormData.description || '-'}</p>
-  `;
-  document.getElementById('modal-info').innerHTML = infoHtml;
+  // ساخت فیلدهای جداگانه با دکمه کپی (بدون آدرس)
+  const fields = [
+    { label: t.name, value: lastFormData.name || '-' },
+    { label: t.title, value: lastFormData.title || '-' },
+    { label: t.category, value: lastFormData.category || '-' },
+    { label: t.phone, value: lastFormData.phone || '-' },
+    { label: t.description, value: lastFormData.description || '-' }
+  ];
+  
+  const fieldsContainer = document.getElementById('modal-fields');
+  fieldsContainer.innerHTML = '';
+  
+  fields.forEach((field, index) => {
+    if (field.value !== '-') {
+      const row = document.createElement('div');
+      row.className = 'modal-field-row';
+      row.innerHTML = `
+        <div class="modal-field-info">
+          <div class="modal-field-label">${field.label}</div>
+          <div class="modal-field-value">${field.value}</div>
+        </div>
+        <button class="btn-copy-field" onclick="copyField(this, '${field.value.replace(/'/g, "\\'")}')">${t.copyBtn}</button>
+      `;
+      fieldsContainer.appendChild(row);
+    }
+  });
   
   // نمایش دکمه‌های نقشه
   document.getElementById('btn-open-google').style.display = mapType === 'google' ? 'block' : 'none';
@@ -968,25 +1018,50 @@ function openMapModal(mapType) {
   modal.classList.add('active');
 }
 
+function copyField(button, text) {
+  const t = translations[currentLang];
+  
+  navigator.clipboard.writeText(text).then(() => {
+    button.textContent = '✅ ' + t.infoCopied.replace('✅ ', '');
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.textContent = t.copyBtn;
+      button.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    button.textContent = '✅ ' + t.infoCopied.replace('✅ ', '');
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.textContent = t.copyBtn;
+      button.classList.remove('copied');
+    }, 2000);
+  });
+}
+
 function closeModal() {
   document.getElementById('mapModal').classList.remove('active');
 }
 
 function copyAllInfo() {
   const t = translations[currentLang];
-  const infoText = `${t.name}: ${lastFormData.name || ''}\n${t.title}: ${lastFormData.title || ''}\n${t.category}: ${lastFormData.category || ''}\n${t.phone}: ${lastFormData.phone || ''}\n${t.address}: ${lastFormData.address || ''}\n${t.description}: ${lastFormData.description || ''}`;
+  const infoText = `${t.name}: ${lastFormData.name || ''}\n${t.title}: ${lastFormData.title || ''}\n${t.category}: ${lastFormData.category || ''}\n${t.phone}: ${lastFormData.phone || ''}\n${t.description}: ${lastFormData.description || ''}`;
   
   navigator.clipboard.writeText(infoText).then(() => {
-    alert(t.infoCopied);
+    alert(t.allInfoCopied);
   }).catch(() => {
-    // Fallback برای مرورگرهای قدیمی
     const textarea = document.createElement('textarea');
     textarea.value = infoText;
     document.body.appendChild(textarea);
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
-    alert(t.infoCopied);
+    alert(t.allInfoCopied);
   });
 }
 
