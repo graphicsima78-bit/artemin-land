@@ -52,6 +52,30 @@ h1 {
 .lang-btn.active {
   background: #2e7d32;
 }
+.nav-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 8px;
+}
+.nav-tab {
+  flex: 1;
+  padding: 10px;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  color: #666;
+  font-family: inherit;
+  margin: 0;
+}
+.nav-tab.active {
+  background: #2e7d32;
+  color: white;
+}
 .form-group { margin-bottom: 14px; }
 label { 
   display: block; 
@@ -104,6 +128,31 @@ button:disabled { background: #999; cursor: wait; }
   margin-top: 8px;
 }
 .btn-neshan:hover { background: #e55a2b; }
+.btn-add-phone {
+  background: #ff9800;
+  margin-top: 8px;
+  padding: 10px;
+  font-size: 14px;
+}
+.btn-add-phone:hover { background: #f57c00; }
+.btn-remove-phone {
+  background: #f44336;
+  padding: 8px 12px;
+  font-size: 12px;
+  width: auto;
+  margin: 0;
+  flex-shrink: 0;
+}
+.btn-remove-phone:hover { background: #d32f2f; }
+.phone-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.phone-row input {
+  flex: 1;
+}
 #result { 
   display: none; 
   margin-top: 20px; 
@@ -168,6 +217,13 @@ button:disabled { background: #999; cursor: wait; }
   font-size: 14px;
 }
 .btn-download:hover { background: #0d47a1; }
+.btn-download-json {
+  background: #4caf50;
+  margin-top: 8px;
+  padding: 10px;
+  font-size: 14px;
+}
+.btn-download-json:hover { background: #388e3c; }
 .separator {
   margin: 20px 0;
   border-top: 2px dashed #ccc;
@@ -330,6 +386,7 @@ body.ltr .status-msg.error {
   border-right: 4px solid #2e7d32;
   gap: 12px;
   min-height: 50px;
+  flex-direction: row;
 }
 body.ltr .modal-field-row {
   border-right: none;
@@ -354,6 +411,8 @@ body.ltr .modal-field-row {
   word-break: break-word;
   overflow-wrap: break-word;
   line-height: 1.4;
+  display: block;
+  width: 100%;
 }
 .modal-field-value.rtl-text {
   direction: rtl;
@@ -400,6 +459,52 @@ body.ltr .modal-field-row {
 .btn-close-modal:hover {
   background: #616161;
 }
+/* لیست مشتریان */
+.customer-list {
+  margin-top: 16px;
+}
+.customer-item {
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  border-right: 4px solid #2e7d32;
+}
+body.ltr .customer-item {
+  border-right: none;
+  border-left: 4px solid #2e7d32;
+}
+.customer-item h4 {
+  color: #1b5e20;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+.customer-item p {
+  font-size: 12px;
+  color: #666;
+  margin: 3px 0;
+}
+.customer-item .customer-date {
+  font-size: 10px;
+  color: #999;
+  margin-top: 6px;
+}
+.empty-list {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+}
+.loading-list {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
 </style>
 </head>
 <body>
@@ -411,116 +516,144 @@ body.ltr .modal-field-row {
   
   <h1 id="title">🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small></h1>
   
-  <form id="form">
-    <div class="form-group">
-      <label class="required" id="label-type">نوع کارت</label>
-      <div class="type-selector">
-        <div class="type-btn active" id="type-business" onclick="setType('business')">🏪 کسب‌وکار</div>
-        <div class="type-btn" id="type-personal" onclick="setType('personal')">👤 شخصی</div>
+  <!-- تب‌های ناوبری -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('form')" id="tab-form">📝 فرم</button>
+    <button class="nav-tab" onclick="switchTab('list')" id="tab-list"> لیست مشتریان</button>
+  </div>
+
+  <!-- تب فرم -->
+  <div class="tab-content active" id="content-form">
+    <form id="form">
+      <div class="form-group">
+        <label class="required" id="label-type">نوع کارت</label>
+        <div class="type-selector">
+          <div class="type-btn active" id="type-business" onclick="setType('business')">🏪 کسب‌وکار</div>
+          <div class="type-btn" id="type-personal" onclick="setType('personal')">👤 شخصی</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="required" id="label-name">نام</label>
+        <input type="text" id="name" required placeholder="نام کسب‌وکار یا شخص">
+      </div>
+      
+      <div class="form-group">
+        <label class="required" id="label-phone">شماره تماس</label>
+        <div id="phones-container">
+          <div class="phone-row">
+            <input type="tel" class="phone-input" required placeholder="09153136173">
+          </div>
+        </div>
+        <button type="button" class="btn-add-phone" onclick="addPhoneField()" id="btn-add-phone"> افزودن شماره بیشتر</button>
+      </div>
+
+      <div class="form-group">
+        <label id="label-category">دسته‌بندی شغل</label>
+        <select id="category">
+          <option value="">انتخاب کنید...</option>
+          <option value="فروشگاه">🏪 فروشگاه</option>
+          <option value="رستوران و کافه">️ رستوران و کافه</option>
+          <option value="پزشکی و سلامت">⚕️ پزشکی و سلامت</option>
+          <option value="مهندسی">🔧 مهندسی</option>
+          <option value="حقوقی">⚖️ حقوقی</option>
+          <option value="آموزش"> آموزش</option>
+          <option value="هنری">🎨 هنری</option>
+          <option value="خدمات فنی">🛠️ خدمات فنی</option>
+          <option value="سایر">📌 سایر</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label id="label-title">عنوان شغلی</label>
+        <input type="text" id="title-field" placeholder="مثال: مدیر عامل، مهندس عمران">
+      </div>
+
+      <div class="form-group">
+        <label id="label-description">توضیحات تکمیلی</label>
+        <textarea id="description" rows="2" placeholder="مثال: فروشگاه لوازم خانگی، فروشنده لوازم یدکی"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label id="label-address">آدرس کامل</label>
+        <button type="button" class="btn-location" id="locationBtn" onclick="getLocation()">
+          📍 <span id="btn-location-text">استفاده از موقعیت فعلی من (GPS)</span>
+        </button>
+        <textarea id="address" rows="2" placeholder="آدرس را وارد کنید یا از GPS استفاده کنید"></textarea>
+        <p class="success-msg" id="locationSuccess">✅ آدرس تشخیص داده شد!</p>
+        <p class="hint" id="hint-location">💡 برای تشخیص خودکار آدرس از GPS کلیک کنید</p>
+      </div>
+
+      <div class="form-group">
+        <label id="label-photo">عکس پروفایل (اختیاری)</label>
+        <div class="image-upload" onclick="document.getElementById('photo-input').click()">
+          <input type="file" id="photo-input" accept="image/*" onchange="handlePhotoUpload(event)">
+          <p id="photo-hint"> برای آپلود عکس کلیک کنید</p>
+          <img id="photo-preview" class="image-preview" alt="Preview">
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="check-google" checked>
+        <label for="check-google" id="label-google">ثبت در گوگل مپ</label>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="check-neshan" checked>
+        <label for="check-neshan" id="label-neshan">ثبت در نشان</label>
+      </div>
+      
+      <button type="submit" id="btn-generate">⚡ ساخت کیو آر کد</button>
+      <div id="status-msg" class="status-msg"></div>
+    </form>
+
+    <div id="result">
+      <h3 style="color:#1b5e20;margin-bottom:10px;" id="result-title">✅ کیو آر کد آماده است!</h3>
+      
+      <div class="google-section" id="map-section">
+        <h3 id="map-title">🌐 ثبت در نقشه</h3>
+        <p id="map-hint">اطلاعات را کپی کن و در اپلیکیشن نقشه وارد کن</p>
+        <button class="btn-google" onclick="openMapModal('google')" id="btn-google-maps" style="display:none;">📍 ثبت در گوگل مپ</button>
+        <button class="btn-neshan" onclick="openMapModal('neshan')" id="btn-neshan-map" style="display:none;">🗺️ ثبت در نشان</button>
+      </div>
+
+      <div class="qr-section">
+        <h3 id="qr1-title"> کیو آر ۱: کارت شما</h3>
+        <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr1-hint">برای ذخیره مخاطب اسکن کنید</p>
+        <img class="qr-image" id="qr-main" alt="Main QR" />
+        <div class="info-box" id="info-main"></div>
+        <button class="btn-download" onclick="downloadQR('qr-main', 'Main')" id="btn-download1">📥 دانلود QR</button>
+        <button class="btn-download-json" onclick="downloadCurrentData()" id="btn-download-json">💾 دانلود اطلاعات (JSON)</button>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="qr-section">
+        <h3 id="qr2-title">🛠️ کیو آر ۲: آرتمین لند</h3>
+        <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr2-hint">سازنده این کارت</p>
+        <img class="qr-image" id="qr-creator" alt="Creator QR" />
+        <div class="info-box" id="info-creator"></div>
+        <button class="btn-download" onclick="downloadQR('qr-creator', 'Creator')" id="btn-download2"> دانلود</button>
       </div>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label class="required" id="label-name">نام</label>
-      <input type="text" id="name" required placeholder="نام کسب‌وکار یا شخص">
-    </div>
-    
-    <div class="form-group">
-      <label class="required" id="label-phone">شماره تماس</label>
-      <input type="tel" id="phone" required placeholder="09153136173">
-    </div>
-
-    <div class="form-group">
-      <label id="label-category">دسته‌بندی شغل</label>
-      <select id="category">
-        <option value="">انتخاب کنید...</option>
-        <option value="فروشگاه">🏪 فروشگاه</option>
-        <option value="رستوران و کافه">🍽️ رستوران و کافه</option>
-        <option value="پزشکی و سلامت">⚕️ پزشکی و سلامت</option>
-        <option value="مهندسی"> مهندسی</option>
-        <option value="حقوقی">⚖️ حقوقی</option>
-        <option value="آموزش">📚 آموزش</option>
-        <option value="هنری">🎨 هنری</option>
-        <option value="خدمات فنی">️ خدمات فنی</option>
-        <option value="سایر">📌 سایر</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label id="label-title">عنوان شغلی</label>
-      <input type="text" id="title-field" placeholder="مثال: مدیر عامل، مهندس عمران">
-    </div>
-
-    <div class="form-group">
-      <label id="label-description">توضیحات تکمیلی</label>
-      <textarea id="description" rows="2" placeholder="مثال: فروشگاه لوازم خانگی، فروشنده لوازم یدکی"></textarea>
-    </div>
-    
-    <div class="form-group">
-      <label id="label-address">آدرس کامل</label>
-      <button type="button" class="btn-location" id="locationBtn" onclick="getLocation()">
-        📍 <span id="btn-location-text">استفاده از موقعیت فعلی من (GPS)</span>
-      </button>
-      <textarea id="address" rows="2" placeholder="آدرس را وارد کنید یا از GPS استفاده کنید"></textarea>
-      <p class="success-msg" id="locationSuccess">✅ آدرس تشخیص داده شد!</p>
-      <p class="hint" id="hint-location">💡 برای تشخیص خودکار آدرس از GPS کلیک کنید</p>
-    </div>
-
-    <div class="form-group">
-      <label id="label-photo">عکس پروفایل (اختیاری)</label>
-      <div class="image-upload" onclick="document.getElementById('photo-input').click()">
-        <input type="file" id="photo-input" accept="image/*" onchange="handlePhotoUpload(event)">
-        <p id="photo-hint">📷 برای آپلود عکس کلیک کنید</p>
-        <img id="photo-preview" class="image-preview" alt="Preview">
+  <!-- تب لیست مشتریان -->
+  <div class="tab-content" id="content-list">
+    <h3 style="color:#1b5e20;margin-bottom:16px;text-align:center;" id="list-title">📋 لیست مشتریان ذخیره شده</h3>
+    <button class="btn-download-json" onclick="loadCustomerList()" id="btn-refresh-list" style="margin-bottom:16px;">🔄 بارگذاری لیست</button>
+    <button class="btn-download-json" onclick="downloadAllCustomers()" id="btn-download-all" style="background:#4caf50;"> دانلود همه اطلاعات (JSON)</button>
+    <div id="customer-list-container" class="customer-list">
+      <div class="empty-list" id="empty-list-msg">
+        <p> هنوز مشتری‌ای ثبت نشده است</p>
+        <p style="font-size:12px;margin-top:8px;">اولین مشتری را از تب "فرم" اضافه کنید</p>
       </div>
-    </div>
-
-    <div class="checkbox-group">
-      <input type="checkbox" id="check-google" checked>
-      <label for="check-google" id="label-google">ثبت در گوگل مپ</label>
-    </div>
-
-    <div class="checkbox-group">
-      <input type="checkbox" id="check-neshan" checked>
-      <label for="check-neshan" id="label-neshan">ثبت در نشان</label>
-    </div>
-    
-    <button type="submit" id="btn-generate">⚡ ساخت کیو آر کد</button>
-    <div id="status-msg" class="status-msg"></div>
-  </form>
-
-  <div id="result">
-    <h3 style="color:#1b5e20;margin-bottom:10px;" id="result-title">✅ کیو آر کد آماده است!</h3>
-    
-    <div class="google-section" id="map-section">
-      <h3 id="map-title">🌐 ثبت در نقشه</h3>
-      <p id="map-hint">اطلاعات را کپی کن و در اپلیکیشن نقشه وارد کن</p>
-      <button class="btn-google" onclick="openMapModal('google')" id="btn-google-maps" style="display:none;">📍 ثبت در گوگل مپ</button>
-      <button class="btn-neshan" onclick="openMapModal('neshan')" id="btn-neshan-map" style="display:none;">️ ثبت در نشان</button>
-    </div>
-
-    <div class="qr-section">
-      <h3 id="qr1-title"> کیو آر ۱: کارت شما</h3>
-      <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr1-hint">برای ذخیره مخاطب اسکن کنید</p>
-      <img class="qr-image" id="qr-main" alt="Main QR" />
-      <div class="info-box" id="info-main"></div>
-      <button class="btn-download" onclick="downloadQR('qr-main', 'Main')" id="btn-download1"> دانلود</button>
-    </div>
-
-    <div class="separator"></div>
-
-    <div class="qr-section">
-      <h3 id="qr2-title">🛠️ کیو آر ۲: آرتمین لند</h3>
-      <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr2-hint">سازنده این کارت</p>
-      <img class="qr-image" id="qr-creator" alt="Creator QR" />
-      <div class="info-box" id="info-creator"></div>
-      <button class="btn-download" onclick="downloadQR('qr-creator', 'Creator')" id="btn-download2">📥 دانلود</button>
     </div>
   </div>
 
   <p class="creator" id="creator-text">
     <strong>سازنده:</strong> آرتمین لند<br>
-     ۰۹۱۵۱۳۶۱۷ | ۰۹۱۵۰۸۶۱۷
+    📞 ۰۱۵۳۱۳۱۷۳ | ۰۱۵۰۰۸۱۷۳
   </p>
 </div>
 
@@ -533,10 +666,10 @@ body.ltr .modal-field-row {
       <!-- فیلدها اینجا نمایش داده می‌شوند -->
     </div>
     
-    <button class="btn-copy-all" onclick="copyAllInfo()" id="btn-copy-all">📋 کپی همه اطلاعات</button>
+    <button class="btn-copy-all" onclick="copyAllInfo()" id="btn-copy-all"> کپی همه اطلاعات</button>
     
     <button class="btn-map btn-google" onclick="openGoogleMaps()" id="btn-open-google">📍 باز کردن گوگل مپ</button>
-    <button class="btn-map btn-neshan" onclick="openNeshan()" id="btn-open-neshan">️ باز کردن نشان</button>
+    <button class="btn-map btn-neshan" onclick="openNeshan()" id="btn-open-neshan">🗺️ باز کردن نشان</button>
     
     <button class="btn-close-modal" onclick="closeModal()" id="btn-close-modal">بستن</button>
   </div>
@@ -545,7 +678,7 @@ body.ltr .modal-field-row {
 <!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBUNhCBLHR10Q5J7lrigRpL4CuPk-y6toY",
@@ -570,7 +703,7 @@ body.ltr .modal-field-row {
     firebaseReady = false;
   }
 
-  // ذخیره با retry (تا ۳ بار تلاش می‌کند)
+  // ذخیره با retry
   window.saveToFirestore = async function(data, retryCount = 0) {
     if (!firebaseReady || !db) {
       console.warn("Firebase not ready, skipping save");
@@ -586,13 +719,51 @@ body.ltr .modal-field-row {
       return true;
     } catch (e) {
       console.error("Error adding document: ", e);
-      // اگر کمتر از ۳ بار تلاش کرده، دوباره تلاش کن
       if (retryCount < 3) {
         console.log(`Retry ${retryCount + 1}/3...`);
-        await new Promise(resolve => setTimeout(resolve, 1000)); // ۱ ثانیه صبر
+        await new Promise(resolve => setTimeout(resolve, 1000));
         return window.saveToFirestore(data, retryCount + 1);
       }
       return false;
+    }
+  };
+
+  // دریافت لیست مشتریان
+  window.getCustomerList = async function() {
+    if (!firebaseReady || !db) {
+      console.warn("Firebase not ready");
+      return [];
+    }
+    
+    try {
+      const q = query(collection(db, "customers"), orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      const customers = [];
+      querySnapshot.forEach((doc) => {
+        customers.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
+      console.log("Loaded", customers.length, "customers");
+      return customers;
+    } catch (e) {
+      console.error("Error loading customers: ", e);
+      // اگر orderBy کار نکرد، بدون مرتب‌سازی بگیر
+      try {
+        const querySnapshot = await getDocs(collection(db, "customers"));
+        const customers = [];
+        querySnapshot.forEach((doc) => {
+          customers.push({
+            id: doc.id,
+            ...doc.data()
+          });
+        });
+        return customers;
+      } catch (e2) {
+        console.error("Error loading customers (fallback): ", e2);
+        return [];
+      }
     }
   };
 
@@ -608,11 +779,14 @@ let lastFormData = {};
 let photoBase64 = '';
 let lastGPSLocation = null;
 let currentMapType = 'google';
-let isSubmitting = false; // جلوگیری از submit تکراری
+let isSubmitting = false;
+let currentCustomers = [];
 
 const translations = {
   en: {
     title: '🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
+    tabForm: ' Form',
+    tabList: ' Customer List',
     labelType: 'Card Type',
     typeBusiness: '🏪 Business',
     typePersonal: '👤 Personal',
@@ -631,15 +805,17 @@ const translations = {
     labelNeshan: 'Register on Neshan',
     btnGenerate: '⚡ Generate QR Codes',
     resultTitle: '✅ QR Cards Ready!',
-    mapTitle: '🌐 Map Registration',
+    mapTitle: ' Map Registration',
     mapHint: 'Copy info and paste in map app',
     btnGoogleMaps: '📍 Register on Google Maps',
-    btnNeshan: '️ Register on Neshan',
-    qr1Title: '📱 QR 1: Your Card',
+    btnNeshan: '🗺️ Register on Neshan',
+    qr1Title: ' QR 1: Your Card',
     qr1Hint: 'Scan to save contact',
     qr2Title: '🛠️ QR 2: Artemin Land',
     qr2Hint: 'Creator of this card',
-    btnDownload: '📥 Download',
+    btnDownload: ' Download QR',
+    btnDownloadJson: '💾 Download Info (JSON)',
+    btnDownloadAll: '💾 Download All (JSON)',
     creatorText: '<strong>Creator:</strong> Artemin Land<br>📞 09153136173 | 09150086173',
     namePlaceholder: 'Business or person name',
     phonePlaceholder: '09153136173',
@@ -648,6 +824,7 @@ const translations = {
     addressPlaceholder: 'Enter address or use GPS',
     alertFill: 'Please fill Name and Phone!',
     alertDuplicate: 'Please wait, processing...',
+    btnAddPhone: '➕ Add More Phone',
     name: 'Name',
     phone: 'Phone',
     title: 'Title',
@@ -656,7 +833,7 @@ const translations = {
     description: 'Description',
     type: 'Type',
     creatorName: 'Artemin Land',
-    creatorTitle: 'QR Code Creation for All Businesses | Content Creation (Instagram, YouTube & All Social Media) | Graphic Design | Interior Decoration',
+    creatorTitle: 'QR Code Creation for All Businesses | Content Creation | Graphic Design | Interior Decoration',
     creatorPhones: '09153136173',
     creatorAddress: 'Mashhad, Iran',
     noQR: 'No QR!',
@@ -664,25 +841,32 @@ const translations = {
     personal: 'Personal',
     detecting: '⏳ Detecting location...',
     detectingAddress: '🗺️ Detecting address...',
-    ipLocation: ' Using IP location...',
-    locationError: '️ Could not detect location. Enter manually.',
+    ipLocation: '🌐 Using IP location...',
+    locationError: '⚠️ Could not detect location. Enter manually.',
     locationNotSupported: '❌ Location not supported. Enter manually.',
     saving: '⏳ Saving...',
     saved: '✅ Saved successfully!',
-    saveFailed: '⚠️ QR created but save failed (check connection)',
+    saveFailed: '⚠️ QR created but save failed',
     qrReady: '✅ QR Code ready!',
-    modalTitleGoogle: ' Google Maps Registration',
-    modalTitleNeshan: '🗺️ Neshan Registration',
+    modalTitleGoogle: '📍 Google Maps Registration',
+    modalTitleNeshan: '️ Neshan Registration',
     btnCopyAll: '📋 Copy All Info',
-    btnOpenGoogle: ' Open Google Maps App',
-    btnOpenNeshan: '🗺️ Open Neshan App',
+    btnOpenGoogle: '📍 Open Google Maps App',
+    btnOpenNeshan: '️ Open Neshan App',
     infoCopied: 'Copied!',
     allInfoCopied: '✅ All info copied!',
     closeModal: 'Close',
-    copyBtn: '📋 Copy'
+    copyBtn: '📋 Copy',
+    listTitle: '📋 Saved Customers List',
+    btnRefreshList: '🔄 Load List',
+    emptyListMsg: '<p>📭 No customers registered yet</p><p style="font-size:12px;margin-top:8px;">Add your first customer from the "Form" tab</p>',
+    loadingList: ' Loading...',
+    customerDate: 'Registered'
   },
   fa: {
     title: '🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
+    tabForm: '📝 فرم',
+    tabList: '📋 لیست مشتریان',
     labelType: 'نوع کارت',
     typeBusiness: '🏪 کسب‌وکار',
     typePersonal: '👤 شخصی',
@@ -699,18 +883,20 @@ const translations = {
     photoHint: '📷 برای آپلود عکس کلیک کنید',
     labelGoogle: 'ثبت در گوگل مپ',
     labelNeshan: 'ثبت در نشان',
-    btnGenerate: '⚡ ساخت کیو آر کد',
+    btnGenerate: ' ساخت کیو آر کد',
     resultTitle: '✅ کیو آر کد آماده است!',
-    mapTitle: ' ثبت در نقشه',
+    mapTitle: '🌐 ثبت در نقشه',
     mapHint: 'اطلاعات را کپی کن و در اپلیکیشن نقشه وارد کن',
     btnGoogleMaps: '📍 ثبت در گوگل مپ',
     btnNeshan: '🗺️ ثبت در نشان',
-    qr1Title: ' کیو آر ۱: کارت شما',
+    qr1Title: '📱 کیو آر ۱: کارت شما',
     qr1Hint: 'برای ذخیره مخاطب اسکن کنید',
-    qr2Title: '️ کیو آر ۲: آرتمین لند',
+    qr2Title: '🛠️ کیو آر ۲: آرتمین لند',
     qr2Hint: 'سازنده این کارت',
-    btnDownload: ' دانلود',
-    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۳۱۳۶۱۳ | ۰۹۱۰۰۸۶۱۳',
+    btnDownload: '📥 دانلود QR',
+    btnDownloadJson: '💾 دانلود اطلاعات (JSON)',
+    btnDownloadAll: '💾 دانلود همه اطلاعات (JSON)',
+    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۱۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳',
     namePlaceholder: 'نام کسب‌وکار یا شخص',
     phonePlaceholder: '09153136173',
     titlePlaceholder: 'مثال: مدیر عامل، مهندس عمران',
@@ -718,6 +904,7 @@ const translations = {
     addressPlaceholder: 'آدرس را وارد کنید یا از GPS استفاده کنید',
     alertFill: 'لطفاً نام و تلفن را وارد کنید!',
     alertDuplicate: 'لطفاً صبر کنید، در حال پردازش...',
+    btnAddPhone: '➕ افزودن شماره بیشتر',
     name: 'نام',
     phone: 'تلفن',
     title: 'عنوان',
@@ -727,33 +914,37 @@ const translations = {
     type: 'نوع',
     creatorName: 'آرتمین لند',
     creatorTitle: 'ساخت کیو آر کد برای شما در هر صنفی | تولید محتوا (اینستاگرام، یوتیوب و همه شبکه‌های اجتماعی) | طراحی گرافیک | دکوراسیون داخلی',
-    creatorPhones: '۰۹۱۵۳۳۶۱۷۳',
+    creatorPhones: '۰۹۱۵۳۱۳۶۱۷۳',
     creatorAddress: 'مشهد، ایران',
     noQR: 'کیو آر کدی وجود ندارد!',
     business: 'کسب‌وکار',
     personal: 'شخصی',
     detecting: '⏳ در حال تشخیص موقعیت...',
     detectingAddress: '🗺️ در حال تشخیص آدرس...',
-    ipLocation: ' استفاده از موقعیت IP...',
+    ipLocation: '🌐 استفاده از موقعیت IP...',
     locationError: '⚠️ تشخیص موقعیت ممکن نبود. دستی وارد کنید.',
     locationNotSupported: '❌ موقعیت پشتیبانی نمی‌شود. دستی وارد کنید.',
     saving: '⏳ در حال ذخیره...',
     saved: '✅ با موفقیت ذخیره شد!',
-    saveFailed: '️ QR ساخته شد ولی ذخیره ناموفق بود (اتصال را بررسی کنید)',
+    saveFailed: '⚠️ QR ساخته شد ولی ذخیره ناموفق بود',
     qrReady: '✅ کیو آر کد آماده است!',
     modalTitleGoogle: '📍 ثبت در گوگل مپ',
-    modalTitleNeshan: '🗺️ ثبت در نشان',
+    modalTitleNeshan: '️ ثبت در نشان',
     btnCopyAll: '📋 کپی همه اطلاعات',
     btnOpenGoogle: '📍 باز کردن گوگل مپ',
-    btnOpenNeshan: '🗺️ باز کردن نشان',
+    btnOpenNeshan: '️ باز کردن نشان',
     infoCopied: 'کپی شد!',
     allInfoCopied: '✅ همه اطلاعات کپی شد!',
     closeModal: 'بستن',
-    copyBtn: '📋 کپی'
+    copyBtn: ' کپی',
+    listTitle: ' لیست مشتریان ذخیره شده',
+    btnRefreshList: '🔄 بارگذاری لیست',
+    emptyListMsg: '<p> هنوز مشتری‌ای ثبت نشده است</p><p style="font-size:12px;margin-top:8px;">اولین مشتری را از تب "فرم" اضافه کنید</p>',
+    loadingList: '⏳ در حال بارگذاری...',
+    customerDate: 'تاریخ ثبت'
   }
 };
 
-// تشخیص جهت متن (فارسی یا انگلیسی)
 function detectTextDirection(text) {
   if (!text || text === '-') return 'rtl';
   const firstChar = text.trim().charAt(0);
@@ -771,6 +962,18 @@ function showStatus(message, type) {
   }, 5000);
 }
 
+function switchTab(tabName) {
+  document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  
+  document.getElementById('tab-' + tabName).classList.add('active');
+  document.getElementById('content-' + tabName).classList.add('active');
+  
+  if (tabName === 'list') {
+    loadCustomerList();
+  }
+}
+
 function setType(type) {
   currentType = type;
   document.getElementById('type-business').classList.toggle('active', type === 'business');
@@ -782,6 +985,19 @@ function setType(type) {
   } else {
     nameInput.placeholder = currentLang === 'fa' ? 'نام و نام خانوادگی' : 'Full name';
   }
+}
+
+function addPhoneField() {
+  const container = document.getElementById('phones-container');
+  const t = translations[currentLang];
+  
+  const row = document.createElement('div');
+  row.className = 'phone-row';
+  row.innerHTML = `
+    <input type="tel" class="phone-input" placeholder="${t.phonePlaceholder}">
+    <button type="button" class="btn-remove-phone" onclick="this.parentElement.remove()">❌</button>
+  `;
+  container.appendChild(row);
 }
 
 function handlePhotoUpload(event) {
@@ -804,6 +1020,8 @@ function setLang(lang) {
   const t = translations[lang];
   
   document.getElementById('title').innerHTML = t.title;
+  document.getElementById('tab-form').textContent = t.tabForm;
+  document.getElementById('tab-list').textContent = t.tabList;
   document.getElementById('label-type').textContent = t.labelType;
   document.getElementById('type-business').textContent = t.typeBusiness;
   document.getElementById('type-personal').textContent = t.typePersonal;
@@ -832,17 +1050,26 @@ function setLang(lang) {
   document.getElementById('qr2-hint').textContent = t.qr2Hint;
   document.getElementById('btn-download1').textContent = t.btnDownload;
   document.getElementById('btn-download2').textContent = t.btnDownload;
+  document.getElementById('btn-download-json').textContent = t.btnDownloadJson;
+  document.getElementById('btn-download-all').textContent = t.btnDownloadAll;
   document.getElementById('creator-text').innerHTML = t.creatorText;
   document.getElementById('btn-copy-all').textContent = t.btnCopyAll;
   document.getElementById('btn-open-google').textContent = t.btnOpenGoogle;
   document.getElementById('btn-open-neshan').textContent = t.btnOpenNeshan;
   document.getElementById('btn-close-modal').textContent = t.closeModal;
+  document.getElementById('btn-add-phone').textContent = t.btnAddPhone;
+  document.getElementById('list-title').textContent = t.listTitle;
+  document.getElementById('btn-refresh-list').textContent = t.btnRefreshList;
   
   document.getElementById('name').placeholder = t.namePlaceholder;
-  document.getElementById('phone').placeholder = t.phonePlaceholder;
   document.getElementById('title-field').placeholder = t.titlePlaceholder;
   document.getElementById('description').placeholder = t.descriptionPlaceholder;
   document.getElementById('address').placeholder = t.addressPlaceholder;
+  
+  // به‌روزرسانی placeholder شماره‌های تلفن
+  document.querySelectorAll('.phone-input').forEach(input => {
+    input.placeholder = t.phonePlaceholder;
+  });
   
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
   document.getElementById('btn-fa').classList.toggle('active', lang === 'fa');
@@ -904,7 +1131,7 @@ async function getLocation() {
     
   } catch (error) {
     try {
-      btn.innerHTML = '📍 ' + t.ipLocation;
+      btn.innerHTML = ' ' + t.ipLocation;
       const ipResponse = await fetch('http://ip-api.com/json/?fields=city,regionName,country');
       const ipData = await ipResponse.json();
       
@@ -940,7 +1167,7 @@ function openMapModal(mapType) {
     { label: t.name, value: lastFormData.name || '-' },
     { label: t.title, value: lastFormData.title || '-' },
     { label: t.category, value: lastFormData.category || '-' },
-    { label: t.phone, value: lastFormData.phone || '-' },
+    { label: t.phone, value: (lastFormData.phones || []).join(' - ') || '-' },
     { label: t.description, value: lastFormData.description || '-' }
   ];
   
@@ -1001,7 +1228,8 @@ function closeModal() {
 
 function copyAllInfo() {
   const t = translations[currentLang];
-  const infoText = `${t.name}: ${lastFormData.name || ''}\n${t.title}: ${lastFormData.title || ''}\n${t.category}: ${lastFormData.category || ''}\n${t.phone}: ${lastFormData.phone || ''}\n${t.description}: ${lastFormData.description || ''}`;
+  const phones = (lastFormData.phones || []).join(', ');
+  const infoText = `${t.name}: ${lastFormData.name || ''}\n${t.title}: ${lastFormData.title || ''}\n${t.category}: ${lastFormData.category || ''}\n${t.phone}: ${phones}\n${t.description}: ${lastFormData.description || ''}`;
   
   navigator.clipboard.writeText(infoText).then(() => {
     alert(t.allInfoCopied);
@@ -1046,14 +1274,12 @@ function openNeshan() {
   closeModal();
 }
 
-// ثبت Service Worker با cache-busting برای موبایل
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js?v=' + Date.now()).catch(err => {
       console.log('SW registration failed:', err);
     });
     
-    // Force update اگر نسخه جدید آمد
     navigator.serviceWorker.ready.then(registration => {
       registration.update();
     });
@@ -1063,7 +1289,6 @@ if ('serviceWorker' in navigator) {
 document.getElementById('form').addEventListener('submit', async function(e) {
   e.preventDefault();
   
-  // جلوگیری از submit تکراری
   if (isSubmitting) {
     const t = translations[currentLang];
     alert(t.alertDuplicate);
@@ -1072,7 +1297,6 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   isSubmitting = true;
   
   const name = document.getElementById('name').value.trim();
-  const phone = document.getElementById('phone').value.trim();
   const category = document.getElementById('category').value;
   const title = document.getElementById('title-field').value.trim();
   const description = document.getElementById('description').value.trim();
@@ -1081,16 +1305,26 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   const checkNeshan = document.getElementById('check-neshan').checked;
   const t = translations[currentLang];
   
-  if (!name || !phone) {
+  // جمع‌آوری همه شماره‌های تلفن
+  const phoneInputs = document.querySelectorAll('.phone-input');
+  const phones = [];
+  phoneInputs.forEach(input => {
+    const val = input.value.trim();
+    if (val) phones.push(val);
+  });
+  
+  if (!name || phones.length === 0) {
     alert(t.alertFill);
     isSubmitting = false;
     return;
   }
   
-  lastFormData = { name, phone, title, description, address, category, type: currentType };
+  const primaryPhone = phones[0];
+  
+  lastFormData = { name, phones, title, description, address, category, type: currentType };
   
   const firebaseData = {
-    name, phone, title, description, address, category,
+    name, phones, title, description, address, category,
     type: currentType,
     registerGoogle: checkGoogle,
     registerNeshan: checkNeshan,
@@ -1099,7 +1333,6 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   
   showStatus(t.saving, 'success');
   
-  // ذخیره در Firebase با timeout بیشتر (10 ثانیه) و retry
   let saveSuccess = false;
   if (typeof window.saveToFirestore === 'function') {
     try {
@@ -1114,7 +1347,6 @@ document.getElementById('form').addEventListener('submit', async function(e) {
     }
   }
   
-  // ✅ RESET کردن info-main قبل از اضافه کردن اطلاعات جدید (جلوگیری از تکرار)
   document.getElementById('info-main').innerHTML = '';
   document.getElementById('info-creator').innerHTML = '';
   
@@ -1125,7 +1357,10 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   }
   if (title) vcard1 += 'TITLE:' + title + '\r\n';
   if (description) vcard1 += 'NOTE:' + description + '\r\n';
-  vcard1 += 'TEL;TYPE=CELL:' + phone + '\r\n';
+  phones.forEach((phone, index) => {
+    const type = index === 0 ? 'CELL' : 'WORK';
+    vcard1 += 'TEL;TYPE=' + type + ':' + phone + '\r\n';
+  });
   if (address) vcard1 += 'ADR;TYPE=WORK:;;' + address + ';;;;\r\n';
   if (category) vcard1 += 'CATEGORIES:' + category + '\r\n';
   vcard1 += 'END:VCARD';
@@ -1135,7 +1370,7 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   
   let info1 = '<p><strong>' + t.name + ':</strong> ' + name + '</p>';
   info1 += '<p><strong>' + t.type + ':</strong> ' + (currentType === 'business' ? t.business : t.personal) + '</p>';
-  info1 += '<p><strong>' + t.phone + ':</strong> ' + phone + '</p>';
+  info1 += '<p><strong>' + t.phone + ':</strong> ' + phones.join(' - ') + '</p>';
   if (category) info1 += '<p><strong>' + t.category + ':</strong> ' + category + '</p>';
   if (title) info1 += '<p><strong>' + t.title + ':</strong> ' + title + '</p>';
   if (description) info1 += '<p><strong>' + t.description + ':</strong> ' + description + '</p>';
@@ -1175,7 +1410,6 @@ document.getElementById('form').addEventListener('submit', async function(e) {
     showStatus(t.saveFailed, 'error');
   }
   
-  // آزاد کردن قفل submit
   isSubmitting = false;
 });
 
@@ -1199,6 +1433,87 @@ function downloadQR(elementId, filename) {
     .catch(() => {
       window.open(img.src, '_blank');
     });
+}
+
+function downloadCurrentData() {
+  const data = {
+    ...lastFormData,
+    exportedAt: new Date().toISOString()
+  };
+  
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `ArteminLand-${lastFormData.name || 'customer'}-${Date.now()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+}
+
+async function loadCustomerList() {
+  const container = document.getElementById('customer-list-container');
+  const t = translations[currentLang];
+  
+  container.innerHTML = `<div class="loading-list">${t.loadingList}</div>`;
+  
+  try {
+    const customers = await window.getCustomerList();
+    currentCustomers = customers;
+    
+    if (customers.length === 0) {
+      container.innerHTML = `<div class="empty-list">${t.emptyListMsg}</div>`;
+      return;
+    }
+    
+    let html = '';
+    customers.forEach((customer, index) => {
+      const phones = customer.phones ? customer.phones.join(' - ') : (customer.phone || '-');
+      const date = customer.createdAt ? new Date(customer.createdAt).toLocaleString(currentLang === 'fa' ? 'fa-IR' : 'en-US') : '-';
+      const typeLabel = customer.type === 'business' ? t.business : t.personal;
+      
+      html += `
+        <div class="customer-item">
+          <h4>${index + 1}. ${customer.name || '-'}</h4>
+          <p><strong>${t.type}:</strong> ${typeLabel}</p>
+          <p><strong>${t.phone}:</strong> ${phones}</p>
+          ${customer.title ? `<p><strong>${t.title}:</strong> ${customer.title}</p>` : ''}
+          ${customer.category ? `<p><strong>${t.category}:</strong> ${customer.category}</p>` : ''}
+          ${customer.address ? `<p><strong>${t.address}:</strong> ${customer.address}</p>` : ''}
+          <div class="customer-date">${t.customerDate}: ${date}</div>
+        </div>
+      `;
+    });
+    
+    container.innerHTML = html;
+  } catch (e) {
+    console.error('Error loading list:', e);
+    container.innerHTML = `<div class="empty-list">❌ Error loading list</div>`;
+  }
+}
+
+function downloadAllCustomers() {
+  if (currentCustomers.length === 0) {
+    alert(currentLang === 'fa' ? 'لیست خالی است' : 'List is empty');
+    return;
+  }
+  
+  const data = {
+    exportedAt: new Date().toISOString(),
+    totalCustomers: currentCustomers.length,
+    customers: currentCustomers
+  };
+  
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `ArteminLand-AllCustomers-${Date.now()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
 }
 </script>
 </body>
