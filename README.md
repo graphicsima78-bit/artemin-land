@@ -9,7 +9,8 @@
 ```
 artminland/
 ├── index.html              صفحه اصلی (فرم + ساخت QR)
-├── admin.html              پنل مدیریت (ورود با ایمیل/رمز Firebase)
+├── admin.html              پنل مدیریت (ورود، جستجو، ویرایش، حذف، QR، خروجی)
+├── common.js               توابع مشترک (vCard، ساخت QR داخل مرورگر، خروجی‌ها)
 ├── manifest.json           تنظیمات PWA
 ├── sw.js                   Service Worker
 ├── firestore.rules         قوانین امنیتی (در کنسول Firebase paste می‌شود)
@@ -35,4 +36,9 @@ artminland/
 ## ساختار داده (collection: customers)
 
 name, phones[], title, description, address, category, type (business/personal),
-registerGoogle, registerNeshan, hasPhoto, createdAt (ISO)
+registerGoogle, registerNeshan, hasPhoto, lat, lng (اختیاری، از GPS), createdAt (ISO)
+
+## ذخیره‌سازی
+
+- ☁️ پنل ابری: فقط وقتی دکمه «ذخیره در پنل ابری» زده شود (Firestore)
+- 📱 گوشی: دکمه «ذخیره در همین گوشی» (localStorage همان دستگاه) + فایل مخاطب .vcf + خروجی CSV/JSON/VCF

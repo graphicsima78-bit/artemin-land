@@ -10,35 +10,50 @@
 <style>
 * { box-sizing: border-box; }
 body { font-family: Tahoma, Arial, sans-serif; background: #f0f2f5; padding: 16px; margin: 0; }
-.container { max-width: 1100px; margin: 0 auto; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.container { max-width: 1150px; margin: 0 auto; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 h1 { color: #1b5e20; text-align: center; margin: 0 0 20px; font-size: 22px; }
-.btn { background: #2e7d32; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 15px; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-block; }
+.btn { background: #2e7d32; color: white; border: none; padding: 10px 16px; border-radius: 8px; font-size: 14px; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-block; }
 .btn:hover { background: #1b5e20; }
-.btn-gray { background: #757575; }
-.btn-gray:hover { background: #616161; }
-.btn-red { background: #d32f2f; padding: 6px 12px; font-size: 13px; }
-.btn-red:hover { background: #b71c1c; }
-.toolbar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; margin-bottom: 16px; }
-input { padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; font-family: inherit; }
-input:focus { outline: none; border-color: #2e7d32; }
+.btn-gray { background: #757575; } .btn-gray:hover { background: #616161; }
+.btn-blue { background: #1976d2; } .btn-blue:hover { background: #0d47a1; }
+.btn-red { background: #d32f2f; } .btn-red:hover { background: #b71c1c; }
+.btn-sm { padding: 6px 10px; font-size: 13px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; margin-bottom: 14px; }
+input, select, textarea { padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; font-family: inherit; background: white; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: #2e7d32; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 12px; }
+.chip { background: #e8f5e9; color: #1b5e20; border: 2px solid transparent; border-radius: 20px; padding: 5px 12px; font-size: 13px; cursor: pointer; font-family: inherit; }
+.chip.active { border-color: #2e7d32; background: #c8e6c9; font-weight: bold; }
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: right; vertical-align: top; }
 th { background: #e8f5e9; color: #1b5e20; white-space: nowrap; }
 tr:nth-child(even) { background: #f9f9f9; }
 td.ltr { direction: ltr; text-align: left; }
+td.actions { white-space: nowrap; }
+td.actions button { margin: 2px; }
 .msg { text-align: center; color: #666; padding: 24px; }
 .err { color: #c62828; }
 #login { max-width: 360px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
 #login input { width: 100%; }
 .count { text-align: center; color: #666; font-size: 13px; margin-bottom: 8px; }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; padding: 16px; }
+.modal-overlay.active { display: flex; }
+.modal { background: white; border-radius: 16px; padding: 22px; max-width: 480px; width: 100%; max-height: 92vh; overflow-y: auto; }
+.modal h3 { color: #1b5e20; margin: 0 0 12px; text-align: center; }
+.modal label { display: block; font-size: 13px; font-weight: bold; margin: 10px 0 4px; color: #333; }
+.modal input, .modal select, .modal textarea { width: 100%; }
+.modal .row { display: flex; gap: 8px; margin-top: 16px; }
+.modal .row .btn { flex: 1; }
+.qr-img { display: block; margin: 10px auto; width: 100%; max-width: 280px; border: 8px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border-radius: 10px; image-rendering: pixelated; }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="common.js"></script>
 </head>
 <body>
 <div class="container">
   <h1>📊 پنل مدیریت مشتریان - آرتمین لند</h1>
 
-  <!-- ورود -->
   <form id="login" style="display:none;">
     <input type="email" id="email" placeholder="ایمیل ادمین" autocomplete="username" dir="ltr" required>
     <input type="password" id="password" placeholder="رمز عبور" autocomplete="current-password" dir="ltr" required>
@@ -47,23 +62,25 @@ td.ltr { direction: ltr; text-align: left; }
     <div id="loginError" class="msg err"></div>
   </form>
 
-  <!-- پنل -->
   <div id="panel" style="display:none;">
     <div class="toolbar">
-      <input type="search" id="search" placeholder="🔍 جستجو (نام، تلفن، دسته...)">
-      <button class="btn" id="btnCsv">📥 خروجی اکسل (CSV)</button>
+      <input type="search" id="search" placeholder="🔍 جستجو (نام، تلفن، آدرس...)" style="min-width:220px;">
+      <button class="btn btn-blue" id="btnCsv">📊 اکسل (CSV)</button>
+      <button class="btn btn-blue" id="btnVcf">👤 مخاطبین (.vcf)</button>
+      <button class="btn btn-blue" id="btnJson">💾 JSON</button>
       <button class="btn" id="btnReload">🔄 بارگذاری مجدد</button>
-      <a class="btn btn-gray" href="index.html">🔙 بازگشت به سایت</a>
+      <a class="btn btn-gray" href="index.html">🔙 سایت</a>
       <button class="btn btn-gray" id="btnLogout">خروج</button>
     </div>
+    <div class="chips" id="chips"></div>
     <div id="status" class="msg">در حال دریافت اطلاعات...</div>
     <div class="count" id="count"></div>
     <div class="table-wrap">
       <table id="dataTable" style="display:none;">
         <thead>
           <tr>
-            <th>ردیف</th><th>نام</th><th>شماره تماس</th><th>نوع</th><th>دسته‌بندی</th>
-            <th>عنوان شغلی</th><th>توضیحات</th><th>آدرس</th><th>تاریخ ثبت</th><th>حذف</th>
+            <th>ردیف</th><th>نام</th><th>شماره تماس</th><th>نوع</th><th>سرفصل</th>
+            <th>عنوان شغلی</th><th>توضیحات</th><th>آدرس</th><th>تاریخ ثبت</th><th>عملیات</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -72,9 +89,46 @@ td.ltr { direction: ltr; text-align: left; }
   </div>
 </div>
 
+<!-- مودال QR -->
+<div class="modal-overlay" id="qrModal">
+  <div class="modal">
+    <h3 id="qrName"></h3>
+    <img class="qr-img" id="qrImg" alt="QR">
+    <div class="row">
+      <button class="btn btn-blue" id="qrDownload">📥 دانلود QR</button>
+      <button class="btn btn-gray" id="qrClose">بستن</button>
+    </div>
+  </div>
+</div>
+
+<!-- مودال ویرایش -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>✏️ ویرایش مشتری</h3>
+    <label>نام</label><input type="text" id="eName" maxlength="120">
+    <label>نوع</label>
+    <select id="eType"><option value="business">کسب‌وکار</option><option value="personal">شخصی</option></select>
+    <label>شماره‌ها (با کاما یا خط جدید جدا کن)</label><textarea id="ePhones" rows="2" dir="ltr"></textarea>
+    <label>سرفصل شغلی</label>
+    <select id="eCategory">
+      <option value="">بدون سرفصل</option>
+      <option>فروشگاه</option><option>رستوران و کافه</option><option>پزشکی و سلامت</option><option>مهندسی</option>
+      <option>حقوقی</option><option>آموزش</option><option>هنری</option><option>خدمات فنی</option><option>سایر</option>
+    </select>
+    <label>عنوان شغلی</label><input type="text" id="eTitle" maxlength="120">
+    <label>توضیحات</label><textarea id="eDesc" rows="2" maxlength="500"></textarea>
+    <label>آدرس</label><textarea id="eAddress" rows="2" maxlength="500"></textarea>
+    <div id="editError" class="msg err" style="padding:8px;"></div>
+    <div class="row">
+      <button class="btn" id="eSave">💾 ذخیره</button>
+      <button class="btn btn-gray" id="eCancel">انصراف</button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, deleteDoc, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, deleteDoc, updateDoc, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
   import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
   const firebaseConfig = {
@@ -90,13 +144,16 @@ td.ltr { direction: ltr; text-align: left; }
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
-  const $ = id => document.getElementById(id);
+  const $ = AL.$;
 
   let allData = [];
+  let catFilter = '__all__';
+  let editing = null;
 
   const phonesOf = d => Array.isArray(d.phones) ? d.phones : (d.phone ? [d.phone] : []);
   const typeOf = d => d.type === 'business' ? 'کسب‌وکار' : (d.type === 'personal' ? 'شخصی' : '-');
   const dateOf = d => d.createdAt ? new Date(d.createdAt).toLocaleDateString('fa-IR') : '-';
+  const catName = c => c || 'بدون سرفصل';
 
   function cell(text, cls) {
     const td = document.createElement('td');
@@ -104,12 +161,42 @@ td.ltr { direction: ltr; text-align: left; }
     if (cls) td.className = cls;
     return td;
   }
+  function btn(label, cls, fn) {
+    const b = document.createElement('button');
+    b.className = 'btn btn-sm ' + cls;
+    b.textContent = label;
+    b.addEventListener('click', fn);
+    return b;
+  }
+
+  function filtered() {
+    const q = $('search').value.trim().toLowerCase();
+    return allData.filter(d => {
+      if (catFilter !== '__all__' && (d.category || '') !== catFilter) return false;
+      if (!q) return true;
+      return [d.name, phonesOf(d).join(' '), d.category, d.title, d.description, d.address].join(' ').toLowerCase().includes(q);
+    });
+  }
+
+  function renderChips() {
+    const box = $('chips');
+    box.innerHTML = '';
+    const cats = [...new Set(allData.map(d => d.category || ''))];
+    const add = (value, label) => {
+      const b = document.createElement('button');
+      b.className = 'chip' + (catFilter === value ? ' active' : '');
+      b.textContent = label;
+      b.addEventListener('click', () => { catFilter = value; render(); });
+      box.appendChild(b);
+    };
+    if (!allData.length) return;
+    add('__all__', `همه (${allData.length})`);
+    cats.forEach(c => add(c, `${catName(c)} (${allData.filter(d => (d.category || '') === c).length})`));
+  }
 
   function render() {
-    const q = $('search').value.trim().toLowerCase();
-    const rows = allData.filter(d => !q || [d.name, phonesOf(d).join(' '), d.category, d.title, d.description, d.address]
-      .join(' ').toLowerCase().includes(q));
-
+    renderChips();
+    const rows = filtered();
     const tbody = $('tableBody');
     tbody.innerHTML = '';
     rows.forEach((d, i) => {
@@ -117,18 +204,18 @@ td.ltr { direction: ltr; text-align: left; }
       tr.append(cell(String(i + 1)), cell(d.name), cell(phonesOf(d).join(' - '), 'ltr'), cell(typeOf(d)),
         cell(d.category), cell(d.title), cell(d.description), cell(d.address), cell(dateOf(d)));
       const td = document.createElement('td');
-      const b = document.createElement('button');
-      b.className = 'btn btn-red';
-      b.textContent = '🗑️';
-      b.addEventListener('click', () => removeCustomer(d));
-      td.appendChild(b);
+      td.className = 'actions';
+      td.append(
+        btn('🔳', 'btn-blue', () => showQr(d)),
+        btn('✏️', 'btn-gray', () => openEdit(d)),
+        btn('🗑️', 'btn-red', () => removeCustomer(d))
+      );
       tr.appendChild(td);
       tbody.appendChild(tr);
     });
-
     $('dataTable').style.display = rows.length ? 'table' : 'none';
     $('count').textContent = allData.length ? `نمایش ${rows.length} از ${allData.length} مشتری` : '';
-    if (!allData.length) { $('status').style.display = 'block'; $('status').textContent = 'هیچ اطلاعاتی در دیتابیس یافت نشد.'; }
+    if (!allData.length) { $('status').style.display = 'block'; $('status').className = 'msg'; $('status').textContent = 'هیچ اطلاعاتی در دیتابیس یافت نشد.'; }
     else $('status').style.display = 'none';
   }
 
@@ -147,54 +234,91 @@ td.ltr { direction: ltr; text-align: left; }
     }
   }
 
+  // ---------- QR ----------
+  function showQr(d) {
+    const url = AL.qrDataUrl(AL.buildVCard(d), 512);
+    $('qrName').textContent = d.name || '';
+    $('qrImg').src = url;
+    $('qrDownload').onclick = () => {
+      if (url.startsWith('data:')) AL.downloadDataUrl(url, 'QR-' + AL.safeName(d.name) + '.png');
+      else window.open(url, '_blank');
+    };
+    $('qrModal').classList.add('active');
+  }
+  $('qrClose').addEventListener('click', () => $('qrModal').classList.remove('active'));
+  $('qrModal').addEventListener('click', e => { if (e.target === $('qrModal')) $('qrModal').classList.remove('active'); });
+
+  // ---------- ویرایش ----------
+  function openEdit(d) {
+    editing = d;
+    $('eName').value = d.name || '';
+    $('eType').value = d.type === 'personal' ? 'personal' : 'business';
+    $('ePhones').value = phonesOf(d).join(', ');
+    const sel = $('eCategory');
+    if (d.category && ![...sel.options].some(o => o.value === d.category || o.textContent === d.category)) {
+      const o = document.createElement('option'); o.textContent = d.category; sel.appendChild(o);
+    }
+    sel.value = d.category || '';
+    $('eTitle').value = d.title || '';
+    $('eDesc').value = d.description || '';
+    $('eAddress').value = d.address || '';
+    $('editError').textContent = '';
+    $('editModal').classList.add('active');
+  }
+  $('eCancel').addEventListener('click', () => $('editModal').classList.remove('active'));
+  $('eSave').addEventListener('click', async () => {
+    const name = $('eName').value.trim();
+    const phones = $('ePhones').value.split(/[,،\n]+/).map(AL.normDigits).filter(Boolean);
+    if (!name || !phones.length) { $('editError').textContent = 'نام و حداقل یک شماره لازم است.'; return; }
+    const patch = {
+      name, phones,
+      type: $('eType').value,
+      category: $('eCategory').value,
+      title: $('eTitle').value.trim(),
+      description: $('eDesc').value.trim(),
+      address: $('eAddress').value.trim()
+    };
+    try {
+      await updateDoc(doc(db, 'customers', editing.id), patch);
+      Object.assign(editing, patch);
+      $('editModal').classList.remove('active');
+      render();
+    } catch (e) {
+      $('editError').textContent = 'ذخیره ناموفق: ' + e.message;
+    }
+  });
+
   async function removeCustomer(d) {
     if (!confirm(`«${d.name || ''}» حذف شود؟ این کار قابل بازگشت نیست.`)) return;
     try {
       await deleteDoc(doc(db, 'customers', d.id));
       allData = allData.filter(x => x.id !== d.id);
       render();
-    } catch (e) {
-      alert('حذف ناموفق بود: ' + e.message);
-    }
+    } catch (e) { alert('حذف ناموفق بود: ' + e.message); }
   }
 
-  function csvCell(v) {
-    let s = String(v ?? '');
-    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; // جلوگیری از فرمول‌نویسی مخرب در اکسل
-    return '"' + s.replace(/"/g, '""') + '"';
+  // ---------- خروجی (بر اساس فیلتر و جستجوی فعلی) ----------
+  function exportList(kind) {
+    const list = filtered();
+    if (!list.length) { alert('هیچ داده‌ای برای دانلود وجود ندارد!'); return; }
+    const stamp = Date.now();
+    if (kind === 'csv') AL.downloadText(`ArteminLand-${stamp}.csv`, AL.toCsv(list), 'text/csv;charset=utf-8');
+    else if (kind === 'vcf') AL.downloadText(`ArteminLand-contacts-${stamp}.vcf`, AL.vcardsFile(list), 'text/vcard;charset=utf-8');
+    else AL.downloadText(`ArteminLand-${stamp}.json`, JSON.stringify({ exportedAt: new Date().toISOString(), total: list.length, customers: list }, null, 2), 'application/json');
   }
-
-  function exportCsv() {
-    if (!allData.length) { alert('هیچ داده‌ای برای دانلود وجود ندارد!'); return; }
-    let csv = '\uFEFFردیف,نام,شماره تماس,نوع,دسته‌بندی,عنوان شغلی,توضیحات,آدرس,تاریخ ثبت\n';
-    allData.forEach((d, i) => {
-      const phones = phonesOf(d).map(p => '="' + String(p).replace(/"/g, '') + '"').join(' - ');
-      csv += [i + 1, csvCell(d.name), '"' + phones.replace(/"/g, '""') + '"', csvCell(typeOf(d)),
-        csvCell(d.category), csvCell(d.title), csvCell(d.description), csvCell(d.address), csvCell(dateOf(d))].join(',') + '\n';
-    });
-    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'ArteminLand_Customers.csv';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
+  $('btnCsv').addEventListener('click', () => exportList('csv'));
+  $('btnVcf').addEventListener('click', () => exportList('vcf'));
+  $('btnJson').addEventListener('click', () => exportList('json'));
 
   $('search').addEventListener('input', render);
-  $('btnCsv').addEventListener('click', exportCsv);
   $('btnReload').addEventListener('click', loadData);
   $('btnLogout').addEventListener('click', () => signOut(auth));
 
   $('login').addEventListener('submit', async e => {
     e.preventDefault();
     $('loginError').textContent = '';
-    try {
-      await signInWithEmailAndPassword(auth, $('email').value.trim(), $('password').value);
-    } catch (err) {
-      $('loginError').textContent = 'ایمیل یا رمز عبور اشتباه است.';
-    }
+    try { await signInWithEmailAndPassword(auth, $('email').value.trim(), $('password').value); }
+    catch (err) { $('loginError').textContent = 'ایمیل یا رمز عبور اشتباه است.'; }
   });
 
   onAuthStateChanged(auth, user => {

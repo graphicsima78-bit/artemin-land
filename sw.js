@@ -1,9 +1,11 @@
 // هر بار که فایل‌های سایت را عوض کردی، شماره نسخه را بالا ببر (v3, v4, ...)
-const CACHE_NAME = 'artemin-land-v2';
+const CACHE_NAME = 'artemin-land-v3';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
+  './common.js',
+  './admin.html',
   './icon-192.png',
   './icon-512.png'
 ];

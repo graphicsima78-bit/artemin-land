@@ -7,7 +7,7 @@ service cloud.firestore {
       // هر کسی می‌تواند مشتری جدید ثبت کند (فرم سایت)، ولی فقط با ساختار مجاز
       allow create: if request.resource.data.keys().hasOnly([
                          'name', 'phones', 'title', 'description', 'address', 'category',
-                         'type', 'registerGoogle', 'registerNeshan', 'hasPhoto', 'createdAt'
+                         'type', 'registerGoogle', 'registerNeshan', 'hasPhoto', 'createdAt', 'lat', 'lng'
                        ])
                     && request.resource.data.keys().hasAll(['name', 'phones'])
                     && request.resource.data.name is string
@@ -19,7 +19,9 @@ service cloud.firestore {
                     && request.resource.data.get('title', '').size() <= 120
                     && request.resource.data.get('description', '').size() <= 500
                     && request.resource.data.get('address', '').size() <= 500
-                    && request.resource.data.get('type', 'business') in ['business', 'personal'];
+                    && request.resource.data.get('type', 'business') in ['business', 'personal']
+                    && request.resource.data.get('lat', 0) is number
+                    && request.resource.data.get('lng', 0) is number;
 
       // خواندن، ویرایش و حذف فقط برای ادمین
       // YOUR_ADMIN_UID را با UID کاربر ادمین (از Authentication → Users) جایگزین کن
