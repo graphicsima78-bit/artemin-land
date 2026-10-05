@@ -89,20 +89,21 @@ button {
 button:hover { background: #1b5e20; }
 button:active { transform: scale(0.98); }
 button:disabled { background: #999; cursor: wait; }
-.btn-location { background: #1976d2; margin-bottom: 10px; }
+.btn-location {
+  background: #1976d2;
+  margin-bottom: 10px;
+}
 .btn-location:hover { background: #0d47a1; }
-.btn-google { background: #4285f4; margin-top: 8px; }
+.btn-google {
+  background: #4285f4;
+  margin-top: 8px;
+}
 .btn-google:hover { background: #3367d6; }
-.btn-neshan { background: #ff6b35; margin-top: 8px; }
+.btn-neshan {
+  background: #ff6b35;
+  margin-top: 8px;
+}
 .btn-neshan:hover { background: #e55a2b; }
-.btn-clear { background: #757575; margin-top: 8px; }
-.btn-clear:hover { background: #616161; }
-.btn-save { background: #2e7d32; margin-top: 8px; }
-.btn-save:hover { background: #1b5e20; }
-.btn-export { background: #6a1b9a; margin-top: 8px; }
-.btn-export:hover { background: #4a148c; }
-.btn-contact { background: #00897b; margin-top: 8px; }
-.btn-contact:hover { background: #00695c; }
 #result { 
   display: none; 
   margin-top: 20px; 
@@ -148,12 +149,33 @@ button:disabled { background: #999; cursor: wait; }
   font-size: 11px;
   color: #777;
 }
-.hint { font-size: 11px; color: #666; margin-top: 4px; }
-.success-msg { color: #2e7d32; font-size: 13px; margin-top: 6px; display: none; font-weight: bold; }
-.btn-download { background: #1976d2; margin-top: 8px; padding: 10px; font-size: 14px; }
+.hint {
+  font-size: 11px;
+  color: #666;
+  margin-top: 4px;
+}
+.success-msg {
+  color: #2e7d32;
+  font-size: 13px;
+  margin-top: 6px;
+  display: none;
+  font-weight: bold;
+}
+.btn-download {
+  background: #1976d2;
+  margin-top: 8px;
+  padding: 10px;
+  font-size: 14px;
+}
 .btn-download:hover { background: #0d47a1; }
-.separator { margin: 20px 0; border-top: 2px dashed #ccc; }
-.required::after { content: " *"; color: #d32f2f; }
+.separator {
+  margin: 20px 0;
+  border-top: 2px dashed #ccc;
+}
+.required::after {
+  content: " *";
+  color: #d32f2f;
+}
 body.rtl { direction: rtl; }
 body.ltr { direction: ltr; }
 body.ltr .info-box { text-align: left; border-right: none; border-left: 4px solid #2e7d32; }
@@ -164,9 +186,20 @@ body.ltr .info-box { text-align: left; border-right: none; border-left: 4px soli
   margin: 16px 0;
   border-right: 4px solid #ff9800;
 }
-body.ltr .google-section { border-right: none; border-left: 4px solid #ff9800; }
-.google-section h3 { color: #e65100; margin-bottom: 8px; font-size: 15px; }
-.google-section p { font-size: 12px; color: #666; margin-bottom: 10px; }
+body.ltr .google-section {
+  border-right: none;
+  border-left: 4px solid #ff9800;
+}
+.google-section h3 {
+  color: #e65100;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+.google-section p {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+}
 .checkbox-group {
   display: flex;
   align-items: center;
@@ -176,10 +209,20 @@ body.ltr .google-section { border-right: none; border-left: 4px solid #ff9800; }
   border-radius: 8px;
 }
 .checkbox-group input[type="checkbox"] {
-  width: 20px; height: 20px; margin-left: 10px; margin-right: 0;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  margin-right: 0;
 }
-body.ltr .checkbox-group input[type="checkbox"] { margin-left: 0; margin-right: 10px; }
-.checkbox-group label { margin: 0; font-weight: normal; cursor: pointer; }
+body.ltr .checkbox-group input[type="checkbox"] {
+  margin-left: 0;
+  margin-right: 10px;
+}
+.checkbox-group label {
+  margin: 0;
+  font-weight: normal;
+  cursor: pointer;
+}
 .image-upload {
   border: 2px dashed #ddd;
   border-radius: 8px;
@@ -188,10 +231,25 @@ body.ltr .checkbox-group input[type="checkbox"] { margin-left: 0; margin-right: 
   cursor: pointer;
   transition: all 0.3s;
 }
-.image-upload:hover { border-color: #2e7d32; background: #f9f9f9; }
-.image-upload input[type="file"] { display: none; }
-.image-preview { max-width: 150px; max-height: 150px; margin: 10px auto; border-radius: 8px; display: none; }
-.type-selector { display: flex; gap: 10px; margin-bottom: 14px; }
+.image-upload:hover {
+  border-color: #2e7d32;
+  background: #f9f9f9;
+}
+.image-upload input[type="file"] {
+  display: none;
+}
+.image-preview {
+  max-width: 150px;
+  max-height: 150px;
+  margin: 10px auto;
+  border-radius: 8px;
+  display: none;
+}
+.type-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
 .type-btn {
   flex: 1;
   padding: 12px;
@@ -203,133 +261,50 @@ body.ltr .checkbox-group input[type="checkbox"] { margin-left: 0; margin-right: 
   font-size: 14px;
   transition: all 0.3s;
 }
-.type-btn.active { border-color: #2e7d32; background: #e8f5e9; color: #1b5e20; font-weight: bold; }
-.status-msg { padding: 10px; border-radius: 8px; margin: 10px 0; font-size: 13px; display: none; }
-.status-msg.success { background: #e8f5e9; color: #2e7d32; border-right: 4px solid #2e7d32; }
-.status-msg.error { background: #ffebee; color: #c62828; border-right: 4px solid #c62828; }
-body.ltr .status-msg.success, body.ltr .status-msg.error { border-right: none; border-left: 4px solid; }
-
-/* لیست موارد */
-.saved-entries-section {
-  background: #e3f2fd;
-  padding: 14px;
-  border-radius: 12px;
-  margin: 16px 0;
-  border-right: 4px solid #1976d2;
-}
-body.ltr .saved-entries-section { border-right: none; border-left: 4px solid #1976d2; }
-.saved-entries-section h3 {
-  color: #1565c0;
-  font-size: 15px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.counter-badge {
-  background: #ff9800;
-  color: white;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 12px;
-}
-.entry-item {
-  display: flex;
-  align-items: center;
-  background: white;
-  padding: 10px 12px;
-  border-radius: 8px;
-  margin: 6px 0;
-  gap: 10px;
-  border-right: 3px solid #1976d2;
-}
-body.ltr .entry-item { border-right: none; border-left: 3px solid #1976d2; }
-.entry-checkbox {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  cursor: pointer;
-}
-.entry-info {
-  flex: 1;
-  min-width: 0;
-}
-.entry-name {
-  font-weight: bold;
-  color: #1565c0;
-  font-size: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.entry-phone {
-  font-size: 12px;
-  color: #666;
-  margin-top: 2px;
-}
-.entry-time {
-  font-size: 11px;
-  color: #999;
-  flex-shrink: 0;
-}
-.entry-delete {
-  background: #ef5350;
-  color: white;
-  border: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 14px;
-  flex-shrink: 0;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.entry-delete:hover { background: #c62828; }
-.select-all-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-  padding: 8px;
-  background: white;
-  border-radius: 8px;
-}
-.select-all-row label {
-  margin: 0;
-  cursor: pointer;
-  font-size: 13px;
-  color: #1565c0;
+.type-btn.active {
+  border-color: #2e7d32;
+  background: #e8f5e9;
+  color: #1b5e20;
   font-weight: bold;
 }
-.action-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 12px;
-}
-.action-buttons button {
-  margin: 0;
-  padding: 12px 8px;
+.status-msg {
+  padding: 10px;
+  border-radius: 8px;
+  margin: 10px 0;
   font-size: 13px;
+  display: none;
 }
-
-/* Modal */
+.status-msg.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-right: 4px solid #2e7d32;
+}
+.status-msg.error {
+  background: #ffebee;
+  color: #c62828;
+  border-right: 4px solid #c62828;
+}
+body.ltr .status-msg.success,
+body.ltr .status-msg.error {
+  border-right: none;
+  border-left: 4px solid;
+}
 .modal-overlay {
   display: none;
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.7);
   z-index: 1000;
   justify-content: center;
   align-items: center;
   padding: 20px;
 }
-.modal-overlay.active { display: flex; }
+.modal-overlay.active {
+  display: flex;
+}
 .modal-content {
   background: white;
   border-radius: 16px;
@@ -339,82 +314,91 @@ body.ltr .entry-item { border-right: none; border-left: 3px solid #1976d2; }
   max-height: 90vh;
   overflow-y: auto;
 }
-.modal-content h3 { color: #1b5e20; margin-bottom: 16px; text-align: center; }
-
-/* فیلدهای Modal - کاملاً افقی */
+.modal-content h3 {
+  color: #1b5e20;
+  margin-bottom: 16px;
+  text-align: center;
+}
 .modal-field-row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: #f5f5f5;
-  padding: 10px 12px;
+  padding: 12px 16px;
   border-radius: 8px;
   margin: 8px 0;
   border-right: 4px solid #2e7d32;
-  gap: 10px;
+  gap: 12px;
+  min-height: 50px;
 }
-body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; }
-
-.modal-field-content {
+body.ltr .modal-field-row {
+  border-right: none;
+  border-left: 4px solid #2e7d32;
+}
+.modal-field-info {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
-
 .modal-field-label {
   font-size: 11px;
   color: #666;
   font-weight: normal;
 }
-
 .modal-field-value {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
   color: #1b5e20;
+  word-break: break-word;
+  overflow-wrap: break-word;
   line-height: 1.4;
-  display: block;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-
 .modal-field-value.rtl-text {
   direction: rtl;
   text-align: right;
 }
-
 .modal-field-value.ltr-text {
   direction: ltr;
   text-align: left;
 }
-
 .btn-copy-field {
   background: #1976d2;
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 6px;
   font-size: 12px;
   cursor: pointer;
   white-space: nowrap;
-  min-width: 70px;
+  min-width: 75px;
   margin: 0;
   font-family: inherit;
   flex-shrink: 0;
 }
-.btn-copy-field:hover { background: #0d47a1; }
-.btn-copy-field.copied { background: #2e7d32; }
-.btn-copy-all { background: #1976d2; margin: 16px 0; }
-.btn-copy-all:hover { background: #0d47a1; }
-.btn-map { margin: 8px 0; }
-.btn-close-modal { background: #757575; margin-top: 16px; }
-.btn-close-modal:hover { background: #616161; }
-.empty-entries {
-  text-align: center;
-  color: #999;
-  padding: 20px;
-  font-size: 13px;
+.btn-copy-field:hover {
+  background: #0d47a1;
+}
+.btn-copy-field.copied {
+  background: #2e7d32;
+}
+.btn-copy-all {
+  background: #1976d2;
+  margin: 16px 0;
+}
+.btn-copy-all:hover {
+  background: #0d47a1;
+}
+.btn-map {
+  margin: 8px 0;
+}
+.btn-close-modal {
+  background: #757575;
+  margin-top: 16px;
+}
+.btn-close-modal:hover {
+  background: #616161;
 }
 </style>
 </head>
@@ -425,13 +409,13 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
     <button class="lang-btn active" id="btn-fa" onclick="setLang('fa')">فارسی</button>
   </div>
   
-  <h1 id="title"> آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small></h1>
+  <h1 id="title">🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small></h1>
   
   <form id="form">
     <div class="form-group">
       <label class="required" id="label-type">نوع کارت</label>
       <div class="type-selector">
-        <div class="type-btn active" id="type-business" onclick="setType('business')"> کسب‌وکار</div>
+        <div class="type-btn active" id="type-business" onclick="setType('business')">🏪 کسب‌وکار</div>
         <div class="type-btn" id="type-personal" onclick="setType('personal')">👤 شخصی</div>
       </div>
     </div>
@@ -453,12 +437,12 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
         <option value="فروشگاه">🏪 فروشگاه</option>
         <option value="رستوران و کافه">🍽️ رستوران و کافه</option>
         <option value="پزشکی و سلامت">⚕️ پزشکی و سلامت</option>
-        <option value="مهندسی">🔧 مهندسی</option>
-        <option value="حقوقی">️ حقوقی</option>
+        <option value="مهندسی"> مهندسی</option>
+        <option value="حقوقی">⚖️ حقوقی</option>
         <option value="آموزش">📚 آموزش</option>
         <option value="هنری">🎨 هنری</option>
-        <option value="خدمات فنی">🛠️ خدمات فنی</option>
-        <option value="سایر"> سایر</option>
+        <option value="خدمات فنی">️ خدمات فنی</option>
+        <option value="سایر">📌 سایر</option>
       </select>
     </div>
 
@@ -469,7 +453,7 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
 
     <div class="form-group">
       <label id="label-description">توضیحات تکمیلی</label>
-      <textarea id="description" rows="2" placeholder="مثال: فروشگاه لوازم خانگی"></textarea>
+      <textarea id="description" rows="2" placeholder="مثال: فروشگاه لوازم خانگی، فروشنده لوازم یدکی"></textarea>
     </div>
     
     <div class="form-group">
@@ -502,28 +486,8 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
     </div>
     
     <button type="submit" id="btn-generate">⚡ ساخت کیو آر کد</button>
-    <button type="button" class="btn-clear" id="btn-clear" onclick="clearForm()" style="display:none;">🗑️ پاک کردن فرم برای نفر بعدی</button>
     <div id="status-msg" class="status-msg"></div>
   </form>
-
-  <!-- بخش لیست موارد -->
-  <div id="pending-section" class="saved-entries-section" style="display:none;">
-    <h3>
-      <span id="pending-title">📋 لیست موارد</span>
-      <span class="counter-badge" id="pending-count">0</span>
-    </h3>
-    <div class="select-all-row">
-      <input type="checkbox" id="select-all" onchange="toggleSelectAll()">
-      <label for="select-all" id="label-select-all">انتخاب همه</label>
-    </div>
-    <div id="entries-list"></div>
-    <div class="action-buttons">
-      <button class="btn-save" onclick="saveSelectedToFirebase()" id="btn-save-selected">💾 ذخیره در فضای ابری</button>
-      <button class="btn-export" onclick="exportSelectedToExcel()" id="btn-export">📊 خروجی اکسل</button>
-      <button class="btn-contact" onclick="addToContacts()" id="btn-contact">📱 افزودن به مخاطبین</button>
-      <button class="btn-clear" onclick="clearPendingList()" id="btn-clear-list">🗑️ حذف لیست</button>
-    </div>
-  </div>
 
   <div id="result">
     <h3 style="color:#1b5e20;margin-bottom:10px;" id="result-title">✅ کیو آر کد آماده است!</h3>
@@ -532,15 +496,15 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
       <h3 id="map-title">🌐 ثبت در نقشه</h3>
       <p id="map-hint">اطلاعات را کپی کن و در اپلیکیشن نقشه وارد کن</p>
       <button class="btn-google" onclick="openMapModal('google')" id="btn-google-maps" style="display:none;">📍 ثبت در گوگل مپ</button>
-      <button class="btn-neshan" onclick="openMapModal('neshan')" id="btn-neshan-map" style="display:none;">🗺️ ثبت در نشان</button>
+      <button class="btn-neshan" onclick="openMapModal('neshan')" id="btn-neshan-map" style="display:none;">️ ثبت در نشان</button>
     </div>
 
     <div class="qr-section">
-      <h3 id="qr1-title">📱 کیو آر ۱: کارت شما</h3>
+      <h3 id="qr1-title"> کیو آر ۱: کارت شما</h3>
       <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr1-hint">برای ذخیره مخاطب اسکن کنید</p>
       <img class="qr-image" id="qr-main" alt="Main QR" />
       <div class="info-box" id="info-main"></div>
-      <button class="btn-download" onclick="downloadQR('qr-main', 'Main')" id="btn-download1">📥 دانلود</button>
+      <button class="btn-download" onclick="downloadQR('qr-main', 'Main')" id="btn-download1"> دانلود</button>
     </div>
 
     <div class="separator"></div>
@@ -556,18 +520,24 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
 
   <p class="creator" id="creator-text">
     <strong>سازنده:</strong> آرتمین لند<br>
-    📞 ۹۱۵۳۱۶۱۷۳ | ۹۱۵۰۰۶۱۷۳
+     ۰۹۱۵۱۳۶۱۷ | ۰۹۱۵۰۸۶۱۷
   </p>
 </div>
 
 <!-- Modal برای ثبت در نقشه -->
-<div class="modal-overlay" id="mapModal">
+<div class="modal-overlay" id="mapModal" onclick="if(event.target===this)closeModal()">
   <div class="modal-content">
-    <h3 id="modal-title"> ثبت در نقشه</h3>
-    <div id="modal-fields"></div>
+    <h3 id="modal-title">📍 ثبت در نقشه</h3>
+    
+    <div id="modal-fields">
+      <!-- فیلدها اینجا نمایش داده می‌شوند -->
+    </div>
+    
     <button class="btn-copy-all" onclick="copyAllInfo()" id="btn-copy-all">📋 کپی همه اطلاعات</button>
+    
     <button class="btn-map btn-google" onclick="openGoogleMaps()" id="btn-open-google">📍 باز کردن گوگل مپ</button>
-    <button class="btn-map btn-neshan" onclick="openNeshan()" id="btn-open-neshan">🗺️ باز کردن نشان</button>
+    <button class="btn-map btn-neshan" onclick="openNeshan()" id="btn-open-neshan">️ باز کردن نشان</button>
+    
     <button class="btn-close-modal" onclick="closeModal()" id="btn-close-modal">بستن</button>
   </div>
 </div>
@@ -600,24 +570,35 @@ body.ltr .modal-field-row { border-right: none; border-left: 4px solid #2e7d32; 
     firebaseReady = false;
   }
 
-  window.saveToFirestore = async function(data) {
+  // ذخیره با retry (تا ۳ بار تلاش می‌کند)
+  window.saveToFirestore = async function(data, retryCount = 0) {
     if (!firebaseReady || !db) {
-      throw new Error("Firebase not ready");
+      console.warn("Firebase not ready, skipping save");
+      return false;
     }
+    
     try {
-      const docRef = await addDoc(collection(db, "customers"), {
+      await addDoc(collection(db, "customers"), {
         ...data,
         createdAt: new Date().toISOString()
       });
-      console.log("Document written with ID: ", docRef.id);
+      console.log("Document written successfully");
       return true;
     } catch (e) {
       console.error("Error adding document: ", e);
-      throw e;
+      // اگر کمتر از ۳ بار تلاش کرده، دوباره تلاش کن
+      if (retryCount < 3) {
+        console.log(`Retry ${retryCount + 1}/3...`);
+        await new Promise(resolve => setTimeout(resolve, 1000)); // ۱ ثانیه صبر
+        return window.saveToFirestore(data, retryCount + 1);
+      }
+      return false;
     }
   };
 
-  window.isFirebaseReady = function() { return firebaseReady; };
+  window.isFirebaseReady = function() {
+    return firebaseReady;
+  };
 </script>
 
 <script>
@@ -627,89 +608,152 @@ let lastFormData = {};
 let photoBase64 = '';
 let lastGPSLocation = null;
 let currentMapType = 'google';
-let pendingEntries = [];
+let isSubmitting = false; // جلوگیری از submit تکراری
 
 const translations = {
   en: {
-    title: ' Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
-    labelType: 'Card Type', typeBusiness: '🏪 Business', typePersonal: '👤 Personal',
-    labelName: 'Name', labelPhone: 'Phone Number', labelCategory: 'Job Category',
-    labelTitle: 'Job Title', labelDescription: 'Additional Description', labelAddress: 'Full Address',
-    btnLocation: 'Use My Current Location (GPS)', hintLocation: ' Click button to auto-detect address from GPS',
-    locationSuccess: '✅ Address detected!', labelPhoto: 'Profile Photo (Optional)', photoHint: ' Click to upload photo',
-    labelGoogle: 'Register on Google Maps', labelNeshan: 'Register on Neshan',
-    btnGenerate: ' Generate QR Codes', btnClear: '️ Clear Form for Next',
-    resultTitle: '✅ QR Cards Ready!', mapTitle: '🌐 Map Registration', mapHint: 'Copy info and paste in map app',
-    btnGoogleMaps: '📍 Register on Google Maps', btnNeshan: '🗺️ Register on Neshan',
-    qr1Title: '📱 QR 1: Your Card', qr1Hint: 'Scan to save contact',
-    qr2Title: '🛠️ QR 2: Artemin Land', qr2Hint: 'Creator of this card',
-    btnDownload: '📥 Download', creatorText: '<strong>Creator:</strong> Artemin Land<br>📞 09153136173 | 09150086173',
-    namePlaceholder: 'Business or person name', phonePlaceholder: '09153136173',
-    titlePlaceholder: 'e.g. CEO, Engineer', descriptionPlaceholder: 'e.g. Home appliances store',
-    addressPlaceholder: 'Enter address or use GPS', alertFill: 'Please fill Name and Phone!',
-    name: 'Name', phone: 'Phone', title: 'Title', address: 'Address', category: 'Category', description: 'Description', type: 'Type',
+    title: '🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
+    labelType: 'Card Type',
+    typeBusiness: '🏪 Business',
+    typePersonal: '👤 Personal',
+    labelName: 'Name',
+    labelPhone: 'Phone Number',
+    labelCategory: 'Job Category',
+    labelTitle: 'Job Title',
+    labelDescription: 'Additional Description',
+    labelAddress: 'Full Address',
+    btnLocation: 'Use My Current Location (GPS)',
+    hintLocation: '💡 Click button to auto-detect address from GPS',
+    locationSuccess: '✅ Address detected!',
+    labelPhoto: 'Profile Photo (Optional)',
+    photoHint: '📷 Click to upload photo',
+    labelGoogle: 'Register on Google Maps',
+    labelNeshan: 'Register on Neshan',
+    btnGenerate: '⚡ Generate QR Codes',
+    resultTitle: '✅ QR Cards Ready!',
+    mapTitle: '🌐 Map Registration',
+    mapHint: 'Copy info and paste in map app',
+    btnGoogleMaps: '📍 Register on Google Maps',
+    btnNeshan: '️ Register on Neshan',
+    qr1Title: '📱 QR 1: Your Card',
+    qr1Hint: 'Scan to save contact',
+    qr2Title: '🛠️ QR 2: Artemin Land',
+    qr2Hint: 'Creator of this card',
+    btnDownload: '📥 Download',
+    creatorText: '<strong>Creator:</strong> Artemin Land<br>📞 09153136173 | 09150086173',
+    namePlaceholder: 'Business or person name',
+    phonePlaceholder: '09153136173',
+    titlePlaceholder: 'e.g. CEO, Engineer',
+    descriptionPlaceholder: 'e.g. Home appliances store',
+    addressPlaceholder: 'Enter address or use GPS',
+    alertFill: 'Please fill Name and Phone!',
+    alertDuplicate: 'Please wait, processing...',
+    name: 'Name',
+    phone: 'Phone',
+    title: 'Title',
+    address: 'Address',
+    category: 'Category',
+    description: 'Description',
+    type: 'Type',
     creatorName: 'Artemin Land',
     creatorTitle: 'QR Code Creation for All Businesses | Content Creation (Instagram, YouTube & All Social Media) | Graphic Design | Interior Decoration',
-    creatorPhones: '09153136173', creatorAddress: 'Mashhad, Iran',
-    noQR: 'No QR!', business: 'Business', personal: 'Personal',
-    detecting: '⏳ Detecting location...', detectingAddress: '🗺️ Detecting address...',
-    ipLocation: '🌐 Using IP location...', locationError: '⚠️ Could not detect location. Enter manually.',
+    creatorPhones: '09153136173',
+    creatorAddress: 'Mashhad, Iran',
+    noQR: 'No QR!',
+    business: 'Business',
+    personal: 'Personal',
+    detecting: '⏳ Detecting location...',
+    detectingAddress: '🗺️ Detecting address...',
+    ipLocation: ' Using IP location...',
+    locationError: '️ Could not detect location. Enter manually.',
     locationNotSupported: '❌ Location not supported. Enter manually.',
-    saving: '⏳ Saving...', saved: '✅ Saved successfully!', saveFailed: '⚠️ QR created but save failed',
-    modalTitleGoogle: '📍 Google Maps Registration', modalTitleNeshan: '🗺️ Neshan Registration',
-    btnCopyAll: ' Copy All Info', btnOpenGoogle: ' Open Google Maps App', btnOpenNeshan: '🗺️ Open Neshan App',
-    infoCopied: 'Copied!', allInfoCopied: '✅ All info copied!', closeModal: 'Close', copyBtn: '📋 Copy',
-    pendingTitle: '📋 Items List', selectAll: 'Select All',
-    btnSaveSelected: '💾 Save to Cloud', btnExport: '📊 Export Excel',
-    btnContact: '📱 Add to Contacts', btnClearList: '🗑️ Clear List',
-    noPending: 'No items in list', addedToList: 'Added to list automatically',
-    savedCount: 'Saved', exportSuccess: 'Excel file downloaded',
-    contactAdded: 'Contact file downloaded. Open it to add to contacts.',
-    confirmClear: 'Clear all items?', selectOne: 'Please select at least one item',
-    savingToCloud: ' Saving to cloud...', savedToCloud: '✅ Saved to cloud',
-    saveToCloudFailed: '⚠️ Save failed', autoAdded: 'Auto-added to list'
+    saving: '⏳ Saving...',
+    saved: '✅ Saved successfully!',
+    saveFailed: '⚠️ QR created but save failed (check connection)',
+    qrReady: '✅ QR Code ready!',
+    modalTitleGoogle: ' Google Maps Registration',
+    modalTitleNeshan: '🗺️ Neshan Registration',
+    btnCopyAll: '📋 Copy All Info',
+    btnOpenGoogle: ' Open Google Maps App',
+    btnOpenNeshan: '🗺️ Open Neshan App',
+    infoCopied: 'Copied!',
+    allInfoCopied: '✅ All info copied!',
+    closeModal: 'Close',
+    copyBtn: '📋 Copy'
   },
   fa: {
-    title: ' آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
-    labelType: 'نوع کارت', typeBusiness: '🏪 کسب‌وکار', typePersonal: '👤 شخصی',
-    labelName: 'نام', labelPhone: 'شماره تماس', labelCategory: 'دسته‌بندی شغل',
-    labelTitle: 'عنوان شغلی', labelDescription: 'توضیحات تکمیلی', labelAddress: 'آدرس کامل',
-    btnLocation: 'استفاده از موقعیت فعلی من (GPS)', hintLocation: '💡 برای تشخیص خودکار آدرس از GPS کلیک کنید',
-    locationSuccess: '✅ آدرس تشخیص داده شد!', labelPhoto: 'عکس پروفایل (اختیاری)', photoHint: '📷 برای آپلود عکس کلیک کنید',
-    labelGoogle: 'ثبت در گوگل مپ', labelNeshan: 'ثبت در نشان',
-    btnGenerate: '⚡ ساخت کیو آر کد', btnClear: '️ پاک کردن فرم برای نفر بعدی',
-    resultTitle: '✅ کیو آر کد آماده است!', mapTitle: '🌐 ثبت در نقشه', mapHint: 'اطلاعات را کپی کن و در اپلیکیشن نقشه وارد کن',
-    btnGoogleMaps: '📍 ثبت در گوگل مپ', btnNeshan: '🗺️ ثبت در نشان',
-    qr1Title: '📱 کیو آر ۱: کارت شما', qr1Hint: 'برای ذخیره مخاطب اسکن کنید',
-    qr2Title: '🛠️ کیو آر ۲: آرتمین لند', qr2Hint: 'سازنده این کارت',
-    btnDownload: '📥 دانلود', creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۱۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳',
-    namePlaceholder: 'نام کسب‌وکار یا شخص', phonePlaceholder: '09153136173',
-    titlePlaceholder: 'مثال: مدیر عامل، مهندس عمران', descriptionPlaceholder: 'مثال: فروشگاه لوازم خانگی',
-    addressPlaceholder: 'آدرس را وارد کنید یا از GPS استفاده کنید', alertFill: 'لطفاً نام و تلفن را وارد کنید!',
-    name: 'نام', phone: 'تلفن', title: 'عنوان', address: 'آدرس', category: 'دسته‌بندی', description: 'توضیحات', type: 'نوع',
+    title: '🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
+    labelType: 'نوع کارت',
+    typeBusiness: '🏪 کسب‌وکار',
+    typePersonal: '👤 شخصی',
+    labelName: 'نام',
+    labelPhone: 'شماره تماس',
+    labelCategory: 'دسته‌بندی شغل',
+    labelTitle: 'عنوان شغلی',
+    labelDescription: 'توضیحات تکمیلی',
+    labelAddress: 'آدرس کامل',
+    btnLocation: 'استفاده از موقعیت فعلی من (GPS)',
+    hintLocation: '💡 برای تشخیص خودکار آدرس از GPS کلیک کنید',
+    locationSuccess: '✅ آدرس تشخیص داده شد!',
+    labelPhoto: 'عکس پروفایل (اختیاری)',
+    photoHint: '📷 برای آپلود عکس کلیک کنید',
+    labelGoogle: 'ثبت در گوگل مپ',
+    labelNeshan: 'ثبت در نشان',
+    btnGenerate: '⚡ ساخت کیو آر کد',
+    resultTitle: '✅ کیو آر کد آماده است!',
+    mapTitle: ' ثبت در نقشه',
+    mapHint: 'اطلاعات را کپی کن و در اپلیکیشن نقشه وارد کن',
+    btnGoogleMaps: '📍 ثبت در گوگل مپ',
+    btnNeshan: '🗺️ ثبت در نشان',
+    qr1Title: ' کیو آر ۱: کارت شما',
+    qr1Hint: 'برای ذخیره مخاطب اسکن کنید',
+    qr2Title: '️ کیو آر ۲: آرتمین لند',
+    qr2Hint: 'سازنده این کارت',
+    btnDownload: ' دانلود',
+    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۳۱۳۶۱۳ | ۰۹۱۰۰۸۶۱۳',
+    namePlaceholder: 'نام کسب‌وکار یا شخص',
+    phonePlaceholder: '09153136173',
+    titlePlaceholder: 'مثال: مدیر عامل، مهندس عمران',
+    descriptionPlaceholder: 'مثال: فروشگاه لوازم خانگی، فروشنده لوازم یدکی',
+    addressPlaceholder: 'آدرس را وارد کنید یا از GPS استفاده کنید',
+    alertFill: 'لطفاً نام و تلفن را وارد کنید!',
+    alertDuplicate: 'لطفاً صبر کنید، در حال پردازش...',
+    name: 'نام',
+    phone: 'تلفن',
+    title: 'عنوان',
+    address: 'آدرس',
+    category: 'دسته‌بندی',
+    description: 'توضیحات',
+    type: 'نوع',
     creatorName: 'آرتمین لند',
     creatorTitle: 'ساخت کیو آر کد برای شما در هر صنفی | تولید محتوا (اینستاگرام، یوتیوب و همه شبکه‌های اجتماعی) | طراحی گرافیک | دکوراسیون داخلی',
-    creatorPhones: '۰۹۱۳۱۳۶۱۳', creatorAddress: 'مشهد، ایران',
-    noQR: 'کیو آر کدی وجود ندارد!', business: 'کسب‌وکار', personal: 'شخصی',
-    detecting: '⏳ در حال تشخیص موقعیت...', detectingAddress: '🗺️ در حال تشخیص آدرس...',
-    ipLocation: '🌐 استفاده از موقعیت IP...', locationError: '⚠️ تشخیص موقعیت ممکن نبود. دستی وارد کنید.',
+    creatorPhones: '۰۹۱۵۳۳۶۱۷۳',
+    creatorAddress: 'مشهد، ایران',
+    noQR: 'کیو آر کدی وجود ندارد!',
+    business: 'کسب‌وکار',
+    personal: 'شخصی',
+    detecting: '⏳ در حال تشخیص موقعیت...',
+    detectingAddress: '🗺️ در حال تشخیص آدرس...',
+    ipLocation: ' استفاده از موقعیت IP...',
+    locationError: '⚠️ تشخیص موقعیت ممکن نبود. دستی وارد کنید.',
     locationNotSupported: '❌ موقعیت پشتیبانی نمی‌شود. دستی وارد کنید.',
-    saving: '⏳ در حال ذخیره...', saved: '✅ با موفقیت ذخیره شد!', saveFailed: '️ QR ساخته شد ولی ذخیره ناموفق بود',
-    modalTitleGoogle: '📍 ثبت در گوگل مپ', modalTitleNeshan: '🗺️ ثبت در نشان',
-    btnCopyAll: '📋 کپی همه اطلاعات', btnOpenGoogle: '📍 باز کردن گوگل مپ', btnOpenNeshan: '️ باز کردن نشان',
-    infoCopied: 'کپی شد!', allInfoCopied: '✅ همه اطلاعات کپی شد!', closeModal: 'بستن', copyBtn: '📋 کپی',
-    pendingTitle: '📋 لیست موارد', selectAll: 'انتخاب همه',
-    btnSaveSelected: '💾 ذخیره در فضای ابری', btnExport: '📊 خروجی اکسل',
-    btnContact: '📱 افزودن به مخاطبین', btnClearList: '🗑️ حذف لیست',
-    noPending: 'موردی در لیست نیست', addedToList: 'به لیست اضافه شد',
-    savedCount: 'ذخیره شد', exportSuccess: 'فایل اکسل دانلود شد',
-    contactAdded: 'فایل مخاطب دانلود شد. آن را باز کنید تا به مخاطبین اضافه شود.',
-    confirmClear: 'همه موارد لیست حذف شوند؟', selectOne: 'لطفاً حداقل یک مورد انتخاب کنید',
-    savingToCloud: '⏳ در حال ذخیره در فضای ابری...', savedToCloud: '✅ در فضای ابری ذخیره شد',
-    saveToCloudFailed: '⚠️ ذخیره ناموفق بود', autoAdded: 'خودکار به لیست اضافه شد'
+    saving: '⏳ در حال ذخیره...',
+    saved: '✅ با موفقیت ذخیره شد!',
+    saveFailed: '️ QR ساخته شد ولی ذخیره ناموفق بود (اتصال را بررسی کنید)',
+    qrReady: '✅ کیو آر کد آماده است!',
+    modalTitleGoogle: '📍 ثبت در گوگل مپ',
+    modalTitleNeshan: '🗺️ ثبت در نشان',
+    btnCopyAll: '📋 کپی همه اطلاعات',
+    btnOpenGoogle: '📍 باز کردن گوگل مپ',
+    btnOpenNeshan: '🗺️ باز کردن نشان',
+    infoCopied: 'کپی شد!',
+    allInfoCopied: '✅ همه اطلاعات کپی شد!',
+    closeModal: 'بستن',
+    copyBtn: '📋 کپی'
   }
 };
 
+// تشخیص جهت متن (فارسی یا انگلیسی)
 function detectTextDirection(text) {
   if (!text || text === '-') return 'rtl';
   const firstChar = text.trim().charAt(0);
@@ -722,20 +766,22 @@ function showStatus(message, type) {
   statusEl.textContent = message;
   statusEl.className = 'status-msg ' + type;
   statusEl.style.display = 'block';
-  setTimeout(() => { statusEl.style.display = 'none'; }, 4000);
+  setTimeout(() => {
+    statusEl.style.display = 'none';
+  }, 5000);
 }
 
 function setType(type) {
   currentType = type;
   document.getElementById('type-business').classList.toggle('active', type === 'business');
   document.getElementById('type-personal').classList.toggle('active', type === 'personal');
+  
   const nameInput = document.getElementById('name');
   if (type === 'business') {
     nameInput.placeholder = currentLang === 'fa' ? 'نام کسب‌وکار' : 'Business name';
   } else {
     nameInput.placeholder = currentLang === 'fa' ? 'نام و نام خانوادگی' : 'Full name';
   }
-  saveToLocalStorage();
 }
 
 function handlePhotoUpload(event) {
@@ -750,116 +796,6 @@ function handlePhotoUpload(event) {
       document.getElementById('photo-hint').style.display = 'none';
     };
     reader.readAsDataURL(file);
-  }
-}
-
-function saveToLocalStorage() {
-  const formData = {
-    name: document.getElementById('name').value,
-    phone: document.getElementById('phone').value,
-    category: document.getElementById('category').value,
-    title: document.getElementById('title-field').value,
-    description: document.getElementById('description').value,
-    address: document.getElementById('address').value,
-    type: currentType,
-    checkGoogle: document.getElementById('check-google').checked,
-    checkNeshan: document.getElementById('check-neshan').checked
-  };
-  localStorage.setItem('arteminland_form', JSON.stringify(formData));
-}
-
-function loadFromLocalStorage() {
-  const saved = localStorage.getItem('arteminland_form');
-  if (saved) {
-    try {
-      const data = JSON.parse(saved);
-      document.getElementById('name').value = data.name || '';
-      document.getElementById('phone').value = data.phone || '';
-      document.getElementById('category').value = data.category || '';
-      document.getElementById('title-field').value = data.title || '';
-      document.getElementById('description').value = data.description || '';
-      document.getElementById('address').value = data.address || '';
-      if (data.type) setType(data.type);
-      document.getElementById('check-google').checked = data.checkGoogle !== false;
-      document.getElementById('check-neshan').checked = data.checkNeshan !== false;
-    } catch (e) { console.error(e); }
-  }
-}
-
-function savePendingList() {
-  localStorage.setItem('arteminland_pending', JSON.stringify(pendingEntries));
-}
-
-function loadPendingList() {
-  const saved = localStorage.getItem('arteminland_pending');
-  if (saved) {
-    try { pendingEntries = JSON.parse(saved); } catch (e) { pendingEntries = []; }
-  }
-  renderPendingList();
-}
-
-function renderPendingList() {
-  const section = document.getElementById('pending-section');
-  const list = document.getElementById('entries-list');
-  const count = document.getElementById('pending-count');
-  const t = translations[currentLang];
-  
-  if (pendingEntries.length === 0) {
-    section.style.display = 'none';
-    return;
-  }
-  
-  section.style.display = 'block';
-  count.textContent = pendingEntries.length;
-  
-  list.innerHTML = '';
-  pendingEntries.forEach((entry, index) => {
-    const item = document.createElement('div');
-    item.className = 'entry-item';
-    item.innerHTML = `
-      <input type="checkbox" class="entry-checkbox" data-index="${index}" ${entry.selected ? 'checked' : ''} onchange="toggleEntry(${index})">
-      <div class="entry-info">
-        <div class="entry-name">${index + 1}. ${entry.name || '-'}</div>
-        <div class="entry-phone">${entry.phone || ''}</div>
-      </div>
-      <div class="entry-time">${new Date(entry.addedAt).toLocaleTimeString(currentLang === 'fa' ? 'fa-IR' : 'en', { hour: '2-digit', minute: '2-digit' })}</div>
-      <button class="entry-delete" onclick="deleteEntry(${index})">✕</button>
-    `;
-    list.appendChild(item);
-  });
-}
-
-function toggleEntry(index) {
-  pendingEntries[index].selected = !pendingEntries[index].selected;
-  savePendingList();
-  updateSelectAllCheckbox();
-}
-
-function toggleSelectAll() {
-  const selectAll = document.getElementById('select-all').checked;
-  pendingEntries.forEach(e => e.selected = selectAll);
-  savePendingList();
-  renderPendingList();
-}
-
-function updateSelectAllCheckbox() {
-  const allSelected = pendingEntries.length > 0 && pendingEntries.every(e => e.selected);
-  document.getElementById('select-all').checked = allSelected;
-}
-
-function deleteEntry(index) {
-  pendingEntries.splice(index, 1);
-  savePendingList();
-  renderPendingList();
-}
-
-function clearPendingList() {
-  const t = translations[currentLang];
-  if (confirm(t.confirmClear)) {
-    pendingEntries = [];
-    savePendingList();
-    renderPendingList();
-    showStatus('✅ ' + t.btnClearList, 'success');
   }
 }
 
@@ -885,7 +821,6 @@ function setLang(lang) {
   document.getElementById('label-google').textContent = t.labelGoogle;
   document.getElementById('label-neshan').textContent = t.labelNeshan;
   document.getElementById('btn-generate').textContent = t.btnGenerate;
-  document.getElementById('btn-clear').textContent = t.btnClear;
   document.getElementById('result-title').textContent = t.resultTitle;
   document.getElementById('map-title').textContent = t.mapTitle;
   document.getElementById('map-hint').textContent = t.mapHint;
@@ -902,12 +837,6 @@ function setLang(lang) {
   document.getElementById('btn-open-google').textContent = t.btnOpenGoogle;
   document.getElementById('btn-open-neshan').textContent = t.btnOpenNeshan;
   document.getElementById('btn-close-modal').textContent = t.closeModal;
-  document.getElementById('pending-title').textContent = t.pendingTitle;
-  document.getElementById('label-select-all').textContent = t.selectAll;
-  document.getElementById('btn-save-selected').textContent = t.btnSaveSelected;
-  document.getElementById('btn-export').textContent = t.btnExport;
-  document.getElementById('btn-contact').textContent = t.btnContact;
-  document.getElementById('btn-clear-list').textContent = t.btnClearList;
   
   document.getElementById('name').placeholder = t.namePlaceholder;
   document.getElementById('phone').placeholder = t.phonePlaceholder;
@@ -929,8 +858,6 @@ function setLang(lang) {
     document.documentElement.lang = 'en';
     document.documentElement.dir = 'ltr';
   }
-  
-  renderPendingList();
 }
 
 async function getLocation() {
@@ -940,49 +867,73 @@ async function getLocation() {
   const t = translations[currentLang];
   
   btn.disabled = true;
-  btn.innerHTML = ' ' + t.detecting;
+  btn.innerHTML = '📍 ' + t.detecting;
   successMsg.style.display = 'none';
   
-  if (!navigator.geolocation) { alert(t.locationNotSupported); resetBtn(); return; }
+  if (!navigator.geolocation) {
+    alert(t.locationNotSupported);
+    resetBtn();
+    return;
+  }
   
   try {
     const position = await new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0
+      });
     });
+    
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
+    
     btn.innerHTML = '📍 ' + t.detectingAddress;
+    
     const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&accept-language=fa,en`);
     const data = await response.json();
+    
     if (data && data.display_name) {
       addressField.value = data.display_name;
       lastGPSLocation = { lat, lng };
       successMsg.style.display = 'block';
-      saveToLocalStorage();
       setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
-    } else { throw new Error('Address not found'); }
+    } else {
+      throw new Error('Address not found');
+    }
+    
   } catch (error) {
     try {
       btn.innerHTML = '📍 ' + t.ipLocation;
       const ipResponse = await fetch('http://ip-api.com/json/?fields=city,regionName,country');
       const ipData = await ipResponse.json();
+      
       if (ipData && ipData.city) {
         addressField.value = `${ipData.city}, ${ipData.regionName}, ${ipData.country}`;
         successMsg.textContent = '✅ آدرس تقریبی از IP';
         successMsg.style.display = 'block';
-        saveToLocalStorage();
         setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
-      } else { throw new Error('IP location failed'); }
-    } catch (ipError) { alert(t.locationError); }
+      } else {
+        throw new Error('IP location failed');
+      }
+    } catch (ipError) {
+      alert(t.locationError);
+    }
   }
+  
   resetBtn();
-  function resetBtn() { btn.disabled = false; btn.innerHTML = '📍 ' + t.btnLocation; }
+  
+  function resetBtn() {
+    btn.disabled = false;
+    btn.innerHTML = '📍 ' + t.btnLocation;
+  }
 }
 
 function openMapModal(mapType) {
   currentMapType = mapType;
   const t = translations[currentLang];
   const modal = document.getElementById('mapModal');
+  
   document.getElementById('modal-title').textContent = mapType === 'google' ? t.modalTitleGoogle : t.modalTitleNeshan;
   
   const fields = [
@@ -1001,43 +952,33 @@ function openMapModal(mapType) {
       const direction = detectTextDirection(field.value);
       const row = document.createElement('div');
       row.className = 'modal-field-row';
-      
-      const contentDiv = document.createElement('div');
-      contentDiv.className = 'modal-field-content';
-      
-      const labelDiv = document.createElement('div');
-      labelDiv.className = 'modal-field-label';
-      labelDiv.textContent = field.label;
-      
-      const valueDiv = document.createElement('div');
-      valueDiv.className = `modal-field-value ${direction}-text`;
-      valueDiv.textContent = field.value;
-      
-      contentDiv.appendChild(labelDiv);
-      contentDiv.appendChild(valueDiv);
-      
-      const copyBtn = document.createElement('button');
-      copyBtn.className = 'btn-copy-field';
-      copyBtn.textContent = t.copyBtn;
-      copyBtn.onclick = function() { copyField(this, field.value); };
-      
-      row.appendChild(contentDiv);
-      row.appendChild(copyBtn);
+      row.innerHTML = `
+        <div class="modal-field-info">
+          <div class="modal-field-label">${field.label}</div>
+          <div class="modal-field-value ${direction}-text">${field.value}</div>
+        </div>
+        <button class="btn-copy-field" onclick="copyField(this, '${field.value.replace(/'/g, "\\'").replace(/"/g, '&quot;')}')">${t.copyBtn}</button>
+      `;
       fieldsContainer.appendChild(row);
     }
   });
   
   document.getElementById('btn-open-google').style.display = mapType === 'google' ? 'block' : 'none';
   document.getElementById('btn-open-neshan').style.display = mapType === 'neshan' ? 'block' : 'none';
+  
   modal.classList.add('active');
 }
 
 function copyField(button, text) {
   const t = translations[currentLang];
+  
   navigator.clipboard.writeText(text).then(() => {
     button.textContent = '✅ ' + t.infoCopied;
     button.classList.add('copied');
-    setTimeout(() => { button.textContent = t.copyBtn; button.classList.remove('copied'); }, 2000);
+    setTimeout(() => {
+      button.textContent = t.copyBtn;
+      button.classList.remove('copied');
+    }, 2000);
   }).catch(() => {
     const textarea = document.createElement('textarea');
     textarea.value = text;
@@ -1047,16 +988,24 @@ function copyField(button, text) {
     document.body.removeChild(textarea);
     button.textContent = '✅ ' + t.infoCopied;
     button.classList.add('copied');
-    setTimeout(() => { button.textContent = t.copyBtn; button.classList.remove('copied'); }, 2000);
+    setTimeout(() => {
+      button.textContent = t.copyBtn;
+      button.classList.remove('copied');
+    }, 2000);
   });
 }
 
-function closeModal() { document.getElementById('mapModal').classList.remove('active'); }
+function closeModal() {
+  document.getElementById('mapModal').classList.remove('active');
+}
 
 function copyAllInfo() {
   const t = translations[currentLang];
   const infoText = `${t.name}: ${lastFormData.name || ''}\n${t.title}: ${lastFormData.title || ''}\n${t.category}: ${lastFormData.category || ''}\n${t.phone}: ${lastFormData.phone || ''}\n${t.description}: ${lastFormData.description || ''}`;
-  navigator.clipboard.writeText(infoText).then(() => { alert(t.allInfoCopied); }).catch(() => {
+  
+  navigator.clipboard.writeText(infoText).then(() => {
+    alert(t.allInfoCopied);
+  }).catch(() => {
     const textarea = document.createElement('textarea');
     textarea.value = infoText;
     document.body.appendChild(textarea);
@@ -1071,10 +1020,16 @@ function openGoogleMaps() {
   const name = lastFormData.name || '';
   const address = lastFormData.address || '';
   const query = encodeURIComponent(name + ' ' + address);
+  
   const geoUrl = `geo:0,0?q=${query}`;
   const webUrl = `https://www.google.com/maps/search/?api=1&query=${query}`;
+  
   window.location.href = geoUrl;
-  setTimeout(() => { window.open(webUrl, '_blank'); }, 2000);
+  
+  setTimeout(() => {
+    window.open(webUrl, '_blank');
+  }, 2000);
+  
   closeModal();
 }
 
@@ -1082,160 +1037,39 @@ function openNeshan() {
   const name = lastFormData.name || '';
   const address = lastFormData.address || '';
   const query = encodeURIComponent(name + ' ' + address);
+  
   const neshanAppUrl = `https://nshn.ir/?q=${query}`;
+  const neshanWebUrl = `https://neshan.org/maps/search?q=${query}`;
+  
   window.open(neshanAppUrl, '_blank');
+  
   closeModal();
 }
 
-// ذخیره موارد انتخابی در Firebase
-async function saveSelectedToFirebase() {
-  const t = translations[currentLang];
-  const selected = pendingEntries.filter(e => e.selected);
-  
-  if (selected.length === 0) {
-    alert(t.selectOne);
-    return;
-  }
-  
-  showStatus(t.savingToCloud, 'success');
-  
-  let successCount = 0;
-  let failCount = 0;
-  let errorMsg = '';
-  
-  for (const entry of selected) {
-    try {
-      const result = await window.saveToFirestore({
-        name: entry.name,
-        phone: entry.phone,
-        title: entry.title,
-        description: entry.description,
-        address: entry.address,
-        category: entry.category,
-        type: entry.type,
-        registerGoogle: true,
-        registerNeshan: true,
-        hasPhoto: entry.photoBase64 ? true : false
-      });
-      if (result) successCount++; else failCount++;
-    } catch (e) {
-      failCount++;
-      errorMsg = e.message;
-      console.error('Save error:', e);
-    }
-  }
-  
-  if (successCount > 0) {
-    showStatus(`✅ ${t.savedToCloud}: ${successCount} ${t.savedCount}`, 'success');
-  }
-  if (failCount > 0) {
-    setTimeout(() => { 
-      showStatus(`⚠️ ${failCount} ${t.saveToCloudFailed}: ${errorMsg}`, 'error'); 
-    }, 3000);
-  }
-}
-
-// خروجی اکسل از موارد انتخابی
-function exportSelectedToExcel() {
-  const t = translations[currentLang];
-  const selected = pendingEntries.filter(e => e.selected);
-  
-  if (selected.length === 0) {
-    alert(t.selectOne);
-    return;
-  }
-  
-  let csvContent = "\uFEFF";
-  csvContent += "ردیف,نام,شماره تماس,نوع,دسته‌بندی,عنوان شغلی,توضیحات,آدرس,تاریخ ثبت\n";
-  
-  selected.forEach((data, index) => {
-    const type = data.type === 'business' ? 'کسب‌وکار' : (data.type === 'personal' ? 'شخصی' : '-');
-    const date = new Date(data.addedAt).toLocaleDateString('fa-IR');
-    const row = [
-      index + 1,
-      `"${(data.name || '').replace(/"/g, '""')}"`,
-      `"${(data.phone || '').replace(/"/g, '""')}"`,
-      `"${type}"`,
-      `"${(data.category || '').replace(/"/g, '""')}"`,
-      `"${(data.title || '').replace(/"/g, '""')}"`,
-      `"${(data.description || '').replace(/"/g, '""')}"`,
-      `"${(data.address || '').replace(/"/g, '""')}"`,
-      `"${date}"`
-    ].join(",");
-    csvContent += row + "\n";
-  });
-  
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  const link = document.createElement("a");
-  const url = URL.createObjectURL(blob);
-  link.setAttribute("href", url);
-  link.setAttribute("download", `ArteminLand_${new Date().toISOString().slice(0,10)}.csv`);
-  link.style.visibility = 'hidden';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  
-  showStatus(`📊 ${t.exportSuccess} (${selected.length} مورد)`, 'success');
-}
-
-// افزودن به مخاطبین گوشی
-function addToContacts() {
-  const t = translations[currentLang];
-  const selected = pendingEntries.filter(e => e.selected);
-  
-  if (selected.length === 0) {
-    alert(t.selectOne);
-    return;
-  }
-  
-  let vcardContent = '';
-  selected.forEach((entry, index) => {
-    vcardContent += 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
-    vcardContent += 'FN:' + (entry.name || 'Contact') + '\r\n';
-    if (entry.type === 'business') vcardContent += 'ORG:' + entry.name + '\r\n';
-    if (entry.title) vcardContent += 'TITLE:' + entry.title + '\r\n';
-    if (entry.phone) vcardContent += 'TEL;TYPE=CELL:' + entry.phone + '\r\n';
-    if (entry.description) vcardContent += 'NOTE:' + entry.description + '\r\n';
-    if (entry.address) vcardContent += 'ADR;TYPE=WORK:;;' + entry.address + ';;;;\r\n';
-    if (entry.category) vcardContent += 'CATEGORIES:' + entry.category + '\r\n';
-    vcardContent += 'END:VCARD\r\n';
-  });
-  
-  const blob = new Blob([vcardContent], { type: 'text/vcard;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `ArteminLand_Contacts_${selected.length}.vcf`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-  
-  showStatus(`📱 ${t.contactAdded} (${selected.length} مورد)`, 'success');
-}
-
-function clearForm() {
-  document.getElementById('name').value = '';
-  document.getElementById('phone').value = '';
-  document.getElementById('category').value = '';
-  document.getElementById('title-field').value = '';
-  document.getElementById('description').value = '';
-  document.getElementById('address').value = '';
-  document.getElementById('photo-input').value = '';
-  document.getElementById('photo-preview').style.display = 'none';
-  document.getElementById('photo-hint').style.display = 'block';
-  photoBase64 = '';
-  lastGPSLocation = null;
-  saveToLocalStorage();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
+// ثبت Service Worker با cache-busting برای موبایل
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(err => console.log('SW failed:', err));
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js?v=' + Date.now()).catch(err => {
+      console.log('SW registration failed:', err);
+    });
+    
+    // Force update اگر نسخه جدید آمد
+    navigator.serviceWorker.ready.then(registration => {
+      registration.update();
+    });
+  });
 }
 
 document.getElementById('form').addEventListener('submit', async function(e) {
   e.preventDefault();
+  
+  // جلوگیری از submit تکراری
+  if (isSubmitting) {
+    const t = translations[currentLang];
+    alert(t.alertDuplicate);
+    return;
+  }
+  isSubmitting = true;
   
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
@@ -1247,42 +1081,48 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   const checkNeshan = document.getElementById('check-neshan').checked;
   const t = translations[currentLang];
   
-  if (!name || !phone) { alert(t.alertFill); return; }
+  if (!name || !phone) {
+    alert(t.alertFill);
+    isSubmitting = false;
+    return;
+  }
   
   lastFormData = { name, phone, title, description, address, category, type: currentType };
   
-  // اضافه کردن خودکار به لیست
-  const entry = {
-    ...lastFormData,
-    selected: true,
-    addedAt: new Date().toISOString(),
-    photoBase64: photoBase64
+  const firebaseData = {
+    name, phone, title, description, address, category,
+    type: currentType,
+    registerGoogle: checkGoogle,
+    registerNeshan: checkNeshan,
+    hasPhoto: photoBase64 ? true : false
   };
-  pendingEntries.push(entry);
-  savePendingList();
-  renderPendingList();
   
   showStatus(t.saving, 'success');
   
+  // ذخیره در Firebase با timeout بیشتر (10 ثانیه) و retry
   let saveSuccess = false;
   if (typeof window.saveToFirestore === 'function') {
     try {
-      saveSuccess = await window.saveToFirestore({
-        name, phone, title, description, address, category,
-        type: currentType,
-        registerGoogle: checkGoogle,
-        registerNeshan: checkNeshan,
-        hasPhoto: photoBase64 ? true : false
-      });
-    } catch (e) { 
+      const savePromise = window.saveToFirestore(firebaseData);
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout')), 10000)
+      );
+      saveSuccess = await Promise.race([savePromise, timeoutPromise]);
+    } catch (e) {
+      console.warn('Save failed or timeout:', e);
       saveSuccess = false;
-      console.error('Firebase save error:', e);
     }
   }
   
+  // ✅ RESET کردن info-main قبل از اضافه کردن اطلاعات جدید (جلوگیری از تکرار)
+  document.getElementById('info-main').innerHTML = '';
+  document.getElementById('info-creator').innerHTML = '';
+  
   let vcard1 = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
   vcard1 += 'FN:' + name + '\r\n';
-  if (currentType === 'business') vcard1 += 'ORG:' + name + '\r\n';
+  if (currentType === 'business') {
+    vcard1 += 'ORG:' + name + '\r\n';
+  }
   if (title) vcard1 += 'TITLE:' + title + '\r\n';
   if (description) vcard1 += 'NOTE:' + description + '\r\n';
   vcard1 += 'TEL;TYPE=CELL:' + phone + '\r\n';
@@ -1290,7 +1130,7 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   if (category) vcard1 += 'CATEGORIES:' + category + '\r\n';
   vcard1 += 'END:VCARD';
   
-  const qr1Url = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&charset=UTF-8&data=' + encodeURIComponent(vcard1);
+  const qr1Url = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&charset=UTF-8&data=' + encodeURIComponent(vcard1) + '&timestamp=' + Date.now();
   document.getElementById('qr-main').src = qr1Url;
   
   let info1 = '<p><strong>' + t.name + ':</strong> ' + name + '</p>';
@@ -1312,7 +1152,7 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   vcard2 += 'NOTE;CHARSET=UTF-8:ساخت کیو آر کد برای شما در هر صنفی | تولید محتوا (اینستاگرام، یوتیوب و همه شبکه‌های اجتماعی) | طراحی گرافیک | دکوراسیون داخلی\r\n';
   vcard2 += 'END:VCARD';
   
-  const qr2Url = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&charset=UTF-8&data=' + encodeURIComponent(vcard2);
+  const qr2Url = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&charset=UTF-8&data=' + encodeURIComponent(vcard2) + '&timestamp=' + Date.now();
   document.getElementById('qr-creator').src = qr2Url;
   
   document.getElementById('info-creator').innerHTML = `
@@ -1327,20 +1167,23 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   document.getElementById('map-section').style.display = (checkGoogle || checkNeshan) ? 'block' : 'none';
   
   document.getElementById('result').style.display = 'block';
-  document.getElementById('btn-clear').style.display = 'block';
   document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
   
   if (saveSuccess) {
-    showStatus(`✅ ${t.saved} + ${t.autoAdded}`, 'success');
+    showStatus(t.saved, 'success');
   } else {
-    showStatus(`️ ${t.saveFailed} + ${t.autoAdded}`, 'error');
+    showStatus(t.saveFailed, 'error');
   }
+  
+  // آزاد کردن قفل submit
+  isSubmitting = false;
 });
 
 function downloadQR(elementId, filename) {
   const img = document.getElementById(elementId);
   const t = translations[currentLang];
   if (!img.src) { alert(t.noQR); return; }
+  
   fetch(img.src)
     .then(response => response.blob())
     .then(blob => {
@@ -1353,20 +1196,10 @@ function downloadQR(elementId, filename) {
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
     })
-    .catch(() => { window.open(img.src, '_blank'); });
+    .catch(() => {
+      window.open(img.src, '_blank');
+    });
 }
-
-['name', 'phone', 'category', 'title-field', 'description', 'address'].forEach(id => {
-  document.getElementById(id).addEventListener('input', saveToLocalStorage);
-  document.getElementById(id).addEventListener('change', saveToLocalStorage);
-});
-document.getElementById('check-google').addEventListener('change', saveToLocalStorage);
-document.getElementById('check-neshan').addEventListener('change', saveToLocalStorage);
-
-window.addEventListener('load', function() {
-  loadFromLocalStorage();
-  loadPendingList();
-});
 </script>
 </body>
 </html>
