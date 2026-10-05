@@ -3,62 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2e7d32">
 <title>پنل مدیریت - آرتمین لند</title>
+<link rel="icon" type="image/png" href="icon-192.png">
 <style>
-  body { font-family: Tahoma, Arial, sans-serif; background: #f0f2f5; padding: 20px; margin: 0; }
-  .container { max-width: 1000px; margin: 0 auto; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-  h1 { color: #1b5e20; text-align: center; margin-bottom: 20px; }
-  .btn { background: #2e7d32; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; cursor: pointer; margin-bottom: 20px; font-family: inherit; }
-  .btn:hover { background: #1b5e20; }
-  .btn-back { background: #757575; margin-right: 10px; }
-  table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
-  th, td { border: 1px solid #ddd; padding: 10px; text-align: right; }
-  th { background: #e8f5e9; color: #1b5e20; font-weight: bold; }
-  tr:nth-child(even) { background: #f9f9f9; }
-  .loading { text-align: center; color: #666; padding: 20px; }
-  .empty { text-align: center; color: #999; padding: 40px; }
+* { box-sizing: border-box; }
+body { font-family: Tahoma, Arial, sans-serif; background: #f0f2f5; padding: 16px; margin: 0; }
+.container { max-width: 1100px; margin: 0 auto; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+h1 { color: #1b5e20; text-align: center; margin: 0 0 20px; font-size: 22px; }
+.btn { background: #2e7d32; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 15px; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-block; }
+.btn:hover { background: #1b5e20; }
+.btn-gray { background: #757575; }
+.btn-gray:hover { background: #616161; }
+.btn-red { background: #d32f2f; padding: 6px 12px; font-size: 13px; }
+.btn-red:hover { background: #b71c1c; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; margin-bottom: 16px; }
+input { padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; font-family: inherit; }
+input:focus { outline: none; border-color: #2e7d32; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: right; vertical-align: top; }
+th { background: #e8f5e9; color: #1b5e20; white-space: nowrap; }
+tr:nth-child(even) { background: #f9f9f9; }
+td.ltr { direction: ltr; text-align: left; }
+.msg { text-align: center; color: #666; padding: 24px; }
+.err { color: #c62828; }
+#login { max-width: 360px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+#login input { width: 100%; }
+.count { text-align: center; color: #666; font-size: 13px; margin-bottom: 8px; }
 </style>
 </head>
 <body>
-
 <div class="container">
   <h1>📊 پنل مدیریت مشتریان - آرتمین لند</h1>
-  
-  <div style="text-align: center;">
-    <button class="btn" onclick="exportToExcel()">📥 دانلود خروجی اکسل (CSV)</button>
-    <button class="btn btn-back" onclick="window.location.href='index.html'">🔙 بازگشت به سایت</button>
-  </div>
 
-  <div id="status" class="loading">در حال دریافت اطلاعات از دیتابیس...</div>
-  
-  <table id="dataTable" style="display: none;">
-    <thead>
-      <tr>
-        <th>ردیف</th>
-        <th>نام</th>
-        <th>شماره تماس</th>
-        <th>نوع</th>
-        <th>دسته‌بندی</th>
-        <th>عنوان شغلی</th>
-        <th>توضیحات</th>
-        <th>آدرس</th>
-        <th>تاریخ ثبت</th>
-      </tr>
-    </thead>
-    <tbody id="tableBody">
-      <!-- داده‌ها اینجا قرار می‌گیرند -->
-    </tbody>
-  </table>
-  
-  <div id="emptyMsg" class="empty" style="display: none;">هیچ اطلاعاتی در دیتابیس یافت نشد.</div>
+  <!-- ورود -->
+  <form id="login" style="display:none;">
+    <input type="email" id="email" placeholder="ایمیل ادمین" autocomplete="username" dir="ltr" required>
+    <input type="password" id="password" placeholder="رمز عبور" autocomplete="current-password" dir="ltr" required>
+    <button class="btn" type="submit">ورود</button>
+    <a class="btn btn-gray" href="index.html" style="text-align:center;">🔙 بازگشت به سایت</a>
+    <div id="loginError" class="msg err"></div>
+  </form>
+
+  <!-- پنل -->
+  <div id="panel" style="display:none;">
+    <div class="toolbar">
+      <input type="search" id="search" placeholder="🔍 جستجو (نام، تلفن، دسته...)">
+      <button class="btn" id="btnCsv">📥 خروجی اکسل (CSV)</button>
+      <button class="btn" id="btnReload">🔄 بارگذاری مجدد</button>
+      <a class="btn btn-gray" href="index.html">🔙 بازگشت به سایت</a>
+      <button class="btn btn-gray" id="btnLogout">خروج</button>
+    </div>
+    <div id="status" class="msg">در حال دریافت اطلاعات...</div>
+    <div class="count" id="count"></div>
+    <div class="table-wrap">
+      <table id="dataTable" style="display:none;">
+        <thead>
+          <tr>
+            <th>ردیف</th><th>نام</th><th>شماره تماس</th><th>نوع</th><th>دسته‌بندی</th>
+            <th>عنوان شغلی</th><th>توضیحات</th><th>آدرس</th><th>تاریخ ثبت</th><th>حذف</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
-<!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, deleteDoc, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
-  // ⚠️ مهم: کد firebaseConfig را دقیقاً از فایل index.html خودت کپی کن و اینجا جایگزین کن
   const firebaseConfig = {
     apiKey: "AIzaSyBUNhCBLHR10Q5J7lrigRpL4CuPk-y6toY",
     authDomain: "artemin-land.firebaseapp.com",
@@ -71,102 +89,119 @@
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const auth = getAuth(app);
+  const $ = id => document.getElementById(id);
 
   let allData = [];
 
-  async function loadData() {
-    try {
-      const querySnapshot = await getDocs(collection(db, "customers"));
-      const tbody = document.getElementById('tableBody');
-      tbody.innerHTML = '';
-      
-      let index = 1;
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        allData.push(data);
-        
-        const date = data.createdAt ? new Date(data.createdAt).toLocaleDateString('fa-IR') : '-';
-        const type = data.type === 'business' ? 'کسب‌وکار' : (data.type === 'personal' ? 'شخصی' : '-');
-        
-        const row = `
-          <tr>
-            <td>${index++}</td>
-            <td>${data.name || '-'}</td>
-            <td>${data.phone || '-'}</td>
-            <td>${type}</td>
-            <td>${data.category || '-'}</td>
-            <td>${data.title || '-'}</td>
-            <td>${data.description || '-'}</td>
-            <td>${data.address || '-'}</td>
-            <td>${date}</td>
-          </tr>
-        `;
-        tbody.innerHTML += row;
-      });
+  const phonesOf = d => Array.isArray(d.phones) ? d.phones : (d.phone ? [d.phone] : []);
+  const typeOf = d => d.type === 'business' ? 'کسب‌وکار' : (d.type === 'personal' ? 'شخصی' : '-');
+  const dateOf = d => d.createdAt ? new Date(d.createdAt).toLocaleDateString('fa-IR') : '-';
 
-      document.getElementById('status').style.display = 'none';
-      if (allData.length > 0) {
-        document.getElementById('dataTable').style.display = 'table';
-      } else {
-        document.getElementById('emptyMsg').style.display = 'block';
-      }
-    } catch (error) {
-      document.getElementById('status').innerHTML = '❌ خطا در دریافت اطلاعات: ' + error.message;
-      console.error(error);
-    }
+  function cell(text, cls) {
+    const td = document.createElement('td');
+    td.textContent = text || '-';
+    if (cls) td.className = cls;
+    return td;
   }
 
-  // تابع دانلود اکسل
-  window.exportToExcel = function() {
-    if (allData.length === 0) {
-      alert('هیچ داده‌ای برای دانلود وجود ندارد!');
-      return;
-    }
+  function render() {
+    const q = $('search').value.trim().toLowerCase();
+    const rows = allData.filter(d => !q || [d.name, phonesOf(d).join(' '), d.category, d.title, d.description, d.address]
+      .join(' ').toLowerCase().includes(q));
 
-    // ساخت محتوای CSV
-    let csvContent = "\uFEFF"; // BOM برای پشتیبانی از فارسی در اکسل
-    csvContent += "ردیف,نام,شماره تماس,نوع,دسته‌بندی,عنوان شغلی,توضیحات,آدرس,تاریخ ثبت\n";
-
-    allData.forEach((data, index) => {
-      const type = data.type === 'business' ? 'کسب‌وکار' : (data.type === 'personal' ? 'شخصی' : '-');
-      const date = data.createdAt ? new Date(data.createdAt).toLocaleDateString('fa-IR') : '-';
-      
-      const row = [
-        index + 1,
-        `"${(data.name || '').replace(/"/g, '""')}"`,
-        `"${(data.phone || '').replace(/"/g, '""')}"`,
-        `"${type}"`,
-        `"${(data.category || '').replace(/"/g, '""')}"`,
-        `"${(data.title || '').replace(/"/g, '""')}"`,
-        `"${(data.description || '').replace(/"/g, '""')}"`,
-        `"${(data.address || '').replace(/"/g, '""')}"`,
-        `"${date}"`
-      ].join(",");
-      
-      csvContent += row + "\n";
+    const tbody = $('tableBody');
+    tbody.innerHTML = '';
+    rows.forEach((d, i) => {
+      const tr = document.createElement('tr');
+      tr.append(cell(String(i + 1)), cell(d.name), cell(phonesOf(d).join(' - '), 'ltr'), cell(typeOf(d)),
+        cell(d.category), cell(d.title), cell(d.description), cell(d.address), cell(dateOf(d)));
+      const td = document.createElement('td');
+      const b = document.createElement('button');
+      b.className = 'btn btn-red';
+      b.textContent = '🗑️';
+      b.addEventListener('click', () => removeCustomer(d));
+      td.appendChild(b);
+      tr.appendChild(td);
+      tbody.appendChild(tr);
     });
 
-    // ایجاد فایل و دانلود
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
-    link.setAttribute("download", "ArteminLand_Customers.csv");
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  // بررسی رمز ساده (اختیاری)
-  const password = prompt("لطفاً رمز عبور پنل مدیریت را وارد کنید:");
-  if (password === "admin123") { // رمز پیش‌فرض: admin123
-    loadData();
-  } else {
-    alert("رمز عبور اشتباه است!");
-    window.location.href = "index.html";
+    $('dataTable').style.display = rows.length ? 'table' : 'none';
+    $('count').textContent = allData.length ? `نمایش ${rows.length} از ${allData.length} مشتری` : '';
+    if (!allData.length) { $('status').style.display = 'block'; $('status').textContent = 'هیچ اطلاعاتی در دیتابیس یافت نشد.'; }
+    else $('status').style.display = 'none';
   }
-</script>
 
+  async function loadData() {
+    $('status').style.display = 'block';
+    $('status').className = 'msg';
+    $('status').textContent = 'در حال دریافت اطلاعات...';
+    try {
+      const snap = await getDocs(query(collection(db, 'customers'), orderBy('createdAt', 'desc')));
+      allData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      render();
+    } catch (e) {
+      console.error(e);
+      $('status').className = 'msg err';
+      $('status').textContent = '❌ خطا در دریافت اطلاعات: ' + e.message;
+    }
+  }
+
+  async function removeCustomer(d) {
+    if (!confirm(`«${d.name || ''}» حذف شود؟ این کار قابل بازگشت نیست.`)) return;
+    try {
+      await deleteDoc(doc(db, 'customers', d.id));
+      allData = allData.filter(x => x.id !== d.id);
+      render();
+    } catch (e) {
+      alert('حذف ناموفق بود: ' + e.message);
+    }
+  }
+
+  function csvCell(v) {
+    let s = String(v ?? '');
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; // جلوگیری از فرمول‌نویسی مخرب در اکسل
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+
+  function exportCsv() {
+    if (!allData.length) { alert('هیچ داده‌ای برای دانلود وجود ندارد!'); return; }
+    let csv = '\uFEFFردیف,نام,شماره تماس,نوع,دسته‌بندی,عنوان شغلی,توضیحات,آدرس,تاریخ ثبت\n';
+    allData.forEach((d, i) => {
+      const phones = phonesOf(d).map(p => '="' + String(p).replace(/"/g, '') + '"').join(' - ');
+      csv += [i + 1, csvCell(d.name), '"' + phones.replace(/"/g, '""') + '"', csvCell(typeOf(d)),
+        csvCell(d.category), csvCell(d.title), csvCell(d.description), csvCell(d.address), csvCell(dateOf(d))].join(',') + '\n';
+    });
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ArteminLand_Customers.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  $('search').addEventListener('input', render);
+  $('btnCsv').addEventListener('click', exportCsv);
+  $('btnReload').addEventListener('click', loadData);
+  $('btnLogout').addEventListener('click', () => signOut(auth));
+
+  $('login').addEventListener('submit', async e => {
+    e.preventDefault();
+    $('loginError').textContent = '';
+    try {
+      await signInWithEmailAndPassword(auth, $('email').value.trim(), $('password').value);
+    } catch (err) {
+      $('loginError').textContent = 'ایمیل یا رمز عبور اشتباه است.';
+    }
+  });
+
+  onAuthStateChanged(auth, user => {
+    $('login').style.display = user ? 'none' : 'flex';
+    $('panel').style.display = user ? 'block' : 'none';
+    if (user) loadData();
+  });
+</script>
 </body>
 </html>
