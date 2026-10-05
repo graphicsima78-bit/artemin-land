@@ -289,6 +289,97 @@ body.ltr .status-msg.error {
   border-right: none;
   border-left: 4px solid;
 }
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.modal-overlay.active {
+  display: flex;
+}
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-content h3 {
+  color: #1b5e20;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.modal-info-box {
+  background: #f5f5f5;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+  text-align: right;
+  border-right: 4px solid #2e7d32;
+}
+body.ltr .modal-info-box {
+  text-align: left;
+  border-right: none;
+  border-left: 4px solid #2e7d32;
+}
+.modal-info-box p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+.modal-info-box strong {
+  color: #1b5e20;
+}
+.btn-copy {
+  background: #1976d2;
+  margin: 16px 0;
+}
+.btn-copy:hover {
+  background: #0d47a1;
+}
+.btn-map {
+  margin: 8px 0;
+}
+.modal-steps {
+  background: #fff3e0;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+  border-right: 4px solid #ff9800;
+}
+body.ltr .modal-steps {
+  border-right: none;
+  border-left: 4px solid #ff9800;
+}
+.modal-steps h4 {
+  color: #e65100;
+  margin-bottom: 12px;
+}
+.modal-steps ol {
+  padding-right: 20px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+body.ltr .modal-steps ol {
+  padding-right: 0;
+  padding-left: 20px;
+}
+.btn-close-modal {
+  background: #757575;
+  margin-top: 16px;
+}
+.btn-close-modal:hover {
+  background: #616161;
+}
 </style>
 </head>
 <body>
@@ -298,14 +389,14 @@ body.ltr .status-msg.error {
     <button class="lang-btn active" id="btn-fa" onclick="setLang('fa')">فارسی</button>
   </div>
   
-  <h1 id="title"> آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small></h1>
+  <h1 id="title">🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small></h1>
   
   <form id="form">
     <div class="form-group">
       <label class="required" id="label-type">نوع کارت</label>
       <div class="type-selector">
-        <div class="type-btn active" id="type-business" onclick="setType('business')"> کسب‌وکار</div>
-        <div class="type-btn" id="type-personal" onclick="setType('personal')">👤 شخصی</div>
+        <div class="type-btn active" id="type-business" onclick="setType('business')">🏪 کسب‌وکار</div>
+        <div class="type-btn" id="type-personal" onclick="setType('personal')"> شخصی</div>
       </div>
     </div>
 
@@ -323,15 +414,15 @@ body.ltr .status-msg.error {
       <label id="label-category">دسته‌بندی شغل</label>
       <select id="category">
         <option value="">انتخاب کنید...</option>
-        <option value="فروشگاه">🏪 فروشگاه</option>
+        <option value="فروشگاه"> فروشگاه</option>
         <option value="رستوران و کافه">🍽️ رستوران و کافه</option>
-        <option value="پزشکی و سلامت">⚕️ پزشکی و سلامت</option>
+        <option value="پزشکی و سلامت">️ پزشکی و سلامت</option>
         <option value="مهندسی">🔧 مهندسی</option>
-        <option value="حقوقی">️ حقوقی</option>
+        <option value="حقوقی">⚖️ حقوقی</option>
         <option value="آموزش">📚 آموزش</option>
         <option value="هنری">🎨 هنری</option>
         <option value="خدمات فنی">🛠️ خدمات فنی</option>
-        <option value="سایر"> سایر</option>
+        <option value="سایر">📌 سایر</option>
       </select>
     </div>
 
@@ -348,7 +439,7 @@ body.ltr .status-msg.error {
     <div class="form-group">
       <label id="label-address">آدرس کامل</label>
       <button type="button" class="btn-location" id="locationBtn" onclick="getLocation()">
-        📍 <span id="btn-location-text">استفاده از موقعیت فعلی من (GPS)</span>
+         <span id="btn-location-text">استفاده از موقعیت فعلی من (GPS)</span>
       </button>
       <textarea id="address" rows="2" placeholder="آدرس را وارد کنید یا از GPS استفاده کنید"></textarea>
       <p class="success-msg" id="locationSuccess">✅ آدرس تشخیص داده شد!</p>
@@ -374,7 +465,7 @@ body.ltr .status-msg.error {
       <label for="check-neshan" id="label-neshan">ثبت در نشان</label>
     </div>
     
-    <button type="submit" id="btn-generate"> ساخت کیو آر کد</button>
+    <button type="submit" id="btn-generate">⚡ ساخت کیو آر کد</button>
     <div id="status-msg" class="status-msg"></div>
   </form>
 
@@ -382,14 +473,14 @@ body.ltr .status-msg.error {
     <h3 style="color:#1b5e20;margin-bottom:10px;" id="result-title">✅ کیو آر کد آماده است!</h3>
     
     <div class="google-section" id="map-section">
-      <h3 id="map-title">🌐 ثبت سریع در نقشه</h3>
+      <h3 id="map-title"> ثبت سریع در نقشه</h3>
       <p id="map-hint">با یک کلیک، صفحه افزودن مکان را باز کنید</p>
-      <button class="btn-google" onclick="openGoogleMaps()" id="btn-google-maps" style="display:none;">📍 ثبت سریع در گوگل مپ</button>
-      <button class="btn-neshan" onclick="openNeshan()" id="btn-neshan-map" style="display:none;">🗺️ ثبت سریع در نشان</button>
+      <button class="btn-google" onclick="openMapModal('google')" id="btn-google-maps" style="display:none;">📍 ثبت در گوگل مپ</button>
+      <button class="btn-neshan" onclick="openMapModal('neshan')" id="btn-neshan-map" style="display:none;">🗺️ ثبت در نشان</button>
     </div>
 
     <div class="qr-section">
-      <h3 id="qr1-title">📱 کیو آر ۱: کارت شما</h3>
+      <h3 id="qr1-title">📱 کیو آر : کارت شما</h3>
       <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr1-hint">برای ذخیره مخاطب اسکن کنید</p>
       <img class="qr-image" id="qr-main" alt="Main QR" />
       <div class="info-box" id="info-main"></div>
@@ -399,7 +490,7 @@ body.ltr .status-msg.error {
     <div class="separator"></div>
 
     <div class="qr-section">
-      <h3 id="qr2-title">🛠️ کیو آر : آرتمین لند</h3>
+      <h3 id="qr2-title">️ کیو آر ۲: آرتمین لند</h3>
       <p style="font-size:12px;color:#666;margin-bottom:10px;" id="qr2-hint">سازنده این کارت</p>
       <img class="qr-image" id="qr-creator" alt="Creator QR" />
       <div class="info-box" id="info-creator"></div>
@@ -409,8 +500,33 @@ body.ltr .status-msg.error {
 
   <p class="creator" id="creator-text">
     <strong>سازنده:</strong> آرتمین لند<br>
-    📞 ۰۹۱۵۳۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳ | ۰۹۱۰۳۱۳۶۱۷۳
+    📞 ۰۱۵۳۱۳۱۷۳ | ۰۱۵۰۰۸۱۷۳
   </p>
+</div>
+
+<!-- Modal برای ثبت در نقشه -->
+<div class="modal-overlay" id="mapModal">
+  <div class="modal-content">
+    <h3 id="modal-title"> ثبت در نقشه</h3>
+    
+    <div class="modal-info-box" id="modal-info">
+      <!-- اطلاعات اینجا نمایش داده می‌شود -->
+    </div>
+    
+    <button class="btn-copy" onclick="copyAllInfo()" id="btn-copy">📋 کپی همه اطلاعات</button>
+    
+    <button class="btn-map btn-google" onclick="openGoogleMaps()" id="btn-open-google">📍 باز کردن گوگل مپ</button>
+    <button class="btn-map btn-neshan" onclick="openNeshan()" id="btn-open-neshan">🗺️ باز کردن نشان</button>
+    
+    <div class="modal-steps" id="modal-steps">
+      <h4>📝 مراحل ثبت:</h4>
+      <ol id="steps-list">
+        <!-- مراحل اینجا نمایش داده می‌شود -->
+      </ol>
+    </div>
+    
+    <button class="btn-close-modal" onclick="closeModal()">بستن</button>
+  </div>
 </div>
 
 <!-- Firebase SDK -->
@@ -470,10 +586,12 @@ let currentLang = 'fa';
 let currentType = 'business';
 let lastFormData = {};
 let photoBase64 = '';
+let lastGPSLocation = null;
+let currentMapType = 'google';
 
 const translations = {
   en: {
-    title: ' Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
+    title: '🟢 Artemin Land<br><small style="font-size:13px;color:#666;">QR Business Card Generator</small>',
     labelType: 'Card Type',
     typeBusiness: '🏪 Business',
     typePersonal: '👤 Personal',
@@ -494,14 +612,14 @@ const translations = {
     resultTitle: '✅ QR Cards Ready!',
     mapTitle: '🌐 Quick Map Registration',
     mapHint: 'Open the add place page with one click',
-    btnGoogleMaps: '📍 Quick Add to Google Maps',
-    btnNeshan: '🗺️ Quick Add to Neshan',
+    btnGoogleMaps: '📍 Register on Google Maps',
+    btnNeshan: '🗺️ Register on Neshan',
     qr1Title: '📱 QR 1: Your Card',
     qr1Hint: 'Scan to save contact',
-    qr2Title: '🛠️ QR 2: Artemin Land',
+    qr2Title: '️ QR 2: Artemin Land',
     qr2Hint: 'Creator of this card',
     btnDownload: '📥 Download',
-    creatorText: '<strong>Creator:</strong> Artemin Land<br> 09153136173 | 09150086173 | 09103136173',
+    creatorText: '<strong>Creator:</strong> Artemin Land<br>📞 09153136173 | 09150086173',
     namePlaceholder: 'Business or person name',
     phonePlaceholder: '09153136173',
     titlePlaceholder: 'e.g. CEO, Engineer',
@@ -522,21 +640,40 @@ const translations = {
     noQR: 'No QR!',
     business: 'Business',
     personal: 'Personal',
-    detecting: '⏳ Detecting location...',
-    detectingAddress: '🗺️ Detecting address...',
-    ipLocation: ' Using IP location...',
+    detecting: ' Detecting location...',
+    detectingAddress: '️ Detecting address...',
+    ipLocation: '🌐 Using IP location...',
     locationError: '⚠️ Could not detect location. Enter manually.',
     locationNotSupported: '❌ Location not supported. Enter manually.',
-    saving: '⏳ Saving...',
+    saving: ' Saving...',
     saved: '✅ Saved successfully!',
-    saveFailed: '️ QR created but save failed (check connection)',
-    qrReady: '✅ QR Code ready!'
+    saveFailed: '⚠️ QR created but save failed (check connection)',
+    qrReady: '✅ QR Code ready!',
+    modalTitleGoogle: '📍 Register on Google Maps',
+    modalTitleNeshan: '🗺️ Register on Neshan',
+    btnCopy: '📋 Copy All Info',
+    btnOpenGoogle: '📍 Open Google Maps',
+    btnOpenNeshan: '🗺️ Open Neshan',
+    stepsTitle: ' Registration Steps:',
+    step1Google: 'In Google Maps, click on the menu (☰) on the left',
+    step2Google: 'Select "Add a missing place"',
+    step3Google: 'Paste the copied information in the fields (Ctrl+V)',
+    step4Google: 'Set the location on the map',
+    step5Google: 'Add photos and working hours (optional)',
+    step6Google: 'Click Submit',
+    step1Neshan: 'In Neshan, click on the "+" button at the bottom',
+    step2Neshan: 'Select "Add new place"',
+    step3Neshan: 'Paste the copied information in the fields',
+    step4Neshan: 'Set the location on the map',
+    step5Neshan: 'Click Register',
+    infoCopied: '✅ Information copied!',
+    closeModal: 'Close'
   },
   fa: {
     title: '🟢 آرتمین لند<br><small style="font-size:13px;color:#666;">ساخت کارت ویزیت دیجیتال (QR)</small>',
     labelType: 'نوع کارت',
-    typeBusiness: ' کسب‌وکار',
-    typePersonal: '👤 شخصی',
+    typeBusiness: '🏪 کسب‌وکار',
+    typePersonal: ' شخصی',
     labelName: 'نام',
     labelPhone: 'شماره تماس',
     labelCategory: 'دسته‌بندی شغل',
@@ -554,14 +691,14 @@ const translations = {
     resultTitle: '✅ کیو آر کد آماده است!',
     mapTitle: '🌐 ثبت سریع در نقشه',
     mapHint: 'با یک کلیک، صفحه افزودن مکان را باز کنید',
-    btnGoogleMaps: '📍 ثبت سریع در گوگل مپ',
-    btnNeshan: '🗺️ ثبت سریع در نشان',
-    qr1Title: '📱 کیو آر ۱: کارت شما',
+    btnGoogleMaps: '📍 ثبت در گوگل مپ',
+    btnNeshan: '🗺️ ثبت در نشان',
+    qr1Title: ' کیو آر ۱: کارت شما',
     qr1Hint: 'برای ذخیره مخاطب اسکن کنید',
     qr2Title: '🛠️ کیو آر ۲: آرتمین لند',
     qr2Hint: 'سازنده این کارت',
     btnDownload: '📥 دانلود',
-    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۳۶۱۷۳ | ۰۹۱۵۰۸۶۱۷۳ | ۰۹۱۰۳۳۶۱۷۳',
+    creatorText: '<strong>سازنده:</strong> آرتمین لند<br>📞 ۰۹۱۵۳۱۳۶۱۷۳ | ۰۹۱۵۰۰۸۶۱۷۳',
     namePlaceholder: 'نام کسب‌وکار یا شخص',
     phonePlaceholder: '09153136173',
     titlePlaceholder: 'مثال: مدیر عامل، مهندس عمران',
@@ -577,20 +714,39 @@ const translations = {
     type: 'نوع',
     creatorName: 'آرتمین لند',
     creatorTitle: 'ساخت کیو آر کد برای شما در هر صنفی | تولید محتوا (اینستاگرام، یوتیوب و همه شبکه‌های اجتماعی) | طراحی گرافیک | دکوراسیون داخلی',
-    creatorPhones: '۰۹۱۵۳۳۶۱۷۳',
+    creatorPhones: '۰۹۵۳۱۳۶۷۳',
     creatorAddress: 'مشهد، ایران',
     noQR: 'کیو آر کدی وجود ندارد!',
     business: 'کسب‌وکار',
     personal: 'شخصی',
     detecting: '⏳ در حال تشخیص موقعیت...',
     detectingAddress: '🗺️ در حال تشخیص آدرس...',
-    ipLocation: ' استفاده از موقعیت IP...',
+    ipLocation: '🌐 استفاده از موقعیت IP...',
     locationError: '⚠️ تشخیص موقعیت ممکن نبود. دستی وارد کنید.',
     locationNotSupported: '❌ موقعیت پشتیبانی نمی‌شود. دستی وارد کنید.',
     saving: '⏳ در حال ذخیره...',
     saved: '✅ با موفقیت ذخیره شد!',
-    saveFailed: '️ QR ساخته شد ولی ذخیره ناموفق بود (اتصال را بررسی کنید)',
-    qrReady: '✅ کیو آر کد آماده است!'
+    saveFailed: '⚠️ QR ساخته شد ولی ذخیره ناموفق بود (اتصال را بررسی کنید)',
+    qrReady: '✅ کیو آر کد آماده است!',
+    modalTitleGoogle: '📍 ثبت در گوگل مپ',
+    modalTitleNeshan: '🗺️ ثبت در نشان',
+    btnCopy: '📋 کپی همه اطلاعات',
+    btnOpenGoogle: '📍 باز کردن گوگل مپ',
+    btnOpenNeshan: '🗺️ باز کردن نشان',
+    stepsTitle: '📝 مراحل ثبت:',
+    step1Google: 'در گوگل مپ، روی منوی سمت چپ () کلیک کن',
+    step2Google: 'گزینه "Add a missing place" را انتخاب کن',
+    step3Google: 'اطلاعات کپی شده را در فیلدها Paste کن (Ctrl+V)',
+    step4Google: 'موقعیت را روی نقشه تنظیم کن',
+    step5Google: 'عکس و ساعات کاری را اضافه کن (اختیاری)',
+    step6Google: 'دکمه Submit را بزن',
+    step1Neshan: 'در نشان، روی دکمه "+" در پایین صفحه کلیک کن',
+    step2Neshan: 'گزینه "افزودن مکان جدید" را انتخاب کن',
+    step3Neshan: 'اطلاعات کپی شده را در فیلدها Paste کن',
+    step4Neshan: 'موقعیت را روی نقشه تنظیم کن',
+    step5Neshan: 'دکمه ثبت را بزن',
+    infoCopied: '✅ اطلاعات کپی شد!',
+    closeModal: 'بستن'
   }
 };
 
@@ -666,6 +822,11 @@ function setLang(lang) {
   document.getElementById('btn-download1').textContent = t.btnDownload;
   document.getElementById('btn-download2').textContent = t.btnDownload;
   document.getElementById('creator-text').innerHTML = t.creatorText;
+  document.getElementById('btn-copy').textContent = t.btnCopy;
+  document.getElementById('btn-open-google').textContent = t.btnOpenGoogle;
+  document.getElementById('btn-open-neshan').textContent = t.btnOpenNeshan;
+  document.getElementById('modal-steps').querySelector('h4').textContent = t.stepsTitle;
+  document.querySelector('.btn-close-modal').textContent = t.closeModal;
   
   document.getElementById('name').placeholder = t.namePlaceholder;
   document.getElementById('phone').placeholder = t.phonePlaceholder;
@@ -724,6 +885,7 @@ async function getLocation() {
     
     if (data && data.display_name) {
       addressField.value = data.display_name;
+      lastGPSLocation = { lat, lng };
       successMsg.style.display = 'block';
       setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
     } else {
@@ -753,54 +915,111 @@ async function getLocation() {
   
   function resetBtn() {
     btn.disabled = false;
-    btn.innerHTML = ' ' + t.btnLocation;
+    btn.innerHTML = '📍 ' + t.btnLocation;
   }
+}
+
+function openMapModal(mapType) {
+  currentMapType = mapType;
+  const t = translations[currentLang];
+  const modal = document.getElementById('mapModal');
+  
+  // تنظیم عنوان
+  document.getElementById('modal-title').textContent = mapType === 'google' ? t.modalTitleGoogle : t.modalTitleNeshan;
+  
+  // نمایش اطلاعات
+  const infoHtml = `
+    <p><strong>${t.name}:</strong> ${lastFormData.name || '-'}</p>
+    <p><strong>${t.title}:</strong> ${lastFormData.title || '-'}</p>
+    <p><strong>${t.category}:</strong> ${lastFormData.category || '-'}</p>
+    <p><strong>${t.phone}:</strong> ${lastFormData.phone || '-'}</p>
+    <p><strong>${t.address}:</strong> ${lastFormData.address || '-'}</p>
+    <p><strong>${t.description}:</strong> ${lastFormData.description || '-'}</p>
+  `;
+  document.getElementById('modal-info').innerHTML = infoHtml;
+  
+  // نمایش دکمه‌های نقشه
+  document.getElementById('btn-open-google').style.display = mapType === 'google' ? 'block' : 'none';
+  document.getElementById('btn-open-neshan').style.display = mapType === 'neshan' ? 'block' : 'none';
+  
+  // نمایش مراحل
+  const stepsList = document.getElementById('steps-list');
+  stepsList.innerHTML = '';
+  
+  if (mapType === 'google') {
+    stepsList.innerHTML = `
+      <li>${t.step1Google}</li>
+      <li>${t.step2Google}</li>
+      <li>${t.step3Google}</li>
+      <li>${t.step4Google}</li>
+      <li>${t.step5Google}</li>
+      <li>${t.step6Google}</li>
+    `;
+  } else {
+    stepsList.innerHTML = `
+      <li>${t.step1Neshan}</li>
+      <li>${t.step2Neshan}</li>
+      <li>${t.step3Neshan}</li>
+      <li>${t.step4Neshan}</li>
+      <li>${t.step5Neshan}</li>
+    `;
+  }
+  
+  modal.classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('mapModal').classList.remove('active');
+}
+
+function copyAllInfo() {
+  const t = translations[currentLang];
+  const infoText = `${t.name}: ${lastFormData.name || ''}\n${t.title}: ${lastFormData.title || ''}\n${t.category}: ${lastFormData.category || ''}\n${t.phone}: ${lastFormData.phone || ''}\n${t.address}: ${lastFormData.address || ''}\n${t.description}: ${lastFormData.description || ''}`;
+  
+  navigator.clipboard.writeText(infoText).then(() => {
+    alert(t.infoCopied);
+  }).catch(() => {
+    // Fallback برای مرورگرهای قدیمی
+    const textarea = document.createElement('textarea');
+    textarea.value = infoText;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    alert(t.infoCopied);
+  });
 }
 
 function openGoogleMaps() {
   const name = lastFormData.name || '';
   const address = lastFormData.address || '';
-  const phone = lastFormData.phone || '';
-  const category = lastFormData.category || '';
-  const title = lastFormData.title || '';
-  const description = lastFormData.description || '';
   
-  const infoText = `نام: ${name}\nعنوان شغلی: ${title}\nدسته‌بندی: ${category}\nتلفن: ${phone}\nآدرس: ${address}\nتوضیحات: ${description}`;
+  let url;
+  if (lastGPSLocation) {
+    url = `https://www.google.com/maps/@${lastGPSLocation.lat},${lastGPSLocation.lng},17z`;
+  } else {
+    const query = encodeURIComponent(name + ' ' + address);
+    url = `https://www.google.com/maps/search/?api=1&query=${query}`;
+  }
   
-  navigator.clipboard.writeText(infoText).then(() => {
-    alert('✅ اطلاعات کپی شد!\n\nحالا گوگل مپ باز می‌شود.\n\nمراحل ثبت:\n1. در صفحه گوگل مپ، روی منوی سمت چپ (☰) کلیک کن\n2. گزینه "Add a missing place" را انتخاب کن\n3. در فیلدها، اطلاعات را Paste کن (Ctrl+V)\n4. عکس و ساعات کاری را اضافه کن\n5. دکمه Submit را بزن');
-    
-    const query = encodeURIComponent(name + ' ' + address);
-    const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
-    window.open(url, '_blank');
-  }).catch(() => {
-    const query = encodeURIComponent(name + ' ' + address);
-    const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
-    window.open(url, '_blank');
-  });
+  window.open(url, '_blank');
+  closeModal();
 }
 
 function openNeshan() {
   const name = lastFormData.name || '';
   const address = lastFormData.address || '';
-  const phone = lastFormData.phone || '';
-  const category = lastFormData.category || '';
-  const title = lastFormData.title || '';
-  const description = lastFormData.description || '';
   
-  const infoText = `نام: ${name}\nعنوان شغلی: ${title}\nدسته‌بندی: ${category}\nتلفن: ${phone}\nآدرس: ${address}\nتوضیحات: ${description}`;
+  let url;
+  if (lastGPSLocation) {
+    url = `https://neshan.org/maps/@${lastGPSLocation.lat},${lastGPSLocation.lng},17z`;
+  } else {
+    const query = encodeURIComponent(name + ' ' + address);
+    url = `https://neshan.org/maps/search?q=${query}`;
+  }
   
-  navigator.clipboard.writeText(infoText).then(() => {
-    alert('✅ اطلاعات کپی شد!\n\nحالا نشان باز می‌شود.\n\nمراحل ثبت:\n1. در صفحه نشان، روی دکمه "+" در پایین صفحه کلیک کن\n2. گزینه "افزودن مکان جدید" را انتخاب کن\n3. در فیلدها، اطلاعات را Paste کن\n4. موقعیت را روی نقشه تنظیم کن\n5. دکمه ثبت را بزن');
-    
-    const query = encodeURIComponent(name + ' ' + address);
-    const url = `https://neshan.org/maps/search?q=${query}`;
-    window.open(url, '_blank');
-  }).catch(() => {
-    const query = encodeURIComponent(name + ' ' + address);
-    const url = `https://neshan.org/maps/search?q=${query}`;
-    window.open(url, '_blank');
-  });
+  window.open(url, '_blank');
+  closeModal();
 }
 
 if ('serviceWorker' in navigator) {
@@ -835,14 +1054,11 @@ document.getElementById('form').addEventListener('submit', async function(e) {
     hasPhoto: photoBase64 ? true : false
   };
   
-  // نمایش پیام ذخیره
   showStatus(t.saving, 'success');
   
-  // ذخیره در Firebase (بدون block کردن)
   let saveSuccess = false;
   if (typeof window.saveToFirestore === 'function') {
     try {
-      // با timeout برای جلوگیری از گیر کردن
       const savePromise = window.saveToFirestore(firebaseData);
       const timeoutPromise = new Promise((_, reject) => 
         setTimeout(() => reject(new Error('Timeout')), 5000)
@@ -854,7 +1070,6 @@ document.getElementById('form').addEventListener('submit', async function(e) {
     }
   }
   
-  // ساخت QR Code (همیشه انجام می‌شود)
   let vcard1 = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
   vcard1 += 'FN:' + name + '\r\n';
   if (currentType === 'business') {
@@ -885,7 +1100,6 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   vcard2 += 'TITLE;CHARSET=UTF-8:ساخت کیو آر کد برای شما در هر صنفی | تولید محتوا (اینستاگرام، یوتیوب و همه شبکه‌های اجتماعی) | طراحی گرافیک | دکوراسیون داخلی\r\n';
   vcard2 += 'TEL;TYPE=CELL:09153136173\r\n';
   vcard2 += 'TEL;TYPE=WORK:09150086173\r\n';
-  vcard2 += 'TEL;TYPE=OTHER:09103136173\r\n';
   vcard2 += 'ADR;TYPE=WORK;CHARSET=UTF-8:;;مشهد;;;;ایران\r\n';
   vcard2 += 'NOTE;CHARSET=UTF-8:ساخت کیو آر کد برای شما در هر صنفی | تولید محتوا (اینستاگرام، یوتیوب و همه شبکه‌های اجتماعی) | طراحی گرافیک | دکوراسیون داخلی\r\n';
   vcard2 += 'END:VCARD';
@@ -907,7 +1121,6 @@ document.getElementById('form').addEventListener('submit', async function(e) {
   document.getElementById('result').style.display = 'block';
   document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
   
-  // نمایش نتیجه ذخیره
   if (saveSuccess) {
     showStatus(t.saved, 'success');
   } else {
