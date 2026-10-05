@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پنل مدیریت - آرتمین لند</title>
+<style>
+  body { font-family: Tahoma, Arial, sans-serif; background: #f0f2f5; padding: 20px; margin: 0; }
+  .container { max-width: 1000px; margin: 0 auto; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  h1 { color: #1b5e20; text-align: center; margin-bottom: 20px; }
+  .btn { background: #2e7d32; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; cursor: pointer; margin-bottom: 20px; font-family: inherit; }
+  .btn:hover { background: #1b5e20; }
+  .btn-back { background: #757575; margin-right: 10px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+  th, td { border: 1px solid #ddd; padding: 10px; text-align: right; }
+  th { background: #e8f5e9; color: #1b5e20; font-weight: bold; }
+  tr:nth-child(even) { background: #f9f9f9; }
+  .loading { text-align: center; color: #666; padding: 20px; }
+  .empty { text-align: center; color: #999; padding: 40px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>📊 پنل مدیریت مشتریان - آرتمین لند</h1>
+  
+  <div style="text-align: center;">
+    <button class="btn" onclick="exportToExcel()">📥 دانلود خروجی اکسل (CSV)</button>
+    <button class="btn btn-back" onclick="window.location.href='index.html'">🔙 بازگشت به سایت</button>
+  </div>
+
+  <div id="status" class="loading">در حال دریافت اطلاعات از دیتابیس...</div>
+  
+  <table id="dataTable" style="display: none;">
+    <thead>
+      <tr>
+        <th>ردیف</th>
+        <th>نام</th>
+        <th>شماره تماس</th>
+        <th>نوع</th>
+        <th>دسته‌بندی</th>
+        <th>عنوان شغلی</th>
+        <th>توضیحات</th>
+        <th>آدرس</th>
+        <th>تاریخ ثبت</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- داده‌ها اینجا قرار می‌گیرند -->
+    </tbody>
+  </table>
+  
+  <div id="emptyMsg" class="empty" style="display: none;">هیچ اطلاعاتی در دیتابیس یافت نشد.</div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+  // ⚠️ مهم: کد firebaseConfig را دقیقاً از فایل index.html خودت کپی کن و اینجا جایگزین کن
+  const firebaseConfig = {
+    apiKey: "AIzaSyBUNhCBLHR10Q5J7lrigRpL4CuPk-y6toY",
+    authDomain: "artemin-land.firebaseapp.com",
+    projectId: "artemin-land",
+    storageBucket: "artemin-land.firebasestorage.app",
+    messagingSenderId: "858600383992",
+    appId: "1:858600383992:web:ac3066c19173397572220d",
+    measurementId: "G-TD7QWNY8ME"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  let allData = [];
+
+  async function loadData() {
+    try {
+      const querySnapshot = await getDocs(collection(db, "customers"));
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+      
+      let index = 1;
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        allData.push(data);
+        
+        const date = data.createdAt ? new Date(data.createdAt).toLocaleDateString('fa-IR') : '-';
+        const type = data.type === 'business' ? 'کسب‌وکار' : (data.type === 'personal' ? 'شخصی' : '-');
+        
+        const row = `
+          <tr>
+            <td>${index++}</td>
+            <td>${data.name || '-'}</td>
+            <td>${data.phone || '-'}</td>
+            <td>${type}</td>
+            <td>${data.category || '-'}</td>
+            <td>${data.title || '-'}</td>
+            <td>${data.description || '-'}</td>
+            <td>${data.address || '-'}</td>
+            <td>${date}</td>
+          </tr>
+        `;
+        tbody.innerHTML += row;
+      });
+
+      document.getElementById('status').style.display = 'none';
+      if (allData.length > 0) {
+        document.getElementById('dataTable').style.display = 'table';
+      } else {
+        document.getElementById('emptyMsg').style.display = 'block';
+      }
+    } catch (error) {
+      document.getElementById('status').innerHTML = '❌ خطا در دریافت اطلاعات: ' + error.message;
+      console.error(error);
+    }
+  }
+
+  // تابع دانلود اکسل
+  window.exportToExcel = function() {
+    if (allData.length === 0) {
+      alert('هیچ داده‌ای برای دانلود وجود ندارد!');
+      return;
+    }
+
+    // ساخت محتوای CSV
+    let csvContent = "\uFEFF"; // BOM برای پشتیبانی از فارسی در اکسل
+    csvContent += "ردیف,نام,شماره تماس,نوع,دسته‌بندی,عنوان شغلی,توضیحات,آدرس,تاریخ ثبت\n";
+
+    allData.forEach((data, index) => {
+      const type = data.type === 'business' ? 'کسب‌وکار' : (data.type === 'personal' ? 'شخصی' : '-');
+      const date = data.createdAt ? new Date(data.createdAt).toLocaleDateString('fa-IR') : '-';
+      
+      const row = [
+        index + 1,
+        `"${(data.name || '').replace(/"/g, '""')}"`,
+        `"${(data.phone || '').replace(/"/g, '""')}"`,
+        `"${type}"`,
+        `"${(data.category || '').replace(/"/g, '""')}"`,
+        `"${(data.title || '').replace(/"/g, '""')}"`,
+        `"${(data.description || '').replace(/"/g, '""')}"`,
+        `"${(data.address || '').replace(/"/g, '""')}"`,
+        `"${date}"`
+      ].join(",");
+      
+      csvContent += row + "\n";
+    });
+
+    // ایجاد فایل و دانلود
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "ArteminLand_Customers.csv");
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // بررسی رمز ساده (اختیاری)
+  const password = prompt("لطفاً رمز عبور پنل مدیریت را وارد کنید:");
+  if (password === "admin123") { // رمز پیش‌فرض: admin123
+    loadData();
+  } else {
+    alert("رمز عبور اشتباه است!");
+    window.location.href = "index.html";
+  }
+</script>
+
+</body>
+</html>
