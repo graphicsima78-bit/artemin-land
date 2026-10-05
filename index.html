@@ -390,14 +390,15 @@ body.ltr .checkbox-group input[type="checkbox"] {
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
   import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY_HERE",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyBUNhCBLHR10Q5J7lrigRpL4CuPk-y6toY",
+  authDomain: "artemin-land.firebaseapp.com",
+  projectId: "artemin-land",
+  storageBucket: "artemin-land.firebasestorage.app",
+  messagingSenderId: "858600383992",
+  appId: "1:858600383992:web:ac3066c19173397572220d",
+  measurementId: "G-TD7QWNY8ME"
+};
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
